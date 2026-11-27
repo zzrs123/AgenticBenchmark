@@ -242,6 +242,13 @@ def generate_canzar_semisynthetic_slice(
     import anndata as ad
     import pandas as pd
 
+    out_prefix = Path(output_prefix)
+    u_p = Path(f"{out_prefix}_UMImatrix.csv")
+    c_p = Path(f"{out_prefix}_coords.csv")
+    l_p = Path(f"{out_prefix}_labels.csv")
+    if u_p.exists() and c_p.exists() and l_p.exists():
+        return u_p, c_p, l_p
+
     if str(simulator_dir) not in sys.path:
         sys.path.insert(0, str(simulator_dir))
 
