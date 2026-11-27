@@ -1,0 +1,68 @@
+[
+  {
+    "hypothesis_id": "H1_Infiltration_x_GraphTopology",
+    "title": "Operational Interaction: Cross-Boundary Cell Infiltration x Spatial Graph Topology",
+    "rationale_from_screening": "Outer-loop CV screening surfaced `min_domain_fraction_ref x feature_concatenation` (W=+0.0128, stability=0.78). Tests how boundary infiltration alters real spatial topology gain (`refac - null`).",
+    "target_task": "multicellular_spatial_domain_segmentation",
+    "data_operator_name": "u2_boundary_infiltration",
+    "data_operator_doses": [
+      0.0,
+      0.25,
+      0.5
+    ],
+    "label_evolution_rule": "fixed_anatomical_region_geometry",
+    "target_methods": [
+      "GCN_DGI",
+      "GAT_AE",
+      "BANKSY_Concat",
+      "Expr_Smooth_Baseline"
+    ],
+    "method_arms": [
+      "orig",
+      "refac",
+      "self",
+      "null"
+    ],
+    "competing_pipeline_factor": "Dose x Preprocessing_Scheme (PCA-20 vs HVG-110)",
+    "tuning_protocols": [
+      "fixed",
+      "retuned"
+    ],
+    "primary_metric": "ARI",
+    "equivalence_margin": 0.03,
+    "expected_direction": "Unpruned multi-hop smoothing loses topological advantage under high boundary infiltration.",
+    "falsification_rule": "Practically equivalent if 90% TOST CI on independent confirmation donors stays within [-0.03, +0.03]."
+  },
+  {
+    "hypothesis_id": "H2_Resolution_x_GraphTopology",
+    "title": "Operational Interaction: Spot Spatial Aggregation x Spatial Graph Topology",
+    "rationale_from_screening": "Coupled with `boundary_edge_ratio_ref x default_clust_gmm` (W=-0.0018, stability=0.42): tests how coarsening single-cell coordinates into multi-cell spots shifts spatial topology gain.",
+    "target_task": "multicellular_spatial_domain_segmentation",
+    "data_operator_name": "u1_spot_aggregation",
+    "data_operator_doses": [
+      1.0,
+      6.0
+    ],
+    "label_evolution_rule": "majority_underlying_niche_vote",
+    "target_methods": [
+      "GCN_DGI",
+      "GAT_AE",
+      "BANKSY_Concat",
+      "Expr_Smooth_Baseline"
+    ],
+    "method_arms": [
+      "orig",
+      "refac",
+      "self",
+      "null"
+    ],
+    "competing_pipeline_factor": "Dose x Preprocessing_Scheme (PCA-20 vs HVG-110)",
+    "tuning_protocols": [
+      "fixed"
+    ],
+    "primary_metric": "ARI",
+    "equivalence_margin": 0.03,
+    "expected_direction": "Spot aggregation alters relative benefit of local spatial graph smoothing.",
+    "falsification_rule": "Practically equivalent if 90% TOST CI on confirmation donors stays within [-0.03, +0.03]."
+  }
+]

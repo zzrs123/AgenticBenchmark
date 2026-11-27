@@ -1,0 +1,2011 @@
+{
+  "llm_mode": "Offline Deterministic Tool-Grounded Trace Mode",
+  "dataset_profiles": [
+    {
+      "dataset_id": "S01_Cortex_Thick_A",
+      "split": "exploration",
+      "platform_tag": "MERFISH_sc",
+      "tissue_tag": "Brain_Cortex",
+      "n_units": 850,
+      "n_genes": 300,
+      "n_domains": 4,
+      "d_obs": {
+        "spatial_density": 0.2516,
+        "sparsity_fraction": 0.5242,
+        "mean_genes_per_unit": 133.23,
+        "n_profiled_genes": 280.0,
+        "global_morans_i": 0.115,
+        "local_expr_heterogeneity": 0.4646
+      },
+      "d_ref": {
+        "min_domain_fraction_ref": 0.2141,
+        "boundary_edge_ratio_ref": 0.0753,
+        "inter_domain_sep_ref": 0.5147
+      },
+      "agent_summary": "[MERFISH_sc | Brain_Cortex] S01_Cortex_Thick_A exhibits high local heterogeneity / boundary mixing (Moran's I=0.115, local_het=0.465, sparsity=52.42%); balanced domain sizes (min fraction=0.21).",
+      "tool_trace": [
+        "call:compute_dataset_features(slice_id='S01_Cortex_Thick_A')",
+        "synthesized_slice_diagnostic_card"
+      ]
+    },
+    {
+      "dataset_id": "S02_Cortex_Thick_B",
+      "split": "exploration",
+      "platform_tag": "MERFISH_sc",
+      "tissue_tag": "Brain_Cortex",
+      "n_units": 850,
+      "n_genes": 300,
+      "n_domains": 4,
+      "d_obs": {
+        "spatial_density": 0.2567,
+        "sparsity_fraction": 0.5663,
+        "mean_genes_per_unit": 121.43,
+        "n_profiled_genes": 280.0,
+        "global_morans_i": 0.3383,
+        "local_expr_heterogeneity": 0.4971
+      },
+      "d_ref": {
+        "min_domain_fraction_ref": 0.2388,
+        "boundary_edge_ratio_ref": 0.0687,
+        "inter_domain_sep_ref": 0.7731
+      },
+      "agent_summary": "[MERFISH_sc | Brain_Cortex] S02_Cortex_Thick_B exhibits high local heterogeneity / boundary mixing (Moran's I=0.338, local_het=0.497, sparsity=56.63%); balanced domain sizes (min fraction=0.24).",
+      "tool_trace": [
+        "call:compute_dataset_features(slice_id='S02_Cortex_Thick_B')",
+        "synthesized_slice_diagnostic_card"
+      ]
+    },
+    {
+      "dataset_id": "S03_Visium_Laminar",
+      "split": "exploration",
+      "platform_tag": "Visium_spot",
+      "tissue_tag": "DLPFC_Like",
+      "n_units": 750,
+      "n_genes": 420,
+      "n_domains": 4,
+      "d_obs": {
+        "spatial_density": 0.2375,
+        "sparsity_fraction": 0.7134,
+        "mean_genes_per_unit": 114.66,
+        "n_profiled_genes": 400.0,
+        "global_morans_i": 0.0664,
+        "local_expr_heterogeneity": 0.692
+      },
+      "d_ref": {
+        "min_domain_fraction_ref": 0.2427,
+        "boundary_edge_ratio_ref": 0.0782,
+        "inter_domain_sep_ref": 0.3937
+      },
+      "agent_summary": "[Visium_spot | DLPFC_Like] S03_Visium_Laminar exhibits high local heterogeneity / boundary mixing (Moran's I=0.066, local_het=0.692, sparsity=71.34%); balanced domain sizes (min fraction=0.24).",
+      "tool_trace": [
+        "call:compute_dataset_features(slice_id='S03_Visium_Laminar')",
+        "synthesized_slice_diagnostic_card"
+      ]
+    },
+    {
+      "dataset_id": "S04_SlideSeq_Sparse",
+      "split": "exploration",
+      "platform_tag": "SlideSeq_10um",
+      "tissue_tag": "Cerebellum",
+      "n_units": 850,
+      "n_genes": 380,
+      "n_domains": 4,
+      "d_obs": {
+        "spatial_density": 0.2496,
+        "sparsity_fraction": 0.8636,
+        "mean_genes_per_unit": 49.12,
+        "n_profiled_genes": 360.0,
+        "global_morans_i": 0.0485,
+        "local_expr_heterogeneity": 0.8518
+      },
+      "d_ref": {
+        "min_domain_fraction_ref": 0.2412,
+        "boundary_edge_ratio_ref": 0.0756,
+        "inter_domain_sep_ref": 0.3174
+      },
+      "agent_summary": "[SlideSeq_10um | Cerebellum] S04_SlideSeq_Sparse exhibits high local heterogeneity / boundary mixing (Moran's I=0.049, local_het=0.852, sparsity=86.36%); balanced domain sizes (min fraction=0.24).",
+      "tool_trace": [
+        "call:compute_dataset_features(slice_id='S04_SlideSeq_Sparse')",
+        "synthesized_slice_diagnostic_card"
+      ]
+    },
+    {
+      "dataset_id": "S05_ThinLayer_Hypo",
+      "split": "exploration",
+      "platform_tag": "Xenium_sc",
+      "tissue_tag": "Hypothalamus",
+      "n_units": 900,
+      "n_genes": 280,
+      "n_domains": 4,
+      "d_obs": {
+        "spatial_density": 0.2633,
+        "sparsity_fraction": 0.5103,
+        "mean_genes_per_unit": 127.31,
+        "n_profiled_genes": 260.0,
+        "global_morans_i": 0.2987,
+        "local_expr_heterogeneity": 0.475
+      },
+      "d_ref": {
+        "min_domain_fraction_ref": 0.0933,
+        "boundary_edge_ratio_ref": 0.0808,
+        "inter_domain_sep_ref": 0.6005
+      },
+      "agent_summary": "[Xenium_sc | Hypothalamus] S05_ThinLayer_Hypo exhibits high local heterogeneity / boundary mixing (Moran's I=0.299, local_het=0.475, sparsity=51.03%); contains narrow domain (min fraction=0.09).",
+      "tool_trace": [
+        "call:compute_dataset_features(slice_id='S05_ThinLayer_Hypo')",
+        "synthesized_slice_diagnostic_card"
+      ]
+    },
+    {
+      "dataset_id": "S06_TME_Ring_Breast",
+      "split": "exploration",
+      "platform_tag": "Xenium_sc",
+      "tissue_tag": "Breast_TME",
+      "n_units": 900,
+      "n_genes": 280,
+      "n_domains": 4,
+      "d_obs": {
+        "spatial_density": 0.2641,
+        "sparsity_fraction": 0.5297,
+        "mean_genes_per_unit": 122.27,
+        "n_profiled_genes": 260.0,
+        "global_morans_i": 0.1448,
+        "local_expr_heterogeneity": 0.551
+      },
+      "d_ref": {
+        "min_domain_fraction_ref": 0.0922,
+        "boundary_edge_ratio_ref": 0.1318,
+        "inter_domain_sep_ref": 0.4194
+      },
+      "agent_summary": "[Xenium_sc | Breast_TME] S06_TME_Ring_Breast exhibits high local heterogeneity / boundary mixing (Moran's I=0.145, local_het=0.551, sparsity=52.97%); contains narrow domain (min fraction=0.09).",
+      "tool_trace": [
+        "call:compute_dataset_features(slice_id='S06_TME_Ring_Breast')",
+        "synthesized_slice_diagnostic_card"
+      ]
+    },
+    {
+      "dataset_id": "S07_TME_Infil_CRC",
+      "split": "exploration",
+      "platform_tag": "CosMx_sc",
+      "tissue_tag": "CRC_Invasive",
+      "n_units": 900,
+      "n_genes": 320,
+      "n_domains": 4,
+      "d_obs": {
+        "spatial_density": 0.2588,
+        "sparsity_fraction": 0.5903,
+        "mean_genes_per_unit": 122.91,
+        "n_profiled_genes": 300.0,
+        "global_morans_i": 0.1499,
+        "local_expr_heterogeneity": 0.5338
+      },
+      "d_ref": {
+        "min_domain_fraction_ref": 0.1822,
+        "boundary_edge_ratio_ref": 0.049,
+        "inter_domain_sep_ref": 0.5451
+      },
+      "agent_summary": "[CosMx_sc | CRC_Invasive] S07_TME_Infil_CRC exhibits high local heterogeneity / boundary mixing (Moran's I=0.150, local_het=0.534, sparsity=59.03%); balanced domain sizes (min fraction=0.18).",
+      "tool_trace": [
+        "call:compute_dataset_features(slice_id='S07_TME_Infil_CRC')",
+        "synthesized_slice_diagnostic_card"
+      ]
+    },
+    {
+      "dataset_id": "S08_TME_Sparse_Lung",
+      "split": "exploration",
+      "platform_tag": "SlideSeq_10um",
+      "tissue_tag": "Lung_TME",
+      "n_units": 850,
+      "n_genes": 360,
+      "n_domains": 4,
+      "d_obs": {
+        "spatial_density": 0.2534,
+        "sparsity_fraction": 0.8224,
+        "mean_genes_per_unit": 60.39,
+        "n_profiled_genes": 340.0,
+        "global_morans_i": 0.02,
+        "local_expr_heterogeneity": 0.8299
+      },
+      "d_ref": {
+        "min_domain_fraction_ref": 0.0671,
+        "boundary_edge_ratio_ref": 0.1237,
+        "inter_domain_sep_ref": 0.2409
+      },
+      "agent_summary": "[SlideSeq_10um | Lung_TME] S08_TME_Sparse_Lung exhibits high local heterogeneity / boundary mixing (Moran's I=0.020, local_het=0.830, sparsity=82.24%); contains narrow domain (min fraction=0.07).",
+      "tool_trace": [
+        "call:compute_dataset_features(slice_id='S08_TME_Sparse_Lung')",
+        "synthesized_slice_diagnostic_card"
+      ]
+    },
+    {
+      "dataset_id": "C01_Holdout_Cortex",
+      "split": "confirmation",
+      "platform_tag": "MERFISH_sc",
+      "tissue_tag": "Brain_Cortex",
+      "n_units": 900,
+      "n_genes": 300,
+      "n_domains": 4,
+      "d_obs": {
+        "spatial_density": 0.2605,
+        "sparsity_fraction": 0.5215,
+        "mean_genes_per_unit": 133.98,
+        "n_profiled_genes": 280.0,
+        "global_morans_i": 0.2473,
+        "local_expr_heterogeneity": 0.4733
+      },
+      "d_ref": {
+        "min_domain_fraction_ref": 0.2156,
+        "boundary_edge_ratio_ref": 0.0769,
+        "inter_domain_sep_ref": 0.6908
+      },
+      "agent_summary": "[MERFISH_sc | Brain_Cortex] C01_Holdout_Cortex exhibits high local heterogeneity / boundary mixing (Moran's I=0.247, local_het=0.473, sparsity=52.15%); balanced domain sizes (min fraction=0.22).",
+      "tool_trace": [
+        "call:compute_dataset_features(slice_id='C01_Holdout_Cortex')",
+        "synthesized_slice_diagnostic_card"
+      ]
+    },
+    {
+      "dataset_id": "C02_Holdout_ThinLayer",
+      "split": "confirmation",
+      "platform_tag": "Xenium_sc",
+      "tissue_tag": "Hypothalamus",
+      "n_units": 920,
+      "n_genes": 300,
+      "n_domains": 4,
+      "d_obs": {
+        "spatial_density": 0.2661,
+        "sparsity_fraction": 0.529,
+        "mean_genes_per_unit": 131.88,
+        "n_profiled_genes": 280.0,
+        "global_morans_i": 0.1637,
+        "local_expr_heterogeneity": 0.477
+      },
+      "d_ref": {
+        "min_domain_fraction_ref": 0.1098,
+        "boundary_edge_ratio_ref": 0.0694,
+        "inter_domain_sep_ref": 0.523
+      },
+      "agent_summary": "[Xenium_sc | Hypothalamus] C02_Holdout_ThinLayer exhibits high local heterogeneity / boundary mixing (Moran's I=0.164, local_het=0.477, sparsity=52.90%); contains narrow domain (min fraction=0.11).",
+      "tool_trace": [
+        "call:compute_dataset_features(slice_id='C02_Holdout_ThinLayer')",
+        "synthesized_slice_diagnostic_card"
+      ]
+    },
+    {
+      "dataset_id": "C03_Holdout_TME_Ring",
+      "split": "confirmation",
+      "platform_tag": "Xenium_sc",
+      "tissue_tag": "Breast_TME",
+      "n_units": 920,
+      "n_genes": 300,
+      "n_domains": 4,
+      "d_obs": {
+        "spatial_density": 0.2613,
+        "sparsity_fraction": 0.5415,
+        "mean_genes_per_unit": 128.37,
+        "n_profiled_genes": 280.0,
+        "global_morans_i": 0.1556,
+        "local_expr_heterogeneity": 0.5063
+      },
+      "d_ref": {
+        "min_domain_fraction_ref": 0.075,
+        "boundary_edge_ratio_ref": 0.1334,
+        "inter_domain_sep_ref": 0.5587
+      },
+      "agent_summary": "[Xenium_sc | Breast_TME] C03_Holdout_TME_Ring exhibits high local heterogeneity / boundary mixing (Moran's I=0.156, local_het=0.506, sparsity=54.15%); contains narrow domain (min fraction=0.07).",
+      "tool_trace": [
+        "call:compute_dataset_features(slice_id='C03_Holdout_TME_Ring')",
+        "synthesized_slice_diagnostic_card"
+      ]
+    },
+    {
+      "dataset_id": "C04_Holdout_CRC_Pockets",
+      "split": "confirmation",
+      "platform_tag": "CosMx_sc",
+      "tissue_tag": "CRC_Invasive",
+      "n_units": 920,
+      "n_genes": 300,
+      "n_domains": 4,
+      "d_obs": {
+        "spatial_density": 0.2605,
+        "sparsity_fraction": 0.5699,
+        "mean_genes_per_unit": 120.42,
+        "n_profiled_genes": 280.0,
+        "global_morans_i": 0.2466,
+        "local_expr_heterogeneity": 0.4952
+      },
+      "d_ref": {
+        "min_domain_fraction_ref": 0.1924,
+        "boundary_edge_ratio_ref": 0.0568,
+        "inter_domain_sep_ref": 0.6931
+      },
+      "agent_summary": "[CosMx_sc | CRC_Invasive] C04_Holdout_CRC_Pockets exhibits high local heterogeneity / boundary mixing (Moran's I=0.247, local_het=0.495, sparsity=56.99%); balanced domain sizes (min fraction=0.19).",
+      "tool_trace": [
+        "call:compute_dataset_features(slice_id='C04_Holdout_CRC_Pockets')",
+        "synthesized_slice_diagnostic_card"
+      ]
+    },
+    {
+      "dataset_id": "T01_External_Cortex",
+      "split": "external_test",
+      "platform_tag": "STARmap_sc",
+      "tissue_tag": "Visual_Cortex",
+      "n_units": 900,
+      "n_genes": 300,
+      "n_domains": 4,
+      "d_obs": {
+        "spatial_density": 0.2575,
+        "sparsity_fraction": 0.5302,
+        "mean_genes_per_unit": 131.55,
+        "n_profiled_genes": 280.0,
+        "global_morans_i": 0.1973,
+        "local_expr_heterogeneity": 0.5071
+      },
+      "d_ref": {
+        "min_domain_fraction_ref": 0.2178,
+        "boundary_edge_ratio_ref": 0.0651,
+        "inter_domain_sep_ref": 0.5617
+      },
+      "agent_summary": "[STARmap_sc | Visual_Cortex] T01_External_Cortex exhibits high local heterogeneity / boundary mixing (Moran's I=0.197, local_het=0.507, sparsity=53.02%); balanced domain sizes (min fraction=0.22).",
+      "tool_trace": [
+        "call:compute_dataset_features(slice_id='T01_External_Cortex')",
+        "synthesized_slice_diagnostic_card"
+      ]
+    },
+    {
+      "dataset_id": "T02_External_ThinSandwich",
+      "split": "external_test",
+      "platform_tag": "Xenium_sc",
+      "tissue_tag": "Retina_Layers",
+      "n_units": 920,
+      "n_genes": 300,
+      "n_domains": 4,
+      "d_obs": {
+        "spatial_density": 0.258,
+        "sparsity_fraction": 0.5203,
+        "mean_genes_per_unit": 134.31,
+        "n_profiled_genes": 280.0,
+        "global_morans_i": 0.1814,
+        "local_expr_heterogeneity": 0.4825
+      },
+      "d_ref": {
+        "min_domain_fraction_ref": 0.125,
+        "boundary_edge_ratio_ref": 0.0795,
+        "inter_domain_sep_ref": 0.5497
+      },
+      "agent_summary": "[Xenium_sc | Retina_Layers] T02_External_ThinSandwich exhibits high local heterogeneity / boundary mixing (Moran's I=0.181, local_het=0.482, sparsity=52.03%); contains narrow domain (min fraction=0.12).",
+      "tool_trace": [
+        "call:compute_dataset_features(slice_id='T02_External_ThinSandwich')",
+        "synthesized_slice_diagnostic_card"
+      ]
+    },
+    {
+      "dataset_id": "T03_External_TME_Invasive",
+      "split": "external_test",
+      "platform_tag": "CosMx_sc",
+      "tissue_tag": "Melanoma_TME",
+      "n_units": 920,
+      "n_genes": 300,
+      "n_domains": 4,
+      "d_obs": {
+        "spatial_density": 0.2627,
+        "sparsity_fraction": 0.5341,
+        "mean_genes_per_unit": 130.46,
+        "n_profiled_genes": 280.0,
+        "global_morans_i": 0.0968,
+        "local_expr_heterogeneity": 0.5602
+      },
+      "d_ref": {
+        "min_domain_fraction_ref": 0.0772,
+        "boundary_edge_ratio_ref": 0.1272,
+        "inter_domain_sep_ref": 0.3833
+      },
+      "agent_summary": "[CosMx_sc | Melanoma_TME] T03_External_TME_Invasive exhibits high local heterogeneity / boundary mixing (Moran's I=0.097, local_het=0.560, sparsity=53.41%); contains narrow domain (min fraction=0.08).",
+      "tool_trace": [
+        "call:compute_dataset_features(slice_id='T03_External_TME_Invasive')",
+        "synthesized_slice_diagnostic_card"
+      ]
+    }
+  ],
+  "method_profiles": [
+    {
+      "method_id": "GCN_DGI",
+      "display_name": "GCN-DGI (SpaceFlow/GraphST-style)",
+      "family": "GNN_Contrastive",
+      "source_file": "gcn_dgi_domain.py",
+      "m_core": {
+        "uses_spatial_graph": 1.0,
+        "unpruned_multihop_smoothing": 1.0,
+        "attention_edge_gating": 0.0,
+        "feature_concatenation": 0.0,
+        "contrastive_dgi_loss": 1.0,
+        "spatial_smooth_reg": 1.0
+      },
+      "c_aux": {
+        "default_prep_pca": 0.0,
+        "default_prep_hvg": 1.0,
+        "default_clust_gmm": 1.0,
+        "default_clust_kmeans": 0.0
+      },
+      "evidence_spans": {
+        "runner_entrypoint": {
+          "file_path": "gcn_dgi_domain.py",
+          "start_line": 116,
+          "end_line": 176,
+          "symbol": "run_gcn_dgi",
+          "snippet": "def run_gcn_dgi( | counts: np.ndarray, | coords: np.ndarray, | n_domains: int,"
+        },
+        "default_prep": {
+          "file_path": "gcn_dgi_domain.py",
+          "start_line": 128,
+          "end_line": 128,
+          "symbol": "prep_mode='hvg'",
+          "snippet": "prep_mode = preprocess_override or \"hvg\""
+        },
+        "default_clust": {
+          "file_path": "gcn_dgi_domain.py",
+          "start_line": 129,
+          "end_line": 129,
+          "symbol": "clust_mode='gmm'",
+          "snippet": "clust_mode = cluster_override or \"gmm\""
+        },
+        "unpruned_multihop_smoothing": {
+          "file_path": "gcn_dgi_domain.py",
+          "start_line": 50,
+          "end_line": 50,
+          "symbol": "prop_adj = prop_adj @ adj",
+          "snippet": "prop_adj = prop_adj @ adj"
+        },
+        "contrastive_dgi_loss": {
+          "file_path": "gcn_dgi_domain.py",
+          "start_line": 81,
+          "end_line": 81,
+          "symbol": "DGI_bce_loss",
+          "snippet": "bce_loss = -float(np.mean(np.log(prob_pos + 1e-7) + np.log(1.0 - prob_neg + 1e-7)))"
+        },
+        "spatial_smooth_reg": {
+          "file_path": "gcn_dgi_domain.py",
+          "start_line": 84,
+          "end_line": 84,
+          "symbol": "spatial_reg_loss",
+          "snippet": "sp_loss = float(np.mean(diff_h ** 2)) * spatial_reg_weight"
+        },
+        "uses_spatial_graph": {
+          "file_path": "gcn_dgi_domain.py",
+          "start_line": 147,
+          "end_line": 147,
+          "symbol": "build_spatial_knn_graph",
+          "snippet": "adj_raw = build_spatial_knn_graph(coords, k_neighbors=int(cfg[\"k_neighbors\"]), include_self=True)"
+        }
+      },
+      "supported_hooks": [
+        "arm",
+        "preprocess_override",
+        "cluster_override",
+        "tuning_protocol"
+      ],
+      "agent_summary": "GCN-DGI (SpaceFlow/GraphST-style) (GCN_DGI) implements spatial biases ['uses_spatial_graph', 'unpruned_multihop_smoothing', 'contrastive_dgi_loss', 'spatial_smooth_reg'] with default auxiliary pipeline [HVG + GMM]. Verified via AST spans: runner_entrypoint@gcn_dgi_domain.py:L116-L176, default_prep@gcn_dgi_domain.py:L128-L128, default_clust@gcn_dgi_domain.py:L129-L129.",
+      "tool_trace": [
+        "call:inspect_method_source('/home/dugaoyuan/AAA-new-base/hkust/AgenticBenchmark/factor_demo/methods_zoo/gcn_dgi_domain.py')",
+        "verified_ast_code_spans_and_hooks"
+      ]
+    },
+    {
+      "method_id": "GAT_AE",
+      "display_name": "GAT-AutoEncoder (STAGATE-style)",
+      "family": "GNN_Autoencoder",
+      "source_file": "gat_ae_domain.py",
+      "m_core": {
+        "uses_spatial_graph": 1.0,
+        "unpruned_multihop_smoothing": 0.0,
+        "attention_edge_gating": 1.0,
+        "feature_concatenation": 0.0,
+        "contrastive_dgi_loss": 0.0,
+        "spatial_smooth_reg": 0.0
+      },
+      "c_aux": {
+        "default_prep_pca": 1.0,
+        "default_prep_hvg": 0.0,
+        "default_clust_gmm": 1.0,
+        "default_clust_kmeans": 0.0
+      },
+      "evidence_spans": {
+        "runner_entrypoint": {
+          "file_path": "gat_ae_domain.py",
+          "start_line": 96,
+          "end_line": 153,
+          "symbol": "run_gat_ae",
+          "snippet": "def run_gat_ae( | counts: np.ndarray, | coords: np.ndarray, | n_domains: int,"
+        },
+        "default_prep": {
+          "file_path": "gat_ae_domain.py",
+          "start_line": 108,
+          "end_line": 108,
+          "symbol": "prep_mode='pca'",
+          "snippet": "prep_mode = preprocess_override or \"pca\""
+        },
+        "default_clust": {
+          "file_path": "gat_ae_domain.py",
+          "start_line": 109,
+          "end_line": 109,
+          "symbol": "clust_mode='gmm'",
+          "snippet": "clust_mode = cluster_override or \"gmm\""
+        },
+        "attention_edge_gating": {
+          "file_path": "gat_ae_domain.py",
+          "start_line": 63,
+          "end_line": 63,
+          "symbol": "_compute_attention_gated_graph",
+          "snippet": "att_adj = _compute_attention_gated_graph(features, adj_base=adj, gate_temperature=gate_temperature)"
+        },
+        "uses_spatial_graph": {
+          "file_path": "gat_ae_domain.py",
+          "start_line": 126,
+          "end_line": 126,
+          "symbol": "build_spatial_knn_graph",
+          "snippet": "adj_raw = build_spatial_knn_graph(coords, k_neighbors=int(cfg[\"k_neighbors\"]), include_self=True)"
+        }
+      },
+      "supported_hooks": [
+        "arm",
+        "preprocess_override",
+        "cluster_override",
+        "tuning_protocol"
+      ],
+      "agent_summary": "GAT-AutoEncoder (STAGATE-style) (GAT_AE) implements spatial biases ['uses_spatial_graph', 'attention_edge_gating'] with default auxiliary pipeline [PCA + GMM]. Verified via AST spans: runner_entrypoint@gat_ae_domain.py:L96-L153, default_prep@gat_ae_domain.py:L108-L108, default_clust@gat_ae_domain.py:L109-L109.",
+      "tool_trace": [
+        "call:inspect_method_source('/home/dugaoyuan/AAA-new-base/hkust/AgenticBenchmark/factor_demo/methods_zoo/gat_ae_domain.py')",
+        "verified_ast_code_spans_and_hooks"
+      ]
+    },
+    {
+      "method_id": "BANKSY_Concat",
+      "display_name": "BANKSY-Style Concatenation",
+      "family": "Feature_Concatenation",
+      "source_file": "banksy_aug_domain.py",
+      "m_core": {
+        "uses_spatial_graph": 1.0,
+        "unpruned_multihop_smoothing": 0.0,
+        "attention_edge_gating": 0.0,
+        "feature_concatenation": 1.0,
+        "contrastive_dgi_loss": 0.0,
+        "spatial_smooth_reg": 0.0
+      },
+      "c_aux": {
+        "default_prep_pca": 1.0,
+        "default_prep_hvg": 0.0,
+        "default_clust_gmm": 0.0,
+        "default_clust_kmeans": 1.0
+      },
+      "evidence_spans": {
+        "runner_entrypoint": {
+          "file_path": "banksy_aug_domain.py",
+          "start_line": 35,
+          "end_line": 96,
+          "symbol": "run_banksy_concat",
+          "snippet": "def run_banksy_concat( | counts: np.ndarray, | coords: np.ndarray, | n_domains: int,"
+        },
+        "default_prep": {
+          "file_path": "banksy_aug_domain.py",
+          "start_line": 47,
+          "end_line": 47,
+          "symbol": "prep_mode='pca'",
+          "snippet": "prep_mode = preprocess_override or \"pca\""
+        },
+        "default_clust": {
+          "file_path": "banksy_aug_domain.py",
+          "start_line": 48,
+          "end_line": 48,
+          "symbol": "clust_mode='kmeans'",
+          "snippet": "clust_mode = cluster_override or \"kmeans\""
+        },
+        "uses_spatial_graph": {
+          "file_path": "banksy_aug_domain.py",
+          "start_line": 66,
+          "end_line": 66,
+          "symbol": "build_spatial_knn_graph",
+          "snippet": "adj_raw = build_spatial_knn_graph(coords, k_neighbors=int(cfg[\"k_neighbors\"]), include_self=False)"
+        },
+        "feature_concatenation": {
+          "file_path": "banksy_aug_domain.py",
+          "start_line": 73,
+          "end_line": 76,
+          "symbol": "np.concatenate",
+          "snippet": "emb = np.concatenate( | [np.sqrt(1.0 - lam) * z_self_std, np.sqrt(lam) * z_nbr_std], | axis=1, | ).astype(np.float32)"
+        }
+      },
+      "supported_hooks": [
+        "arm",
+        "preprocess_override",
+        "cluster_override",
+        "tuning_protocol"
+      ],
+      "agent_summary": "BANKSY-Style Concatenation (BANKSY_Concat) implements spatial biases ['uses_spatial_graph', 'feature_concatenation'] with default auxiliary pipeline [PCA + KMeans]. Verified via AST spans: runner_entrypoint@banksy_aug_domain.py:L35-L96, default_prep@banksy_aug_domain.py:L47-L47, default_clust@banksy_aug_domain.py:L48-L48.",
+      "tool_trace": [
+        "call:inspect_method_source('/home/dugaoyuan/AAA-new-base/hkust/AgenticBenchmark/factor_demo/methods_zoo/banksy_aug_domain.py')",
+        "verified_ast_code_spans_and_hooks"
+      ]
+    },
+    {
+      "method_id": "Expr_Smooth_Baseline",
+      "display_name": "NonSpatial+Smooth Baseline",
+      "family": "Posthoc_Baseline",
+      "source_file": "expr_baseline.py",
+      "m_core": {
+        "uses_spatial_graph": 1.0,
+        "unpruned_multihop_smoothing": 0.0,
+        "attention_edge_gating": 0.0,
+        "feature_concatenation": 0.0,
+        "contrastive_dgi_loss": 0.0,
+        "spatial_smooth_reg": 0.0
+      },
+      "c_aux": {
+        "default_prep_pca": 1.0,
+        "default_prep_hvg": 0.0,
+        "default_clust_gmm": 0.0,
+        "default_clust_kmeans": 1.0
+      },
+      "evidence_spans": {
+        "runner_entrypoint": {
+          "file_path": "expr_baseline.py",
+          "start_line": 39,
+          "end_line": 73,
+          "symbol": "run_expr_baseline",
+          "snippet": "def run_expr_baseline( | counts: np.ndarray, | coords: np.ndarray, | n_domains: int,"
+        },
+        "default_prep": {
+          "file_path": "expr_baseline.py",
+          "start_line": 51,
+          "end_line": 51,
+          "symbol": "prep_mode='pca'",
+          "snippet": "prep_mode = preprocess_override or \"pca\""
+        },
+        "default_clust": {
+          "file_path": "expr_baseline.py",
+          "start_line": 52,
+          "end_line": 52,
+          "symbol": "clust_mode='kmeans'",
+          "snippet": "clust_mode = cluster_override or \"kmeans\""
+        },
+        "uses_spatial_graph": {
+          "file_path": "expr_baseline.py",
+          "start_line": 60,
+          "end_line": 60,
+          "symbol": "build_spatial_knn_graph",
+          "snippet": "adj_raw = build_spatial_knn_graph(coords, k_neighbors=k_nbr, include_self=True)"
+        }
+      },
+      "supported_hooks": [
+        "arm",
+        "preprocess_override",
+        "cluster_override",
+        "tuning_protocol"
+      ],
+      "agent_summary": "NonSpatial+Smooth Baseline (Expr_Smooth_Baseline) implements spatial biases ['uses_spatial_graph'] with default auxiliary pipeline [PCA + KMeans]. Verified via AST spans: runner_entrypoint@expr_baseline.py:L39-L73, default_prep@expr_baseline.py:L51-L51, default_clust@expr_baseline.py:L52-L52.",
+      "tool_trace": [
+        "call:inspect_method_source('/home/dugaoyuan/AAA-new-base/hkust/AgenticBenchmark/factor_demo/methods_zoo/expr_baseline.py')",
+        "verified_ast_code_spans_and_hooks"
+      ]
+    }
+  ],
+  "screening_candidates": [
+    {
+      "rank": 1,
+      "d_feature": "min_domain_fraction_ref",
+      "m_or_c_feature": "feature_concatenation",
+      "feature_group": "D_x_M",
+      "estimate_w": 0.0128,
+      "stability_prob": 0.783,
+      "priority_score": 0.011,
+      "direction_hint": "positive_synergy"
+    },
+    {
+      "rank": 2,
+      "d_feature": "global_morans_i",
+      "m_or_c_feature": "attention_edge_gating",
+      "feature_group": "D_x_M",
+      "estimate_w": 0.014,
+      "stability_prob": 0.65,
+      "priority_score": 0.0108,
+      "direction_hint": "positive_synergy"
+    },
+    {
+      "rank": 3,
+      "d_feature": "min_domain_fraction_ref",
+      "m_or_c_feature": "attention_edge_gating",
+      "feature_group": "D_x_M",
+      "estimate_w": 0.003,
+      "stability_prob": 0.383,
+      "priority_score": 0.0018,
+      "direction_hint": "positive_synergy"
+    },
+    {
+      "rank": 4,
+      "d_feature": "boundary_edge_ratio_ref",
+      "m_or_c_feature": "default_clust_gmm",
+      "feature_group": "D_x_C",
+      "estimate_w": -0.0018,
+      "stability_prob": 0.417,
+      "priority_score": 0.0011,
+      "direction_hint": "negative_antagonism"
+    },
+    {
+      "rank": 5,
+      "d_feature": "local_expr_heterogeneity",
+      "m_or_c_feature": "feature_concatenation",
+      "feature_group": "D_x_M",
+      "estimate_w": -0.0006,
+      "stability_prob": 0.15,
+      "priority_score": 0.0003,
+      "direction_hint": "negative_antagonism"
+    },
+    {
+      "rank": 6,
+      "d_feature": "global_morans_i",
+      "m_or_c_feature": "feature_concatenation",
+      "feature_group": "D_x_M",
+      "estimate_w": -0.0004,
+      "stability_prob": 0.15,
+      "priority_score": 0.0002,
+      "direction_hint": "negative_antagonism"
+    },
+    {
+      "rank": 7,
+      "d_feature": "local_expr_heterogeneity",
+      "m_or_c_feature": "default_clust_gmm",
+      "feature_group": "D_x_C",
+      "estimate_w": -0.0004,
+      "stability_prob": 0.267,
+      "priority_score": 0.0002,
+      "direction_hint": "negative_antagonism"
+    },
+    {
+      "rank": 8,
+      "d_feature": "local_expr_heterogeneity",
+      "m_or_c_feature": "attention_edge_gating",
+      "feature_group": "D_x_M",
+      "estimate_w": 0.0004,
+      "stability_prob": 0.05,
+      "priority_score": 0.0001,
+      "direction_hint": "positive_synergy"
+    },
+    {
+      "rank": 9,
+      "d_feature": "boundary_edge_ratio_ref",
+      "m_or_c_feature": "contrastive_dgi_loss",
+      "feature_group": "D_x_M",
+      "estimate_w": -0.0002,
+      "stability_prob": 0.033,
+      "priority_score": 0.0001,
+      "direction_hint": "negative_antagonism"
+    },
+    {
+      "rank": 10,
+      "d_feature": "global_morans_i",
+      "m_or_c_feature": "contrastive_dgi_loss",
+      "feature_group": "D_x_M",
+      "estimate_w": 0.0,
+      "stability_prob": 0.0,
+      "priority_score": 0.0,
+      "direction_hint": "near_zero"
+    },
+    {
+      "rank": 11,
+      "d_feature": "global_morans_i",
+      "m_or_c_feature": "default_clust_gmm",
+      "feature_group": "D_x_C",
+      "estimate_w": 0.0,
+      "stability_prob": 0.0,
+      "priority_score": 0.0,
+      "direction_hint": "near_zero"
+    },
+    {
+      "rank": 12,
+      "d_feature": "local_expr_heterogeneity",
+      "m_or_c_feature": "contrastive_dgi_loss",
+      "feature_group": "D_x_M",
+      "estimate_w": 0.0,
+      "stability_prob": 0.0,
+      "priority_score": 0.0,
+      "direction_hint": "near_zero"
+    }
+  ],
+  "preregistered_hypotheses": [
+    {
+      "hypothesis_id": "H1_Infiltration_x_GraphTopology",
+      "title": "Operational Interaction: Cross-Boundary Cell Infiltration x Spatial Graph Topology",
+      "rationale_from_screening": "Outer-loop CV screening surfaced `min_domain_fraction_ref x feature_concatenation` (W=+0.0128, stability=0.78). Tests how boundary infiltration alters real spatial topology gain (`refac - null`).",
+      "target_task": "multicellular_spatial_domain_segmentation",
+      "data_operator_name": "u2_boundary_infiltration",
+      "data_operator_doses": [
+        0.0,
+        0.25,
+        0.5
+      ],
+      "label_evolution_rule": "fixed_anatomical_region_geometry",
+      "target_methods": [
+        "GCN_DGI",
+        "GAT_AE",
+        "BANKSY_Concat",
+        "Expr_Smooth_Baseline"
+      ],
+      "method_arms": [
+        "orig",
+        "refac",
+        "self",
+        "null"
+      ],
+      "competing_pipeline_factor": "Dose x Preprocessing_Scheme (PCA-20 vs HVG-110)",
+      "tuning_protocols": [
+        "fixed",
+        "retuned"
+      ],
+      "primary_metric": "ARI",
+      "equivalence_margin": 0.03,
+      "expected_direction": "Unpruned multi-hop smoothing loses topological advantage under high boundary infiltration.",
+      "falsification_rule": "Practically equivalent if 90% TOST CI on independent confirmation donors stays within [-0.03, +0.03]."
+    },
+    {
+      "hypothesis_id": "H2_Resolution_x_GraphTopology",
+      "title": "Operational Interaction: Spot Spatial Aggregation x Spatial Graph Topology",
+      "rationale_from_screening": "Coupled with `boundary_edge_ratio_ref x default_clust_gmm` (W=-0.0018, stability=0.42): tests how coarsening single-cell coordinates into multi-cell spots shifts spatial topology gain.",
+      "target_task": "multicellular_spatial_domain_segmentation",
+      "data_operator_name": "u1_spot_aggregation",
+      "data_operator_doses": [
+        1.0,
+        6.0
+      ],
+      "label_evolution_rule": "majority_underlying_niche_vote",
+      "target_methods": [
+        "GCN_DGI",
+        "GAT_AE",
+        "BANKSY_Concat",
+        "Expr_Smooth_Baseline"
+      ],
+      "method_arms": [
+        "orig",
+        "refac",
+        "self",
+        "null"
+      ],
+      "competing_pipeline_factor": "Dose x Preprocessing_Scheme (PCA-20 vs HVG-110)",
+      "tuning_protocols": [
+        "fixed"
+      ],
+      "primary_metric": "ARI",
+      "equivalence_margin": 0.03,
+      "expected_direction": "Spot aggregation alters relative benefit of local spatial graph smoothing.",
+      "falsification_rule": "Practically equivalent if 90% TOST CI on confirmation donors stays within [-0.03, +0.03]."
+    }
+  ],
+  "confirmatory_contrasts": [
+    {
+      "hypothesis_id": "H1_Infiltration_x_GraphTopology",
+      "method_id": "GCN_DGI",
+      "tuning_protocol": "fixed",
+      "operator_name": "u2_boundary_infiltration",
+      "dose_low": 0.0,
+      "dose_high": 0.5,
+      "metric_name": "ARI",
+      "cell_means": {
+        "0.0_refac": 0.7872,
+        "0.0_self": 0.5166,
+        "0.0_null": 0.0298,
+        "0.5_refac": 0.7663,
+        "0.5_self": 0.4396,
+        "0.5_null": 0.0248
+      },
+      "simple_agg_low": 0.2706,
+      "simple_agg_high": 0.3268,
+      "simple_topo_low": 0.7575,
+      "simple_topo_high": 0.7415,
+      "tau_int_agg_mean": 0.0562,
+      "tau_int_topo_mean": -0.0159,
+      "tau_int_topo_ci_low": -0.0622,
+      "tau_int_topo_ci_high": 0.0303,
+      "p_value_two_sided": 0.35249,
+      "equivalence_margin": 0.03,
+      "evidence_state": "Inconclusive",
+      "slice_level_taus": [
+        -0.0214,
+        0.0209,
+        -0.0497,
+        -0.0136
+      ]
+    },
+    {
+      "hypothesis_id": "H1_Infiltration_x_GraphTopology",
+      "method_id": "GCN_DGI",
+      "tuning_protocol": "retuned",
+      "operator_name": "u2_boundary_infiltration",
+      "dose_low": 0.0,
+      "dose_high": 0.5,
+      "metric_name": "ARI",
+      "cell_means": {
+        "0.0_refac": 0.7922,
+        "0.0_self": 0.5166,
+        "0.0_null": 0.0241,
+        "0.5_refac": 0.7721,
+        "0.5_self": 0.4396,
+        "0.5_null": 0.0199
+      },
+      "simple_agg_low": 0.2756,
+      "simple_agg_high": 0.3326,
+      "simple_topo_low": 0.7681,
+      "simple_topo_high": 0.7523,
+      "tau_int_agg_mean": 0.057,
+      "tau_int_topo_mean": -0.0159,
+      "tau_int_topo_ci_low": -0.051,
+      "tau_int_topo_ci_high": 0.0192,
+      "p_value_two_sided": 0.24568,
+      "equivalence_margin": 0.03,
+      "evidence_state": "Inconclusive",
+      "slice_level_taus": [
+        -0.0217,
+        0.0147,
+        -0.0378,
+        -0.0187
+      ]
+    },
+    {
+      "hypothesis_id": "H1_Infiltration_x_GraphTopology",
+      "method_id": "GAT_AE",
+      "tuning_protocol": "fixed",
+      "operator_name": "u2_boundary_infiltration",
+      "dose_low": 0.0,
+      "dose_high": 0.5,
+      "metric_name": "ARI",
+      "cell_means": {
+        "0.0_refac": 0.6671,
+        "0.0_self": 0.4623,
+        "0.0_null": 0.5719,
+        "0.5_refac": 0.5746,
+        "0.5_self": 0.4126,
+        "0.5_null": 0.4814
+      },
+      "simple_agg_low": 0.2048,
+      "simple_agg_high": 0.162,
+      "simple_topo_low": 0.0952,
+      "simple_topo_high": 0.0932,
+      "tau_int_agg_mean": -0.0428,
+      "tau_int_topo_mean": -0.002,
+      "tau_int_topo_ci_low": -0.0141,
+      "tau_int_topo_ci_high": 0.0101,
+      "p_value_two_sided": 0.63552,
+      "equivalence_margin": 0.03,
+      "evidence_state": "Practically Equivalent (TOST alpha=0.05)",
+      "slice_level_taus": [
+        0.0,
+        -0.0017,
+        -0.0123,
+        0.006
+      ]
+    },
+    {
+      "hypothesis_id": "H1_Infiltration_x_GraphTopology",
+      "method_id": "GAT_AE",
+      "tuning_protocol": "retuned",
+      "operator_name": "u2_boundary_infiltration",
+      "dose_low": 0.0,
+      "dose_high": 0.5,
+      "metric_name": "ARI",
+      "cell_means": {
+        "0.0_refac": 0.7195,
+        "0.0_self": 0.4623,
+        "0.0_null": 0.5746,
+        "0.5_refac": 0.617,
+        "0.5_self": 0.4126,
+        "0.5_null": 0.4892
+      },
+      "simple_agg_low": 0.2572,
+      "simple_agg_high": 0.2044,
+      "simple_topo_low": 0.1449,
+      "simple_topo_high": 0.1278,
+      "tau_int_agg_mean": -0.0528,
+      "tau_int_topo_mean": -0.0171,
+      "tau_int_topo_ci_low": -0.0598,
+      "tau_int_topo_ci_high": 0.0256,
+      "p_value_two_sided": 0.29142,
+      "equivalence_margin": 0.03,
+      "evidence_state": "Inconclusive",
+      "slice_level_taus": [
+        -0.0334,
+        0.0085,
+        -0.0462,
+        0.0026
+      ]
+    },
+    {
+      "hypothesis_id": "H1_Infiltration_x_GraphTopology",
+      "method_id": "BANKSY_Concat",
+      "tuning_protocol": "fixed",
+      "operator_name": "u2_boundary_infiltration",
+      "dose_low": 0.0,
+      "dose_high": 0.5,
+      "metric_name": "ARI",
+      "cell_means": {
+        "0.0_refac": 0.7523,
+        "0.0_self": 0.6614,
+        "0.0_null": 0.6353,
+        "0.5_refac": 0.6479,
+        "0.5_self": 0.5598,
+        "0.5_null": 0.5524
+      },
+      "simple_agg_low": 0.0909,
+      "simple_agg_high": 0.0881,
+      "simple_topo_low": 0.117,
+      "simple_topo_high": 0.0955,
+      "tau_int_agg_mean": -0.0028,
+      "tau_int_topo_mean": -0.0215,
+      "tau_int_topo_ci_low": -0.092,
+      "tau_int_topo_ci_high": 0.0489,
+      "p_value_two_sided": 0.40252,
+      "equivalence_margin": 0.03,
+      "evidence_state": "Inconclusive",
+      "slice_level_taus": [
+        0.0072,
+        -0.0868,
+        -0.0109,
+        0.0044
+      ]
+    },
+    {
+      "hypothesis_id": "H1_Infiltration_x_GraphTopology",
+      "method_id": "BANKSY_Concat",
+      "tuning_protocol": "retuned",
+      "operator_name": "u2_boundary_infiltration",
+      "dose_low": 0.0,
+      "dose_high": 0.5,
+      "metric_name": "ARI",
+      "cell_means": {
+        "0.0_refac": 0.8352,
+        "0.0_self": 0.6614,
+        "0.0_null": 0.6462,
+        "0.5_refac": 0.7571,
+        "0.5_self": 0.5598,
+        "0.5_null": 0.5595
+      },
+      "simple_agg_low": 0.1738,
+      "simple_agg_high": 0.1973,
+      "simple_topo_low": 0.189,
+      "simple_topo_high": 0.1976,
+      "tau_int_agg_mean": 0.0235,
+      "tau_int_topo_mean": 0.0086,
+      "tau_int_topo_ci_low": -0.0694,
+      "tau_int_topo_ci_high": 0.0866,
+      "p_value_two_sided": 0.74847,
+      "equivalence_margin": 0.03,
+      "evidence_state": "Inconclusive",
+      "slice_level_taus": [
+        0.0642,
+        -0.0531,
+        0.0235,
+        -0.0001
+      ]
+    },
+    {
+      "hypothesis_id": "H1_Infiltration_x_GraphTopology",
+      "method_id": "Expr_Smooth_Baseline",
+      "tuning_protocol": "fixed",
+      "operator_name": "u2_boundary_infiltration",
+      "dose_low": 0.0,
+      "dose_high": 0.5,
+      "metric_name": "ARI",
+      "cell_means": {
+        "0.0_refac": 0.8677,
+        "0.0_self": 0.6851,
+        "0.0_null": 0.0512,
+        "0.5_refac": 0.8211,
+        "0.5_self": 0.5841,
+        "0.5_null": 0.0459
+      },
+      "simple_agg_low": 0.1827,
+      "simple_agg_high": 0.237,
+      "simple_topo_low": 0.8165,
+      "simple_topo_high": 0.7752,
+      "tau_int_agg_mean": 0.0544,
+      "tau_int_topo_mean": -0.0413,
+      "tau_int_topo_ci_low": -0.0749,
+      "tau_int_topo_ci_high": -0.0077,
+      "p_value_two_sided": 0.02958,
+      "equivalence_margin": 0.03,
+      "evidence_state": "Statistically Non-Zero (Within/Overlapping Margin)",
+      "slice_level_taus": [
+        -0.0487,
+        -0.0156,
+        -0.0655,
+        -0.0354
+      ]
+    },
+    {
+      "hypothesis_id": "H1_Infiltration_x_GraphTopology",
+      "method_id": "Expr_Smooth_Baseline",
+      "tuning_protocol": "retuned",
+      "operator_name": "u2_boundary_infiltration",
+      "dose_low": 0.0,
+      "dose_high": 0.5,
+      "metric_name": "ARI",
+      "cell_means": {
+        "0.0_refac": 0.8736,
+        "0.0_self": 0.6851,
+        "0.0_null": 0.041,
+        "0.5_refac": 0.8366,
+        "0.5_self": 0.5841,
+        "0.5_null": 0.0359
+      },
+      "simple_agg_low": 0.1886,
+      "simple_agg_high": 0.2525,
+      "simple_topo_low": 0.8326,
+      "simple_topo_high": 0.8007,
+      "tau_int_agg_mean": 0.0639,
+      "tau_int_topo_mean": -0.0319,
+      "tau_int_topo_ci_low": -0.0553,
+      "tau_int_topo_ci_high": -0.0085,
+      "p_value_two_sided": 0.02259,
+      "equivalence_margin": 0.03,
+      "evidence_state": "Statistically Non-Zero (Within/Overlapping Margin)",
+      "slice_level_taus": [
+        -0.0248,
+        -0.0165,
+        -0.0504,
+        -0.0359
+      ]
+    },
+    {
+      "hypothesis_id": "H2_Resolution_x_GraphTopology",
+      "method_id": "GCN_DGI",
+      "tuning_protocol": "fixed",
+      "operator_name": "u1_spot_aggregation",
+      "dose_low": 1.0,
+      "dose_high": 6.0,
+      "metric_name": "ARI",
+      "cell_means": {
+        "1.0_refac": 0.7872,
+        "1.0_self": 0.5166,
+        "1.0_null": 0.0298,
+        "6.0_refac": 0.7671,
+        "6.0_self": 0.6626,
+        "6.0_null": 0.0385
+      },
+      "simple_agg_low": 0.2706,
+      "simple_agg_high": 0.1045,
+      "simple_topo_low": 0.7575,
+      "simple_topo_high": 0.7286,
+      "tau_int_agg_mean": -0.1661,
+      "tau_int_topo_mean": -0.0289,
+      "tau_int_topo_ci_low": -0.0997,
+      "tau_int_topo_ci_high": 0.0419,
+      "p_value_two_sided": 0.28523,
+      "equivalence_margin": 0.03,
+      "evidence_state": "Inconclusive",
+      "slice_level_taus": [
+        -0.0663,
+        0.0254,
+        -0.0642,
+        -0.0104
+      ]
+    },
+    {
+      "hypothesis_id": "H2_Resolution_x_GraphTopology",
+      "method_id": "GAT_AE",
+      "tuning_protocol": "fixed",
+      "operator_name": "u1_spot_aggregation",
+      "dose_low": 1.0,
+      "dose_high": 6.0,
+      "metric_name": "ARI",
+      "cell_means": {
+        "1.0_refac": 0.6671,
+        "1.0_self": 0.4623,
+        "1.0_null": 0.5719,
+        "6.0_refac": 0.7009,
+        "6.0_self": 0.5644,
+        "6.0_null": 0.5832
+      },
+      "simple_agg_low": 0.2048,
+      "simple_agg_high": 0.1365,
+      "simple_topo_low": 0.0952,
+      "simple_topo_high": 0.1177,
+      "tau_int_agg_mean": -0.0683,
+      "tau_int_topo_mean": 0.0225,
+      "tau_int_topo_ci_low": -0.0396,
+      "tau_int_topo_ci_high": 0.0846,
+      "p_value_two_sided": 0.33198,
+      "equivalence_margin": 0.03,
+      "evidence_state": "Inconclusive",
+      "slice_level_taus": [
+        0.0251,
+        0.0277,
+        -0.0288,
+        0.0662
+      ]
+    },
+    {
+      "hypothesis_id": "H2_Resolution_x_GraphTopology",
+      "method_id": "BANKSY_Concat",
+      "tuning_protocol": "fixed",
+      "operator_name": "u1_spot_aggregation",
+      "dose_low": 1.0,
+      "dose_high": 6.0,
+      "metric_name": "ARI",
+      "cell_means": {
+        "1.0_refac": 0.7528,
+        "1.0_self": 0.6614,
+        "1.0_null": 0.6353,
+        "6.0_refac": 0.7877,
+        "6.0_self": 0.6274,
+        "6.0_null": 0.4692
+      },
+      "simple_agg_low": 0.0914,
+      "simple_agg_high": 0.1603,
+      "simple_topo_low": 0.1175,
+      "simple_topo_high": 0.3185,
+      "tau_int_agg_mean": 0.0689,
+      "tau_int_topo_mean": 0.201,
+      "tau_int_topo_ci_low": -0.0096,
+      "tau_int_topo_ci_high": 0.4116,
+      "p_value_two_sided": 0.056,
+      "equivalence_margin": 0.03,
+      "evidence_state": "Inconclusive",
+      "slice_level_taus": [
+        0.2977,
+        0.0144,
+        0.1993,
+        0.2925
+      ]
+    },
+    {
+      "hypothesis_id": "H2_Resolution_x_GraphTopology",
+      "method_id": "Expr_Smooth_Baseline",
+      "tuning_protocol": "fixed",
+      "operator_name": "u1_spot_aggregation",
+      "dose_low": 1.0,
+      "dose_high": 6.0,
+      "metric_name": "ARI",
+      "cell_means": {
+        "1.0_refac": 0.8677,
+        "1.0_self": 0.6851,
+        "1.0_null": 0.0512,
+        "6.0_refac": 0.8447,
+        "6.0_self": 0.7656,
+        "6.0_null": 0.0662
+      },
+      "simple_agg_low": 0.1827,
+      "simple_agg_high": 0.0791,
+      "simple_topo_low": 0.8165,
+      "simple_topo_high": 0.7785,
+      "tau_int_agg_mean": -0.1036,
+      "tau_int_topo_mean": -0.038,
+      "tau_int_topo_ci_low": -0.0931,
+      "tau_int_topo_ci_high": 0.017,
+      "p_value_two_sided": 0.11538,
+      "equivalence_margin": 0.03,
+      "evidence_state": "Inconclusive",
+      "slice_level_taus": [
+        -0.0227,
+        -0.0096,
+        -0.0881,
+        -0.0317
+      ]
+    }
+  ],
+  "preprocessing_crossover": {
+    "GCN_DGI": {
+      "ARI_with_PCA": 0.7911,
+      "ARI_with_HVG": 0.7719,
+      "PCA_minus_HVG": 0.0192,
+      "PCA_minus_HVG_dose_low": 0.01,
+      "PCA_minus_HVG_dose_high": 0.0284,
+      "tau_int_prep_scheme": 0.0185,
+      "tau_int_prep_ci95_low": -0.0352,
+      "tau_int_prep_ci95_high": 0.0721,
+      "n_donors": 4,
+      "prep_evidence_state": "Inconclusive"
+    },
+    "GAT_AE": {
+      "ARI_with_PCA": 0.6224,
+      "ARI_with_HVG": 0.568,
+      "PCA_minus_HVG": 0.0544,
+      "PCA_minus_HVG_dose_low": 0.0567,
+      "PCA_minus_HVG_dose_high": 0.0522,
+      "tau_int_prep_scheme": -0.0045,
+      "tau_int_prep_ci95_low": -0.0423,
+      "tau_int_prep_ci95_high": 0.0333,
+      "n_donors": 4,
+      "prep_evidence_state": "Inconclusive"
+    },
+    "BANKSY_Concat": {
+      "ARI_with_PCA": 0.7038,
+      "ARI_with_HVG": 0.761,
+      "PCA_minus_HVG": -0.0572,
+      "PCA_minus_HVG_dose_low": -0.0559,
+      "PCA_minus_HVG_dose_high": -0.0585,
+      "tau_int_prep_scheme": -0.0026,
+      "tau_int_prep_ci95_low": -0.0632,
+      "tau_int_prep_ci95_high": 0.058,
+      "n_donors": 4,
+      "prep_evidence_state": "Inconclusive"
+    },
+    "Expr_Smooth_Baseline": {
+      "ARI_with_PCA": 0.8457,
+      "ARI_with_HVG": 0.7885,
+      "PCA_minus_HVG": 0.0572,
+      "PCA_minus_HVG_dose_low": 0.0598,
+      "PCA_minus_HVG_dose_high": 0.0546,
+      "tau_int_prep_scheme": -0.0052,
+      "tau_int_prep_ci95_low": -0.0239,
+      "tau_int_prep_ci95_high": 0.0135,
+      "n_donors": 4,
+      "prep_evidence_state": "Practically Equivalent (within +/-Delta_eq)"
+    }
+  },
+  "system_evaluation": {
+    "global_best_method_on_expl": "Expr_Smooth_Baseline",
+    "mean_oracle_ari_conf": 0.8679,
+    "mean_static_winner_ari_conf": 0.8678,
+    "mean_d_obs_recommended_ari_conf": 0.8003,
+    "regret_static_winner": 0.0001,
+    "regret_d_obs_recommender": 0.0676,
+    "per_slice_recommendations": [
+      {
+        "slice_id": "C01_Holdout_Cortex",
+        "recommended": "Expr_Smooth_Baseline",
+        "oracle_best": "Expr_Smooth_Baseline",
+        "realized_ari": 0.9165,
+        "oracle_ari": 0.9165
+      },
+      {
+        "slice_id": "C02_Holdout_ThinLayer",
+        "recommended": "GCN_DGI",
+        "oracle_best": "Expr_Smooth_Baseline",
+        "realized_ari": 0.8173,
+        "oracle_ari": 0.8759
+      },
+      {
+        "slice_id": "C03_Holdout_TME_Ring",
+        "recommended": "GCN_DGI",
+        "oracle_best": "Expr_Smooth_Baseline",
+        "realized_ari": 0.5908,
+        "oracle_ari": 0.8021
+      },
+      {
+        "slice_id": "C04_Holdout_CRC_Pockets",
+        "recommended": "Expr_Smooth_Baseline",
+        "oracle_best": "GCN_DGI",
+        "realized_ari": 0.8765,
+        "oracle_ari": 0.877
+      }
+    ],
+    "pre_confirmation_queue": [
+      {
+        "hypothesis_id": "H1_Infiltration_x_GraphTopology",
+        "method_id": "GAT_AE",
+        "fixed_order_rank": 2,
+        "predicted_acquisition_score": 0.0458,
+        "active_priority_rank": 1
+      },
+      {
+        "hypothesis_id": "H1_Infiltration_x_GraphTopology",
+        "method_id": "BANKSY_Concat",
+        "fixed_order_rank": 3,
+        "predicted_acquisition_score": 0.0438,
+        "active_priority_rank": 2
+      },
+      {
+        "hypothesis_id": "H2_Resolution_x_GraphTopology",
+        "method_id": "BANKSY_Concat",
+        "fixed_order_rank": 7,
+        "predicted_acquisition_score": 0.0323,
+        "active_priority_rank": 3
+      },
+      {
+        "hypothesis_id": "H2_Resolution_x_GraphTopology",
+        "method_id": "GAT_AE",
+        "fixed_order_rank": 6,
+        "predicted_acquisition_score": 0.0318,
+        "active_priority_rank": 4
+      },
+      {
+        "hypothesis_id": "H1_Infiltration_x_GraphTopology",
+        "method_id": "GCN_DGI",
+        "fixed_order_rank": 1,
+        "predicted_acquisition_score": 0.02696,
+        "active_priority_rank": 5
+      },
+      {
+        "hypothesis_id": "H2_Resolution_x_GraphTopology",
+        "method_id": "GCN_DGI",
+        "fixed_order_rank": 5,
+        "predicted_acquisition_score": 0.02556,
+        "active_priority_rank": 6
+      },
+      {
+        "hypothesis_id": "H1_Infiltration_x_GraphTopology",
+        "method_id": "Expr_Smooth_Baseline",
+        "fixed_order_rank": 4,
+        "predicted_acquisition_score": 0.02357,
+        "active_priority_rank": 7
+      },
+      {
+        "hypothesis_id": "H2_Resolution_x_GraphTopology",
+        "method_id": "Expr_Smooth_Baseline",
+        "fixed_order_rank": 8,
+        "predicted_acquisition_score": 0.02357,
+        "active_priority_rank": 8
+      }
+    ],
+    "active_budget_k": 4,
+    "active_supported_discoveries": 0,
+    "fixed_order_discoveries": 1,
+    "random_baseline_expected_discoveries": 0.5,
+    "full_grid_total_tests": 8
+  },
+  "deliverables_evaluation": {
+    "evaluation_split": "external_test (donor-disjoint, untouched during screening & confirmation)",
+    "n_external_test_donors": 3,
+    "n_external_test_slices": 3,
+    "chimera_4way_ablation_mean_ARI": {
+      "fixed_concat": 0.4327,
+      "gated_only": 0.4066,
+      "adaptive_weight_only": 0.5121,
+      "full_gated_adaptive": 0.4868
+    },
+    "chimera_kmeans_4way_ablation_mean_ARI": {
+      "fixed_concat": 0.546,
+      "gated_only": 0.5259,
+      "adaptive_weight_only": 0.5801,
+      "full_gated_adaptive": 0.5828
+    },
+    "chimera_lambda_weight_control_audit": {
+      "lambdas": [
+        0.05,
+        0.25,
+        0.5,
+        0.75,
+        0.95
+      ],
+      "heads": {
+        "gmm_spherical": {
+          "ari_similarity_to_low_lambda": [
+            1.0,
+            0.6474,
+            0.2563,
+            0.2247,
+            0.1979
+          ],
+          "partition_shift_low_to_high": 0.8021
+        },
+        "kmeans": {
+          "ari_similarity_to_low_lambda": [
+            1.0,
+            0.4913,
+            0.4274,
+            0.3905,
+            0.3352
+          ],
+          "partition_shift_low_to_high": 0.6648
+        },
+        "gmm": {
+          "ari_similarity_to_low_lambda": [
+            1.0,
+            0.8271,
+            0.8461,
+            0.8461,
+            0.8461
+          ],
+          "partition_shift_low_to_high": 0.1539
+        }
+      }
+    },
+    "ensemble_d_obs_weighted_mean_ARI": 0.6835,
+    "ensemble_uniform_mean_ARI": 0.6132,
+    "recommender_d_obs_mean_ARI": 0.6939,
+    "static_expl_winner_mean_ARI": 0.6584,
+    "total_wall_time_sec": 5.489
+  },
+  "reproduce_graph_sanity": [
+    {
+      "slice_id": "C01_Holdout_Cortex",
+      "method_id": "RadiusGraphCheck",
+      "coord_span_xy": [
+        99.72,
+        99.97
+      ],
+      "median_1nn_spacing": 1.5302,
+      "default_radius": 8.0,
+      "default_mean_degree": 17.009,
+      "default_isolated_fraction": 0.0,
+      "scale_mismatch_suspected": false,
+      "diagnostic_note": "default_radius compatible with tissue coordinate spacing",
+      "adapted_radius": null,
+      "adapted_mean_degree": null,
+      "adapted_isolated_fraction": null
+    },
+    {
+      "slice_id": "C02_Holdout_ThinLayer",
+      "method_id": "RadiusGraphCheck",
+      "coord_span_xy": [
+        99.94,
+        99.99
+      ],
+      "median_1nn_spacing": 1.5584,
+      "default_radius": 8.0,
+      "default_mean_degree": 17.55,
+      "default_isolated_fraction": 0.0,
+      "scale_mismatch_suspected": false,
+      "diagnostic_note": "default_radius compatible with tissue coordinate spacing",
+      "adapted_radius": null,
+      "adapted_mean_degree": null,
+      "adapted_isolated_fraction": null
+    },
+    {
+      "slice_id": "C03_Holdout_TME_Ring",
+      "method_id": "RadiusGraphCheck",
+      "coord_span_xy": [
+        99.78,
+        99.8
+      ],
+      "median_1nn_spacing": 1.5592,
+      "default_radius": 8.0,
+      "default_mean_degree": 17.25,
+      "default_isolated_fraction": 0.0,
+      "scale_mismatch_suspected": false,
+      "diagnostic_note": "default_radius compatible with tissue coordinate spacing",
+      "adapted_radius": null,
+      "adapted_mean_degree": null,
+      "adapted_isolated_fraction": null
+    },
+    {
+      "slice_id": "C04_Holdout_CRC_Pockets",
+      "method_id": "RadiusGraphCheck",
+      "coord_span_xy": [
+        99.95,
+        99.92
+      ],
+      "median_1nn_spacing": 1.5601,
+      "default_radius": 8.0,
+      "default_mean_degree": 17.046,
+      "default_isolated_fraction": 0.0,
+      "scale_mismatch_suspected": false,
+      "diagnostic_note": "default_radius compatible with tissue coordinate spacing",
+      "adapted_radius": null,
+      "adapted_mean_degree": null,
+      "adapted_isolated_fraction": null
+    }
+  ],
+  "stagewise_equivalence_audit": [
+    {
+      "method_id": "GCN_DGI",
+      "effective_variant_id": "GCN_DGI",
+      "slice_id": "C01_Holdout_Cortex",
+      "cell_gene_shape_match": true,
+      "preprocess_rel_frobenius_diff": 0.0,
+      "preprocess_max_abs_diff": 0.0,
+      "edge_set_jaccard": 1.0,
+      "edge_weight_l1_diff": 0.0,
+      "self_loop_match": true,
+      "row_sum_max_diff": 0.0,
+      "embedding_gram_cosine": 1.0,
+      "fixed_seed_ari_agreement": 1.0,
+      "baseline_multiseed_ari_mean": null,
+      "fallback_notes": [],
+      "passed_strict_equivalence": true
+    },
+    {
+      "method_id": "GAT_AE",
+      "effective_variant_id": "GAT_AE",
+      "slice_id": "C01_Holdout_Cortex",
+      "cell_gene_shape_match": true,
+      "preprocess_rel_frobenius_diff": 0.0,
+      "preprocess_max_abs_diff": 0.0,
+      "edge_set_jaccard": 1.0,
+      "edge_weight_l1_diff": 0.0,
+      "self_loop_match": true,
+      "row_sum_max_diff": 0.0,
+      "embedding_gram_cosine": 1.0,
+      "fixed_seed_ari_agreement": 1.0,
+      "baseline_multiseed_ari_mean": null,
+      "fallback_notes": [],
+      "passed_strict_equivalence": true
+    },
+    {
+      "method_id": "BANKSY_Concat",
+      "effective_variant_id": "BANKSY_Concat",
+      "slice_id": "C01_Holdout_Cortex",
+      "cell_gene_shape_match": true,
+      "preprocess_rel_frobenius_diff": 0.0,
+      "preprocess_max_abs_diff": 0.0,
+      "edge_set_jaccard": 1.0,
+      "edge_weight_l1_diff": 0.0,
+      "self_loop_match": true,
+      "row_sum_max_diff": 0.0,
+      "embedding_gram_cosine": 1.0,
+      "fixed_seed_ari_agreement": 1.0,
+      "baseline_multiseed_ari_mean": null,
+      "fallback_notes": [],
+      "passed_strict_equivalence": true
+    },
+    {
+      "method_id": "Expr_Smooth_Baseline",
+      "effective_variant_id": "Expr_Smooth_Baseline",
+      "slice_id": "C01_Holdout_Cortex",
+      "cell_gene_shape_match": true,
+      "preprocess_rel_frobenius_diff": 0.0,
+      "preprocess_max_abs_diff": 0.0,
+      "edge_set_jaccard": 1.0,
+      "edge_weight_l1_diff": 0.0,
+      "self_loop_match": true,
+      "row_sum_max_diff": 0.0,
+      "embedding_gram_cosine": 1.0,
+      "fixed_seed_ari_agreement": 1.0,
+      "baseline_multiseed_ari_mean": null,
+      "fallback_notes": [],
+      "passed_strict_equivalence": true
+    },
+    {
+      "method_id": "GCN_DGI",
+      "effective_variant_id": "GCN_DGI",
+      "slice_id": "C02_Holdout_ThinLayer",
+      "cell_gene_shape_match": true,
+      "preprocess_rel_frobenius_diff": 0.0,
+      "preprocess_max_abs_diff": 0.0,
+      "edge_set_jaccard": 1.0,
+      "edge_weight_l1_diff": 0.0,
+      "self_loop_match": true,
+      "row_sum_max_diff": 0.0,
+      "embedding_gram_cosine": 1.0,
+      "fixed_seed_ari_agreement": 1.0,
+      "baseline_multiseed_ari_mean": null,
+      "fallback_notes": [],
+      "passed_strict_equivalence": true
+    },
+    {
+      "method_id": "GAT_AE",
+      "effective_variant_id": "GAT_AE",
+      "slice_id": "C02_Holdout_ThinLayer",
+      "cell_gene_shape_match": true,
+      "preprocess_rel_frobenius_diff": 0.0,
+      "preprocess_max_abs_diff": 0.0,
+      "edge_set_jaccard": 1.0,
+      "edge_weight_l1_diff": 0.0,
+      "self_loop_match": true,
+      "row_sum_max_diff": 0.0,
+      "embedding_gram_cosine": 1.0,
+      "fixed_seed_ari_agreement": 1.0,
+      "baseline_multiseed_ari_mean": null,
+      "fallback_notes": [],
+      "passed_strict_equivalence": true
+    },
+    {
+      "method_id": "BANKSY_Concat",
+      "effective_variant_id": "BANKSY_Concat",
+      "slice_id": "C02_Holdout_ThinLayer",
+      "cell_gene_shape_match": true,
+      "preprocess_rel_frobenius_diff": 0.0,
+      "preprocess_max_abs_diff": 0.0,
+      "edge_set_jaccard": 1.0,
+      "edge_weight_l1_diff": 0.0,
+      "self_loop_match": true,
+      "row_sum_max_diff": 0.0,
+      "embedding_gram_cosine": 1.0,
+      "fixed_seed_ari_agreement": 1.0,
+      "baseline_multiseed_ari_mean": null,
+      "fallback_notes": [],
+      "passed_strict_equivalence": true
+    },
+    {
+      "method_id": "Expr_Smooth_Baseline",
+      "effective_variant_id": "Expr_Smooth_Baseline",
+      "slice_id": "C02_Holdout_ThinLayer",
+      "cell_gene_shape_match": true,
+      "preprocess_rel_frobenius_diff": 0.0,
+      "preprocess_max_abs_diff": 0.0,
+      "edge_set_jaccard": 1.0,
+      "edge_weight_l1_diff": 0.0,
+      "self_loop_match": true,
+      "row_sum_max_diff": 0.0,
+      "embedding_gram_cosine": 1.0,
+      "fixed_seed_ari_agreement": 1.0,
+      "baseline_multiseed_ari_mean": null,
+      "fallback_notes": [],
+      "passed_strict_equivalence": true
+    },
+    {
+      "method_id": "GCN_DGI",
+      "effective_variant_id": "GCN_DGI",
+      "slice_id": "C03_Holdout_TME_Ring",
+      "cell_gene_shape_match": true,
+      "preprocess_rel_frobenius_diff": 0.0,
+      "preprocess_max_abs_diff": 0.0,
+      "edge_set_jaccard": 1.0,
+      "edge_weight_l1_diff": 0.0,
+      "self_loop_match": true,
+      "row_sum_max_diff": 0.0,
+      "embedding_gram_cosine": 1.0,
+      "fixed_seed_ari_agreement": 1.0,
+      "baseline_multiseed_ari_mean": null,
+      "fallback_notes": [],
+      "passed_strict_equivalence": true
+    },
+    {
+      "method_id": "GAT_AE",
+      "effective_variant_id": "GAT_AE",
+      "slice_id": "C03_Holdout_TME_Ring",
+      "cell_gene_shape_match": true,
+      "preprocess_rel_frobenius_diff": 0.0,
+      "preprocess_max_abs_diff": 0.0,
+      "edge_set_jaccard": 1.0,
+      "edge_weight_l1_diff": 0.0,
+      "self_loop_match": true,
+      "row_sum_max_diff": 0.0,
+      "embedding_gram_cosine": 1.0,
+      "fixed_seed_ari_agreement": 1.0,
+      "baseline_multiseed_ari_mean": null,
+      "fallback_notes": [],
+      "passed_strict_equivalence": true
+    },
+    {
+      "method_id": "BANKSY_Concat",
+      "effective_variant_id": "BANKSY_Concat",
+      "slice_id": "C03_Holdout_TME_Ring",
+      "cell_gene_shape_match": true,
+      "preprocess_rel_frobenius_diff": 0.0,
+      "preprocess_max_abs_diff": 0.0,
+      "edge_set_jaccard": 1.0,
+      "edge_weight_l1_diff": 0.0,
+      "self_loop_match": true,
+      "row_sum_max_diff": 0.0,
+      "embedding_gram_cosine": 1.0,
+      "fixed_seed_ari_agreement": 1.0,
+      "baseline_multiseed_ari_mean": null,
+      "fallback_notes": [],
+      "passed_strict_equivalence": true
+    },
+    {
+      "method_id": "Expr_Smooth_Baseline",
+      "effective_variant_id": "Expr_Smooth_Baseline",
+      "slice_id": "C03_Holdout_TME_Ring",
+      "cell_gene_shape_match": true,
+      "preprocess_rel_frobenius_diff": 0.0,
+      "preprocess_max_abs_diff": 0.0,
+      "edge_set_jaccard": 1.0,
+      "edge_weight_l1_diff": 0.0,
+      "self_loop_match": true,
+      "row_sum_max_diff": 0.0,
+      "embedding_gram_cosine": 1.0,
+      "fixed_seed_ari_agreement": 1.0,
+      "baseline_multiseed_ari_mean": null,
+      "fallback_notes": [],
+      "passed_strict_equivalence": true
+    },
+    {
+      "method_id": "GCN_DGI",
+      "effective_variant_id": "GCN_DGI",
+      "slice_id": "C04_Holdout_CRC_Pockets",
+      "cell_gene_shape_match": true,
+      "preprocess_rel_frobenius_diff": 0.0,
+      "preprocess_max_abs_diff": 0.0,
+      "edge_set_jaccard": 1.0,
+      "edge_weight_l1_diff": 0.0,
+      "self_loop_match": true,
+      "row_sum_max_diff": 0.0,
+      "embedding_gram_cosine": 1.0,
+      "fixed_seed_ari_agreement": 1.0,
+      "baseline_multiseed_ari_mean": null,
+      "fallback_notes": [],
+      "passed_strict_equivalence": true
+    },
+    {
+      "method_id": "GAT_AE",
+      "effective_variant_id": "GAT_AE",
+      "slice_id": "C04_Holdout_CRC_Pockets",
+      "cell_gene_shape_match": true,
+      "preprocess_rel_frobenius_diff": 0.0,
+      "preprocess_max_abs_diff": 0.0,
+      "edge_set_jaccard": 1.0,
+      "edge_weight_l1_diff": 0.0,
+      "self_loop_match": true,
+      "row_sum_max_diff": 0.0,
+      "embedding_gram_cosine": 1.0,
+      "fixed_seed_ari_agreement": 1.0,
+      "baseline_multiseed_ari_mean": null,
+      "fallback_notes": [],
+      "passed_strict_equivalence": true
+    },
+    {
+      "method_id": "BANKSY_Concat",
+      "effective_variant_id": "BANKSY_Concat",
+      "slice_id": "C04_Holdout_CRC_Pockets",
+      "cell_gene_shape_match": true,
+      "preprocess_rel_frobenius_diff": 0.0,
+      "preprocess_max_abs_diff": 0.0,
+      "edge_set_jaccard": 1.0,
+      "edge_weight_l1_diff": 0.0,
+      "self_loop_match": true,
+      "row_sum_max_diff": 0.0,
+      "embedding_gram_cosine": 1.0,
+      "fixed_seed_ari_agreement": 1.0,
+      "baseline_multiseed_ari_mean": null,
+      "fallback_notes": [],
+      "passed_strict_equivalence": true
+    },
+    {
+      "method_id": "Expr_Smooth_Baseline",
+      "effective_variant_id": "Expr_Smooth_Baseline",
+      "slice_id": "C04_Holdout_CRC_Pockets",
+      "cell_gene_shape_match": true,
+      "preprocess_rel_frobenius_diff": 0.0,
+      "preprocess_max_abs_diff": 0.0,
+      "edge_set_jaccard": 1.0,
+      "edge_weight_l1_diff": 0.0,
+      "self_loop_match": true,
+      "row_sum_max_diff": 0.0,
+      "embedding_gram_cosine": 1.0,
+      "fixed_seed_ari_agreement": 1.0,
+      "baseline_multiseed_ari_mean": null,
+      "fallback_notes": [],
+      "passed_strict_equivalence": true
+    }
+  ],
+  "llm_call_log": [
+    {
+      "agent_name": "DatasetCharacterAgent",
+      "stage": "profile_S01_Cortex_Thick_A",
+      "mode_used": "offline_grounded",
+      "model_name": "deterministic-tool-grounded",
+      "prompt_preview": "{\"slice_id\": \"S01_Cortex_Thick_A\", \"platform\": \"MERFISH_sc\", \"tissue\": \"Brain_Cortex\", \"d_obs\": {\"spatial_density\": 0.2516, \"sparsity_fraction\": 0.5242, \"mean_genes_per_unit\": 133.23, \"n_profiled_genes\": 280.0, \"global_morans_i\": 0.115, \"local_expr_heterogeneity\": 0.4646}, \"d_ref\": {\"min_domain_frac",
+      "response_text": "[MERFISH_sc | Brain_Cortex] S01_Cortex_Thick_A exhibits high local heterogeneity / boundary mixing (Moran's I=0.115, local_het=0.465, sparsity=52.42%); balanced domain sizes (min fraction=0.21)."
+    },
+    {
+      "agent_name": "DatasetCharacterAgent",
+      "stage": "profile_S02_Cortex_Thick_B",
+      "mode_used": "offline_grounded",
+      "model_name": "deterministic-tool-grounded",
+      "prompt_preview": "{\"slice_id\": \"S02_Cortex_Thick_B\", \"platform\": \"MERFISH_sc\", \"tissue\": \"Brain_Cortex\", \"d_obs\": {\"spatial_density\": 0.2567, \"sparsity_fraction\": 0.5663, \"mean_genes_per_unit\": 121.43, \"n_profiled_genes\": 280.0, \"global_morans_i\": 0.3383, \"local_expr_heterogeneity\": 0.4971}, \"d_ref\": {\"min_domain_fra",
+      "response_text": "[MERFISH_sc | Brain_Cortex] S02_Cortex_Thick_B exhibits high local heterogeneity / boundary mixing (Moran's I=0.338, local_het=0.497, sparsity=56.63%); balanced domain sizes (min fraction=0.24)."
+    },
+    {
+      "agent_name": "DatasetCharacterAgent",
+      "stage": "profile_S03_Visium_Laminar",
+      "mode_used": "offline_grounded",
+      "model_name": "deterministic-tool-grounded",
+      "prompt_preview": "{\"slice_id\": \"S03_Visium_Laminar\", \"platform\": \"Visium_spot\", \"tissue\": \"DLPFC_Like\", \"d_obs\": {\"spatial_density\": 0.2375, \"sparsity_fraction\": 0.7134, \"mean_genes_per_unit\": 114.66, \"n_profiled_genes\": 400.0, \"global_morans_i\": 0.0664, \"local_expr_heterogeneity\": 0.692}, \"d_ref\": {\"min_domain_fract",
+      "response_text": "[Visium_spot | DLPFC_Like] S03_Visium_Laminar exhibits high local heterogeneity / boundary mixing (Moran's I=0.066, local_het=0.692, sparsity=71.34%); balanced domain sizes (min fraction=0.24)."
+    },
+    {
+      "agent_name": "DatasetCharacterAgent",
+      "stage": "profile_S04_SlideSeq_Sparse",
+      "mode_used": "offline_grounded",
+      "model_name": "deterministic-tool-grounded",
+      "prompt_preview": "{\"slice_id\": \"S04_SlideSeq_Sparse\", \"platform\": \"SlideSeq_10um\", \"tissue\": \"Cerebellum\", \"d_obs\": {\"spatial_density\": 0.2496, \"sparsity_fraction\": 0.8636, \"mean_genes_per_unit\": 49.12, \"n_profiled_genes\": 360.0, \"global_morans_i\": 0.0485, \"local_expr_heterogeneity\": 0.8518}, \"d_ref\": {\"min_domain_fr",
+      "response_text": "[SlideSeq_10um | Cerebellum] S04_SlideSeq_Sparse exhibits high local heterogeneity / boundary mixing (Moran's I=0.049, local_het=0.852, sparsity=86.36%); balanced domain sizes (min fraction=0.24)."
+    },
+    {
+      "agent_name": "DatasetCharacterAgent",
+      "stage": "profile_S05_ThinLayer_Hypo",
+      "mode_used": "offline_grounded",
+      "model_name": "deterministic-tool-grounded",
+      "prompt_preview": "{\"slice_id\": \"S05_ThinLayer_Hypo\", \"platform\": \"Xenium_sc\", \"tissue\": \"Hypothalamus\", \"d_obs\": {\"spatial_density\": 0.2633, \"sparsity_fraction\": 0.5103, \"mean_genes_per_unit\": 127.31, \"n_profiled_genes\": 260.0, \"global_morans_i\": 0.2987, \"local_expr_heterogeneity\": 0.475}, \"d_ref\": {\"min_domain_fract",
+      "response_text": "[Xenium_sc | Hypothalamus] S05_ThinLayer_Hypo exhibits high local heterogeneity / boundary mixing (Moran's I=0.299, local_het=0.475, sparsity=51.03%); contains narrow domain (min fraction=0.09)."
+    },
+    {
+      "agent_name": "DatasetCharacterAgent",
+      "stage": "profile_S06_TME_Ring_Breast",
+      "mode_used": "offline_grounded",
+      "model_name": "deterministic-tool-grounded",
+      "prompt_preview": "{\"slice_id\": \"S06_TME_Ring_Breast\", \"platform\": \"Xenium_sc\", \"tissue\": \"Breast_TME\", \"d_obs\": {\"spatial_density\": 0.2641, \"sparsity_fraction\": 0.5297, \"mean_genes_per_unit\": 122.27, \"n_profiled_genes\": 260.0, \"global_morans_i\": 0.1448, \"local_expr_heterogeneity\": 0.551}, \"d_ref\": {\"min_domain_fracti",
+      "response_text": "[Xenium_sc | Breast_TME] S06_TME_Ring_Breast exhibits high local heterogeneity / boundary mixing (Moran's I=0.145, local_het=0.551, sparsity=52.97%); contains narrow domain (min fraction=0.09)."
+    },
+    {
+      "agent_name": "DatasetCharacterAgent",
+      "stage": "profile_S07_TME_Infil_CRC",
+      "mode_used": "offline_grounded",
+      "model_name": "deterministic-tool-grounded",
+      "prompt_preview": "{\"slice_id\": \"S07_TME_Infil_CRC\", \"platform\": \"CosMx_sc\", \"tissue\": \"CRC_Invasive\", \"d_obs\": {\"spatial_density\": 0.2588, \"sparsity_fraction\": 0.5903, \"mean_genes_per_unit\": 122.91, \"n_profiled_genes\": 300.0, \"global_morans_i\": 0.1499, \"local_expr_heterogeneity\": 0.5338}, \"d_ref\": {\"min_domain_fracti",
+      "response_text": "[CosMx_sc | CRC_Invasive] S07_TME_Infil_CRC exhibits high local heterogeneity / boundary mixing (Moran's I=0.150, local_het=0.534, sparsity=59.03%); balanced domain sizes (min fraction=0.18)."
+    },
+    {
+      "agent_name": "DatasetCharacterAgent",
+      "stage": "profile_S08_TME_Sparse_Lung",
+      "mode_used": "offline_grounded",
+      "model_name": "deterministic-tool-grounded",
+      "prompt_preview": "{\"slice_id\": \"S08_TME_Sparse_Lung\", \"platform\": \"SlideSeq_10um\", \"tissue\": \"Lung_TME\", \"d_obs\": {\"spatial_density\": 0.2534, \"sparsity_fraction\": 0.8224, \"mean_genes_per_unit\": 60.39, \"n_profiled_genes\": 340.0, \"global_morans_i\": 0.02, \"local_expr_heterogeneity\": 0.8299}, \"d_ref\": {\"min_domain_fracti",
+      "response_text": "[SlideSeq_10um | Lung_TME] S08_TME_Sparse_Lung exhibits high local heterogeneity / boundary mixing (Moran's I=0.020, local_het=0.830, sparsity=82.24%); contains narrow domain (min fraction=0.07)."
+    },
+    {
+      "agent_name": "DatasetCharacterAgent",
+      "stage": "profile_C01_Holdout_Cortex",
+      "mode_used": "offline_grounded",
+      "model_name": "deterministic-tool-grounded",
+      "prompt_preview": "{\"slice_id\": \"C01_Holdout_Cortex\", \"platform\": \"MERFISH_sc\", \"tissue\": \"Brain_Cortex\", \"d_obs\": {\"spatial_density\": 0.2605, \"sparsity_fraction\": 0.5215, \"mean_genes_per_unit\": 133.98, \"n_profiled_genes\": 280.0, \"global_morans_i\": 0.2473, \"local_expr_heterogeneity\": 0.4733}, \"d_ref\": {\"min_domain_fra",
+      "response_text": "[MERFISH_sc | Brain_Cortex] C01_Holdout_Cortex exhibits high local heterogeneity / boundary mixing (Moran's I=0.247, local_het=0.473, sparsity=52.15%); balanced domain sizes (min fraction=0.22)."
+    },
+    {
+      "agent_name": "DatasetCharacterAgent",
+      "stage": "profile_C02_Holdout_ThinLayer",
+      "mode_used": "offline_grounded",
+      "model_name": "deterministic-tool-grounded",
+      "prompt_preview": "{\"slice_id\": \"C02_Holdout_ThinLayer\", \"platform\": \"Xenium_sc\", \"tissue\": \"Hypothalamus\", \"d_obs\": {\"spatial_density\": 0.2661, \"sparsity_fraction\": 0.529, \"mean_genes_per_unit\": 131.88, \"n_profiled_genes\": 280.0, \"global_morans_i\": 0.1637, \"local_expr_heterogeneity\": 0.477}, \"d_ref\": {\"min_domain_fra",
+      "response_text": "[Xenium_sc | Hypothalamus] C02_Holdout_ThinLayer exhibits high local heterogeneity / boundary mixing (Moran's I=0.164, local_het=0.477, sparsity=52.90%); contains narrow domain (min fraction=0.11)."
+    },
+    {
+      "agent_name": "DatasetCharacterAgent",
+      "stage": "profile_C03_Holdout_TME_Ring",
+      "mode_used": "offline_grounded",
+      "model_name": "deterministic-tool-grounded",
+      "prompt_preview": "{\"slice_id\": \"C03_Holdout_TME_Ring\", \"platform\": \"Xenium_sc\", \"tissue\": \"Breast_TME\", \"d_obs\": {\"spatial_density\": 0.2613, \"sparsity_fraction\": 0.5415, \"mean_genes_per_unit\": 128.37, \"n_profiled_genes\": 280.0, \"global_morans_i\": 0.1556, \"local_expr_heterogeneity\": 0.5063}, \"d_ref\": {\"min_domain_frac",
+      "response_text": "[Xenium_sc | Breast_TME] C03_Holdout_TME_Ring exhibits high local heterogeneity / boundary mixing (Moran's I=0.156, local_het=0.506, sparsity=54.15%); contains narrow domain (min fraction=0.07)."
+    },
+    {
+      "agent_name": "DatasetCharacterAgent",
+      "stage": "profile_C04_Holdout_CRC_Pockets",
+      "mode_used": "offline_grounded",
+      "model_name": "deterministic-tool-grounded",
+      "prompt_preview": "{\"slice_id\": \"C04_Holdout_CRC_Pockets\", \"platform\": \"CosMx_sc\", \"tissue\": \"CRC_Invasive\", \"d_obs\": {\"spatial_density\": 0.2605, \"sparsity_fraction\": 0.5699, \"mean_genes_per_unit\": 120.42, \"n_profiled_genes\": 280.0, \"global_morans_i\": 0.2466, \"local_expr_heterogeneity\": 0.4952}, \"d_ref\": {\"min_domain_",
+      "response_text": "[CosMx_sc | CRC_Invasive] C04_Holdout_CRC_Pockets exhibits high local heterogeneity / boundary mixing (Moran's I=0.247, local_het=0.495, sparsity=56.99%); balanced domain sizes (min fraction=0.19)."
+    },
+    {
+      "agent_name": "DatasetCharacterAgent",
+      "stage": "profile_T01_External_Cortex",
+      "mode_used": "offline_grounded",
+      "model_name": "deterministic-tool-grounded",
+      "prompt_preview": "{\"slice_id\": \"T01_External_Cortex\", \"platform\": \"STARmap_sc\", \"tissue\": \"Visual_Cortex\", \"d_obs\": {\"spatial_density\": 0.2575, \"sparsity_fraction\": 0.5302, \"mean_genes_per_unit\": 131.55, \"n_profiled_genes\": 280.0, \"global_morans_i\": 0.1973, \"local_expr_heterogeneity\": 0.5071}, \"d_ref\": {\"min_domain_f",
+      "response_text": "[STARmap_sc | Visual_Cortex] T01_External_Cortex exhibits high local heterogeneity / boundary mixing (Moran's I=0.197, local_het=0.507, sparsity=53.02%); balanced domain sizes (min fraction=0.22)."
+    },
+    {
+      "agent_name": "DatasetCharacterAgent",
+      "stage": "profile_T02_External_ThinSandwich",
+      "mode_used": "offline_grounded",
+      "model_name": "deterministic-tool-grounded",
+      "prompt_preview": "{\"slice_id\": \"T02_External_ThinSandwich\", \"platform\": \"Xenium_sc\", \"tissue\": \"Retina_Layers\", \"d_obs\": {\"spatial_density\": 0.258, \"sparsity_fraction\": 0.5203, \"mean_genes_per_unit\": 134.31, \"n_profiled_genes\": 280.0, \"global_morans_i\": 0.1814, \"local_expr_heterogeneity\": 0.4825}, \"d_ref\": {\"min_doma",
+      "response_text": "[Xenium_sc | Retina_Layers] T02_External_ThinSandwich exhibits high local heterogeneity / boundary mixing (Moran's I=0.181, local_het=0.482, sparsity=52.03%); contains narrow domain (min fraction=0.12)."
+    },
+    {
+      "agent_name": "DatasetCharacterAgent",
+      "stage": "profile_T03_External_TME_Invasive",
+      "mode_used": "offline_grounded",
+      "model_name": "deterministic-tool-grounded",
+      "prompt_preview": "{\"slice_id\": \"T03_External_TME_Invasive\", \"platform\": \"CosMx_sc\", \"tissue\": \"Melanoma_TME\", \"d_obs\": {\"spatial_density\": 0.2627, \"sparsity_fraction\": 0.5341, \"mean_genes_per_unit\": 130.46, \"n_profiled_genes\": 280.0, \"global_morans_i\": 0.0968, \"local_expr_heterogeneity\": 0.5602}, \"d_ref\": {\"min_domai",
+      "response_text": "[CosMx_sc | Melanoma_TME] T03_External_TME_Invasive exhibits high local heterogeneity / boundary mixing (Moran's I=0.097, local_het=0.560, sparsity=53.41%); contains narrow domain (min fraction=0.08)."
+    },
+    {
+      "agent_name": "MethodCharacterAgent",
+      "stage": "inspect_GCN_DGI",
+      "mode_used": "offline_grounded",
+      "model_name": "deterministic-tool-grounded",
+      "prompt_preview": "{\"method_id\": \"GCN_DGI\", \"display_name\": \"GCN-DGI (SpaceFlow/GraphST-style)\", \"docstring\": \"Method 1: GCN-DGI Spatial Domain Detector (SpaceFlow / CCST / GraphST family).\\n\\nInductive Biases:\\n- Multi-hop unpruned spatial GCN smoothing (`n_hops=2` over spatial k-NN graph).\\n- Deep Graph Infomax (DGI",
+      "response_text": "GCN-DGI (SpaceFlow/GraphST-style) (GCN_DGI) implements spatial biases ['uses_spatial_graph', 'unpruned_multihop_smoothing', 'contrastive_dgi_loss', 'spatial_smooth_reg'] with default auxiliary pipeline [HVG + GMM]. Verified via AST spans: runner_entrypoint@gcn_dgi_domain.py:L116-L176, default_prep@gcn_dgi_domain.py:L128-L128, default_clust@gcn_dgi_domain.py:L129-L129."
+    },
+    {
+      "agent_name": "MethodCharacterAgent",
+      "stage": "inspect_GAT_AE",
+      "mode_used": "offline_grounded",
+      "model_name": "deterministic-tool-grounded",
+      "prompt_preview": "{\"method_id\": \"GAT_AE\", \"display_name\": \"GAT-AutoEncoder (STAGATE-style)\", \"docstring\": \"Method 2: Expression-Gated Graph Attention Autoencoder (STAGATE-style).\\n\\nInductive Biases:\\n- Adaptive attention-gated spatial graph: spatial edges are weighted by transcriptional\\n  cosine similarity so dissi",
+      "response_text": "GAT-AutoEncoder (STAGATE-style) (GAT_AE) implements spatial biases ['uses_spatial_graph', 'attention_edge_gating'] with default auxiliary pipeline [PCA + GMM]. Verified via AST spans: runner_entrypoint@gat_ae_domain.py:L96-L153, default_prep@gat_ae_domain.py:L108-L108, default_clust@gat_ae_domain.py:L109-L109."
+    },
+    {
+      "agent_name": "MethodCharacterAgent",
+      "stage": "inspect_BANKSY_Concat",
+      "mode_used": "offline_grounded",
+      "model_name": "deterministic-tool-grounded",
+      "prompt_preview": "{\"method_id\": \"BANKSY_Concat\", \"display_name\": \"BANKSY-Style Concatenation\", \"docstring\": \"Method 3: Neighborhood Feature Concatenation (BANKSY / CellCharter family).\\n\\nInductive Biases:\\n- Does NOT overwrite cell-intrinsic expression via multi-hop smoothing!\\n- Instead concatenates scaled cell-int",
+      "response_text": "BANKSY-Style Concatenation (BANKSY_Concat) implements spatial biases ['uses_spatial_graph', 'feature_concatenation'] with default auxiliary pipeline [PCA + KMeans]. Verified via AST spans: runner_entrypoint@banksy_aug_domain.py:L35-L96, default_prep@banksy_aug_domain.py:L47-L47, default_clust@banksy_aug_domain.py:L48-L48."
+    },
+    {
+      "agent_name": "MethodCharacterAgent",
+      "stage": "inspect_Expr_Smooth_Baseline",
+      "mode_used": "offline_grounded",
+      "model_name": "deterministic-tool-grounded",
+      "prompt_preview": "{\"method_id\": \"Expr_Smooth_Baseline\", \"display_name\": \"NonSpatial+Smooth Baseline\", \"docstring\": \"Method 4: Non-Spatial Expression Clustering + Post-hoc Majority-Vote Smoothing Baseline.\\n\\nFollows Descoeudres et al. (2026) baseline design:\\n- Clusters cells purely by transcriptional embedding (`pca",
+      "response_text": "NonSpatial+Smooth Baseline (Expr_Smooth_Baseline) implements spatial biases ['uses_spatial_graph'] with default auxiliary pipeline [PCA + KMeans]. Verified via AST spans: runner_entrypoint@expr_baseline.py:L39-L73, default_prep@expr_baseline.py:L51-L51, default_clust@expr_baseline.py:L52-L52."
+    },
+    {
+      "agent_name": "DMInteractionAgent",
+      "stage": "final_scientific_synthesis",
+      "mode_used": "offline_grounded",
+      "model_name": "deterministic-tool-grounded",
+      "prompt_preview": "{\"top_screening_candidates\": [{\"rank\": 1, \"d_feature\": \"min_domain_fraction_ref\", \"m_or_c_feature\": \"feature_concatenation\", \"feature_group\": \"D_x_M\", \"estimate_w\": 0.0128, \"stability_prob\": 0.783, \"priority_score\": 0.011, \"direction_hint\": \"positive_synergy\"}, {\"rank\": 2, \"d_feature\": \"global_moran",
+      "response_text": "1. **Operator-Specific Bilateral Interaction (`u2_boundary_infiltration x Graph Topology`)**: Across independent confirmation donors, increasing cross-boundary cellular infiltration from 0% to 50% alters topological advantage (`refac - null`):\n   - `GCN_DGI`: simple topological effect shifts from +0.757 (0% swap) to +0.742 (50% swap), donor-clustered interaction tau_int_topo = -0.016 (95% CI [-0.062, +0.030], status: **Inconclusive**).\n   - `GAT_AE`: simple topological effect shifts from +0.095 (0% swap) to +0.093 (50% swap), donor-clustered interaction tau_int_topo = -0.002 (95% CI [-0.014, +0.010], status: **Practically Equivalent (TOST alpha=0.05)**).\n   - `BANKSY_Concat`: simple topological effect shifts from +0.117 (0% swap) to +0.096 (50% swap), donor-clustered interaction tau_int_topo = -0.021 (95% CI [-0.092, +0.049], status: **Inconclusive**).\n   - `Expr_Smooth_Baseline`: simple topological effect shifts from +0.817 (0% swap) to +0.775 (50% swap), donor-clustered interaction tau_int_topo = -0.041 (95% CI [-0.075, -0.008], status: **Statistically Non-Zero (Within/Overlapping Margin)**).\n2. **Crossed `Dose x Preprocessing Scheme (PCA-20 vs. HVG-110)` Test**: `GCN_DGI` (mean PCA-HVG=+0.019, dose interaction tau_prep=+0.018), `GAT_AE` (mean PCA-HVG=+0.054, dose interaction tau_prep=-0.004), `BANKSY_Concat` (mean PCA-HVG=-0.057, dose interaction tau_prep=-0.003), `Expr_Smooth_Baseline` (mean PCA-HVG=+0.057, dose interaction tau_prep=-0.005) — directly quantifying how much regime shift comes from preprocessing scheme vs. graph topology.\n3. **Out-of-Sample & Active Queue Metrics**: Label-free `d_obs` recommender regret = 0.0676 (vs. static winner 0.0001); pre-registered active priority queue hit 0/4 non-zero interactions (vs. random expectation 0.50)."
+    }
+  ]
+}

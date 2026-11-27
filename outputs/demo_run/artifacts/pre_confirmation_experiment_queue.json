@@ -1,0 +1,58 @@
+[
+  {
+    "hypothesis_id": "H1_Infiltration_x_GraphTopology",
+    "method_id": "GAT_AE",
+    "fixed_order_rank": 2,
+    "predicted_acquisition_score": 0.0458,
+    "active_priority_rank": 1
+  },
+  {
+    "hypothesis_id": "H1_Infiltration_x_GraphTopology",
+    "method_id": "BANKSY_Concat",
+    "fixed_order_rank": 3,
+    "predicted_acquisition_score": 0.0438,
+    "active_priority_rank": 2
+  },
+  {
+    "hypothesis_id": "H2_Resolution_x_GraphTopology",
+    "method_id": "BANKSY_Concat",
+    "fixed_order_rank": 7,
+    "predicted_acquisition_score": 0.0323,
+    "active_priority_rank": 3
+  },
+  {
+    "hypothesis_id": "H2_Resolution_x_GraphTopology",
+    "method_id": "GAT_AE",
+    "fixed_order_rank": 6,
+    "predicted_acquisition_score": 0.0318,
+    "active_priority_rank": 4
+  },
+  {
+    "hypothesis_id": "H1_Infiltration_x_GraphTopology",
+    "method_id": "GCN_DGI",
+    "fixed_order_rank": 1,
+    "predicted_acquisition_score": 0.02696,
+    "active_priority_rank": 5
+  },
+  {
+    "hypothesis_id": "H2_Resolution_x_GraphTopology",
+    "method_id": "GCN_DGI",
+    "fixed_order_rank": 5,
+    "predicted_acquisition_score": 0.02556,
+    "active_priority_rank": 6
+  },
+  {
+    "hypothesis_id": "H1_Infiltration_x_GraphTopology",
+    "method_id": "Expr_Smooth_Baseline",
+    "fixed_order_rank": 4,
+    "predicted_acquisition_score": 0.02357,
+    "active_priority_rank": 7
+  },
+  {
+    "hypothesis_id": "H2_Resolution_x_GraphTopology",
+    "method_id": "Expr_Smooth_Baseline",
+    "fixed_order_rank": 8,
+    "predicted_acquisition_score": 0.02357,
+    "active_priority_rank": 8
+  }
+]
