@@ -146,19 +146,7 @@ fi
 ls -lh "$SIM_H5"
 
 echo "=== [Step 5] Milestone 2B: Mouse-Brain snRNA-seq Infiltration Sweeps (0.0, 0.25, 0.50) ==="
-if [ -d "/home/dugaoyuan/.conda/envs/GraphST/lib/R" ]; then
-    export R_HOME="/home/dugaoyuan/.conda/envs/GraphST/lib/R"
-    export PATH="/home/dugaoyuan/.conda/envs/GraphST/bin:$PATH"
-fi
-"$PY_GRAPHST" scripts/run_canzar_chimera_experiment.py \
-    --simulate-infiltration \
-    --doses 0.0 0.25 0.50 \
-    --methods GraphST scanpy_nonspatial \
-    --skip-native-gate \
-    --clust mclust \
-    --append \
-    --output-dir outputs/canzar_live_chimera
-
+# Run SEDR (Python 3.11) FIRST so Canzar's unmodified `assign_counts.py` (`dict | dict`, PEP 584) executes natively!
 if [ -d "/home/dugaoyuan/.conda/envs/SEDR/lib/R" ]; then
     export R_HOME="/home/dugaoyuan/.conda/envs/SEDR/lib/R"
     export PATH="/home/dugaoyuan/.conda/envs/SEDR/bin:$PATH"
@@ -178,6 +166,19 @@ fi
     --doses 0.0 0.25 0.50 \
     --methods SEDR \
     --sedr-mode full_mechanism \
+    --skip-native-gate \
+    --clust mclust \
+    --append \
+    --output-dir outputs/canzar_live_chimera
+
+if [ -d "/home/dugaoyuan/.conda/envs/GraphST/lib/R" ]; then
+    export R_HOME="/home/dugaoyuan/.conda/envs/GraphST/lib/R"
+    export PATH="/home/dugaoyuan/.conda/envs/GraphST/bin:$PATH"
+fi
+"$PY_GRAPHST" scripts/run_canzar_chimera_experiment.py \
+    --simulate-infiltration \
+    --doses 0.0 0.25 0.50 \
+    --methods GraphST scanpy_nonspatial \
     --skip-native-gate \
     --clust mclust \
     --append \

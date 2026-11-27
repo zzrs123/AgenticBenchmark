@@ -57,23 +57,10 @@ export OPENBLAS_NUM_THREADS=4
 PY_GRAPHST="/home/dugaoyuan/.conda/envs/GraphST/bin/python"
 PY_SEDR="/home/dugaoyuan/.conda/envs/SEDR/bin/python"
 
-echo "=== [Milestone 2B] Running Mouse-Brain snRNA-seq (`ClusterNm`) Type II Infiltration Sweeps (0.0, 0.25, 0.50) on GPU $CUDA_VISIBLE_DEVICES ==="
+echo "=== [Milestone 2B] Running Mouse-Brain snRNA-seq (ClusterNm) Type II Infiltration Sweeps (0.0, 0.25, 0.50) on GPU $CUDA_VISIBLE_DEVICES ==="
 
-# 1. GraphST + scanpy_nonspatial (append onto existing osmFISH_Codeluppi summary!)
-if [ -d "/home/dugaoyuan/.conda/envs/GraphST/lib/R" ]; then
-    export R_HOME="/home/dugaoyuan/.conda/envs/GraphST/lib/R"
-    export PATH="/home/dugaoyuan/.conda/envs/GraphST/bin:$PATH"
-fi
-"$PY_GRAPHST" scripts/run_canzar_chimera_experiment.py \
-    --simulate-infiltration \
-    --doses 0.0 0.25 0.50 \
-    --methods GraphST scanpy_nonspatial \
-    --skip-native-gate \
-    --clust mclust \
-    --append \
-    --output-dir outputs/canzar_live_chimera
-
-# 2. SEDR (`encoder_only` and `full_mechanism` in SEDR Conda env with native R mclust 6.1.1!)
+# 1. Run SEDR (Python 3.11) FIRST so Canzar's unmodified `assign_counts.py` (`dict | dict`, PEP 584)
+#    runs natively on Python 3.11 and caches bit-identical `sim_slices/*.csv` on disk!
 if [ -d "/home/dugaoyuan/.conda/envs/SEDR/lib/R" ]; then
     export R_HOME="/home/dugaoyuan/.conda/envs/SEDR/lib/R"
     export PATH="/home/dugaoyuan/.conda/envs/SEDR/bin:$PATH"
@@ -93,6 +80,20 @@ fi
     --doses 0.0 0.25 0.50 \
     --methods SEDR \
     --sedr-mode full_mechanism \
+    --skip-native-gate \
+    --clust mclust \
+    --append \
+    --output-dir outputs/canzar_live_chimera
+
+# 2. Run GraphST + scanpy_nonspatial (Python 3.8), reusing the exact cached `sim_slices/*.csv`!
+if [ -d "/home/dugaoyuan/.conda/envs/GraphST/lib/R" ]; then
+    export R_HOME="/home/dugaoyuan/.conda/envs/GraphST/lib/R"
+    export PATH="/home/dugaoyuan/.conda/envs/GraphST/bin:$PATH"
+fi
+"$PY_GRAPHST" scripts/run_canzar_chimera_experiment.py \
+    --simulate-infiltration \
+    --doses 0.0 0.25 0.50 \
+    --methods GraphST scanpy_nonspatial \
     --skip-native-gate \
     --clust mclust \
     --append \
