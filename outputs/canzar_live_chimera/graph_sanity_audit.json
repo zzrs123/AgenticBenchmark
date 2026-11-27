@@ -49,5 +49,158 @@
     "adapted_radius": 402.7492,
     "adapted_mean_degree": 4.476,
     "adapted_isolated_fraction": 0.0308
+  },
+  {
+    "slice_id": "SimMouseBrain_Type2::stripes_type2_dose_0.00",
+    "method_id": "PreFlightCoordCheck",
+    "coord_span_xy": [
+      100.0,
+      100.0
+    ],
+    "median_1nn_spacing": 0.7605,
+    "default_radius": 150.0,
+    "default_mean_degree": 3999.0,
+    "default_isolated_fraction": 0.0,
+    "scale_mismatch_suspected": true,
+    "diagnostic_note": "radius=150.00 connects mean_degree=3999.0; coordinate span much smaller than expected.",
+    "adapted_radius": 2.1611,
+    "adapted_mean_degree": 5.761,
+    "adapted_isolated_fraction": 0.0057
+  },
+  {
+    "slice_id": "SimMouseBrain_Type2::stripes_type2_dose_0.25",
+    "method_id": "PreFlightCoordCheck",
+    "coord_span_xy": [
+      100.0,
+      100.0
+    ],
+    "median_1nn_spacing": 0.7605,
+    "default_radius": 150.0,
+    "default_mean_degree": 3999.0,
+    "default_isolated_fraction": 0.0,
+    "scale_mismatch_suspected": true,
+    "diagnostic_note": "radius=150.00 connects mean_degree=3999.0; coordinate span much smaller than expected.",
+    "adapted_radius": 2.1611,
+    "adapted_mean_degree": 5.761,
+    "adapted_isolated_fraction": 0.0057
+  },
+  {
+    "slice_id": "SimMouseBrain_Type2::stripes_type2_dose_0.50",
+    "method_id": "PreFlightCoordCheck",
+    "coord_span_xy": [
+      100.0,
+      100.0
+    ],
+    "median_1nn_spacing": 0.7605,
+    "default_radius": 150.0,
+    "default_mean_degree": 3999.0,
+    "default_isolated_fraction": 0.0,
+    "scale_mismatch_suspected": true,
+    "diagnostic_note": "radius=150.00 connects mean_degree=3999.0; coordinate span much smaller than expected.",
+    "adapted_radius": 2.1611,
+    "adapted_mean_degree": 5.761,
+    "adapted_isolated_fraction": 0.0057
+  },
+  {
+    "slice_id": "SimMouseBrain_Type2::stripes_type2_dose_0.00",
+    "method_id": "PreFlightCoordCheck",
+    "coord_span_xy": [
+      100.0,
+      100.0
+    ],
+    "median_1nn_spacing": 0.7605,
+    "default_radius": 150.0,
+    "default_mean_degree": 3999.0,
+    "default_isolated_fraction": 0.0,
+    "scale_mismatch_suspected": true,
+    "diagnostic_note": "radius=150.00 connects mean_degree=3999.0; coordinate span much smaller than expected.",
+    "adapted_radius": 2.1611,
+    "adapted_mean_degree": 5.761,
+    "adapted_isolated_fraction": 0.0057
+  },
+  {
+    "slice_id": "SimMouseBrain_Type2::stripes_type2_dose_0.25",
+    "method_id": "PreFlightCoordCheck",
+    "coord_span_xy": [
+      100.0,
+      100.0
+    ],
+    "median_1nn_spacing": 0.7605,
+    "default_radius": 150.0,
+    "default_mean_degree": 3999.0,
+    "default_isolated_fraction": 0.0,
+    "scale_mismatch_suspected": true,
+    "diagnostic_note": "radius=150.00 connects mean_degree=3999.0; coordinate span much smaller than expected.",
+    "adapted_radius": 2.1611,
+    "adapted_mean_degree": 5.761,
+    "adapted_isolated_fraction": 0.0057
+  },
+  {
+    "slice_id": "SimMouseBrain_Type2::stripes_type2_dose_0.50",
+    "method_id": "PreFlightCoordCheck",
+    "coord_span_xy": [
+      100.0,
+      100.0
+    ],
+    "median_1nn_spacing": 0.7605,
+    "default_radius": 150.0,
+    "default_mean_degree": 3999.0,
+    "default_isolated_fraction": 0.0,
+    "scale_mismatch_suspected": true,
+    "diagnostic_note": "radius=150.00 connects mean_degree=3999.0; coordinate span much smaller than expected.",
+    "adapted_radius": 2.1611,
+    "adapted_mean_degree": 5.761,
+    "adapted_isolated_fraction": 0.0057
+  },
+  {
+    "slice_id": "SimMouseBrain_Type2::stripes_type2_dose_0.00",
+    "method_id": "PreFlightCoordCheck",
+    "coord_span_xy": [
+      100.0,
+      100.0
+    ],
+    "median_1nn_spacing": 0.7605,
+    "default_radius": 150.0,
+    "default_mean_degree": 3999.0,
+    "default_isolated_fraction": 0.0,
+    "scale_mismatch_suspected": true,
+    "diagnostic_note": "radius=150.00 connects mean_degree=3999.0; coordinate span much smaller than expected.",
+    "adapted_radius": 2.1611,
+    "adapted_mean_degree": 5.761,
+    "adapted_isolated_fraction": 0.0057
+  },
+  {
+    "slice_id": "SimMouseBrain_Type2::stripes_type2_dose_0.25",
+    "method_id": "PreFlightCoordCheck",
+    "coord_span_xy": [
+      100.0,
+      100.0
+    ],
+    "median_1nn_spacing": 0.7605,
+    "default_radius": 150.0,
+    "default_mean_degree": 3999.0,
+    "default_isolated_fraction": 0.0,
+    "scale_mismatch_suspected": true,
+    "diagnostic_note": "radius=150.00 connects mean_degree=3999.0; coordinate span much smaller than expected.",
+    "adapted_radius": 2.1611,
+    "adapted_mean_degree": 5.761,
+    "adapted_isolated_fraction": 0.0057
+  },
+  {
+    "slice_id": "SimMouseBrain_Type2::stripes_type2_dose_0.50",
+    "method_id": "PreFlightCoordCheck",
+    "coord_span_xy": [
+      100.0,
+      100.0
+    ],
+    "median_1nn_spacing": 0.7605,
+    "default_radius": 150.0,
+    "default_mean_degree": 3999.0,
+    "default_isolated_fraction": 0.0,
+    "scale_mismatch_suspected": true,
+    "diagnostic_note": "radius=150.00 connects mean_degree=3999.0; coordinate span much smaller than expected.",
+    "adapted_radius": 2.1611,
+    "adapted_mean_degree": 5.761,
+    "adapted_isolated_fraction": 0.0057
   }
 ]
