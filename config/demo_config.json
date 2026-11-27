@@ -1,0 +1,21 @@
+{
+  "llm": {
+    "mode": "auto",
+    "base_url": "https://api.openai.com/v1",
+    "api_key_env": "OPENAI_API_KEY",
+    "model": "gpt-4o-mini",
+    "temperature": 0.1,
+    "timeout_sec": 60
+  },
+  "experiment": {
+    "task_name": "multicellular_spatial_domain_segmentation",
+    "n_Exploration_slices": 8,
+    "n_Confirmation_slices": 4,
+    "n_perturbation_seeds": 2,
+    "n_graph_null_seeds": 2,
+    "n_training_seeds": 3,
+    "equivalence_margin_ari": 0.03,
+    "alpha": 0.05,
+    "output_dir": "outputs/demo_run"
+  }
+}

@@ -1,0 +1,15 @@
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Environments
+.venv/
+venv/
+.env
+
+# Large binary AnnData matrices (>50MB GitHub warning threshold; kept locally on disk)
+*.h5ad
+*.h5ad.gz

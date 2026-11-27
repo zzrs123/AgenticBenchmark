@@ -1,0 +1,13 @@
+{
+  "spatial-domain-analysis-framework": {
+    "upstream_url": "https://github.com/canzarlab/spatial-domain-analysis-framework",
+    "commit_sha": "4c30a06de82df8937c2eccc59a993fc8cddb3570",
+    "citation": "Descoeudres et al., bioRxiv 2026.03.12.710462"
+  },
+  "spatial-domain-simulator": {
+    "upstream_url": "https://github.com/canzarlab/spatial-domain-simulator",
+    "commit_sha": "b3f048003daf256716897d1f65489083a58fc5d3",
+    "citation": "Descoeudres et al., bioRxiv 2026.03.12.710462",
+    "large_binary_note": "subset_anndata.h5ad.gz (52.95 MB) is git-ignored for clean GitHub pushes; fetch from upstream URL if cloning fresh on a remote server."
+  }
+}

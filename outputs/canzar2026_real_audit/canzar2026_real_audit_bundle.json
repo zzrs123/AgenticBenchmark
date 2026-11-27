@@ -1,0 +1,460 @@
+{
+  "osmfish_raw_audit": {
+    "dataset": "osmFISH_Codeluppi",
+    "sample": "correctedsample",
+    "n_cells": 4839,
+    "n_genes": 33,
+    "n_domains": 11,
+    "sparsity_fraction": 0.3071,
+    "mean_genes_per_cell": 22.87,
+    "mean_total_counts_per_cell": 185.74,
+    "min_domain_fraction": 0.0219,
+    "domain_distribution": {
+      "Layer 6": 1015,
+      "Layer 4": 1002,
+      "White matter": 877,
+      "Layer 2-3 medial": 549,
+      "Hippocampus": 322,
+      "Layer 5": 295,
+      "Layer 2-3 lateral": 254,
+      "Pia Layer 1": 159,
+      "Layer 3-4": 131,
+      "Ventricle": 129,
+      "Internal Capsule Caudoputamen": 106
+    }
+  },
+  "n_methods_inspected": 35,
+  "hardcoded_seed_methods": [
+    "ADEPT",
+    "BASS",
+    "BayesSpace",
+    "CCST",
+    "DeepST",
+    "GraphST",
+    "MLN2SVG",
+    "MNMST",
+    "SC-MEB",
+    "scTM",
+    "SEDR",
+    "SpatialLeiden",
+    "SpatialMGCN",
+    "SpiceMix",
+    "STAGATE",
+    "stGRL",
+    "Vesalius"
+  ],
+  "top_screening_candidates": [
+    {
+      "d_feature": "is_single_cell",
+      "mc_feature": "is_neighborhood_clustering",
+      "group": "D_x_M",
+      "w_interaction": 0.0324,
+      "partial_r": 0.3254,
+      "abs_score": 0.3254
+    },
+    {
+      "d_feature": "is_single_cell",
+      "mc_feature": "has_hardcoded_seed",
+      "group": "D_x_C",
+      "w_interaction": -0.0303,
+      "partial_r": -0.3038,
+      "abs_score": 0.3038
+    },
+    {
+      "d_feature": "log10_panel_genes",
+      "mc_feature": "is_neighborhood_clustering",
+      "group": "D_x_M",
+      "w_interaction": -0.028,
+      "partial_r": -0.2813,
+      "abs_score": 0.2813
+    },
+    {
+      "d_feature": "is_single_cell",
+      "mc_feature": "uses_alpha_or_voronoi_graph",
+      "group": "D_x_M",
+      "w_interaction": 0.027,
+      "partial_r": 0.2713,
+      "abs_score": 0.2713
+    },
+    {
+      "d_feature": "log10_panel_genes",
+      "mc_feature": "has_hardcoded_seed",
+      "group": "D_x_C",
+      "w_interaction": 0.0263,
+      "partial_r": 0.2627,
+      "abs_score": 0.2627
+    },
+    {
+      "d_feature": "scanpy_SI_expr",
+      "mc_feature": "is_neighborhood_clustering",
+      "group": "D_x_M",
+      "w_interaction": 0.0241,
+      "partial_r": 0.2424,
+      "abs_score": 0.2424
+    },
+    {
+      "d_feature": "log10_panel_genes",
+      "mc_feature": "uses_alpha_or_voronoi_graph",
+      "group": "D_x_M",
+      "w_interaction": -0.0233,
+      "partial_r": -0.2337,
+      "abs_score": 0.2337
+    },
+    {
+      "d_feature": "gt_SI_expr",
+      "mc_feature": "is_neighborhood_clustering",
+      "group": "D_x_M",
+      "w_interaction": -0.0213,
+      "partial_r": -0.2143,
+      "abs_score": 0.2143
+    },
+    {
+      "d_feature": "scanpy_SI_expr",
+      "mc_feature": "has_hardcoded_seed",
+      "group": "D_x_C",
+      "w_interaction": -0.0212,
+      "partial_r": -0.2125,
+      "abs_score": 0.2125
+    },
+    {
+      "d_feature": "gt_SI_expr",
+      "mc_feature": "has_hardcoded_seed",
+      "group": "D_x_C",
+      "w_interaction": 0.0195,
+      "partial_r": 0.1955,
+      "abs_score": 0.1955
+    },
+    {
+      "d_feature": "scanpy_SI_expr",
+      "mc_feature": "uses_alpha_or_voronoi_graph",
+      "group": "D_x_M",
+      "w_interaction": 0.0181,
+      "partial_r": 0.1825,
+      "abs_score": 0.1825
+    },
+    {
+      "d_feature": "gt_SI_expr",
+      "mc_feature": "uses_alpha_or_voronoi_graph",
+      "group": "D_x_M",
+      "w_interaction": -0.0175,
+      "partial_r": -0.1756,
+      "abs_score": 0.1756
+    },
+    {
+      "d_feature": "scanpy_PAS_spatial",
+      "mc_feature": "has_hardcoded_seed",
+      "group": "D_x_C",
+      "w_interaction": -0.0146,
+      "partial_r": -0.1468,
+      "abs_score": 0.1468
+    },
+    {
+      "d_feature": "scanpy_PAS_spatial",
+      "mc_feature": "uses_alpha_or_voronoi_graph",
+      "group": "D_x_M",
+      "w_interaction": 0.0142,
+      "partial_r": 0.1425,
+      "abs_score": 0.1425
+    },
+    {
+      "d_feature": "log10_panel_genes",
+      "mc_feature": "uses_hmrf_potts_prior",
+      "group": "D_x_M",
+      "w_interaction": 0.0137,
+      "partial_r": 0.1372,
+      "abs_score": 0.1372
+    }
+  ],
+  "controlled_sweep_contrasts": {
+    "exp8_resolution_coarsening_0.5_to_5.0": [
+      {
+        "method": "BASS",
+        "n_replicates": 4,
+        "ari_low": 0.9863,
+        "ari_high": 0.8986,
+        "spatial_gain_low": 0.578,
+        "spatial_gain_high": 0.0149,
+        "tau_int": -0.5631,
+        "ci_low": -0.6959,
+        "ci_high": -0.4303,
+        "evidence_state": "Supported Interaction"
+      },
+      {
+        "method": "BANKSY",
+        "n_replicates": 4,
+        "ari_low": 0.8258,
+        "ari_high": 0.1788,
+        "spatial_gain_low": 0.4174,
+        "spatial_gain_high": -0.7049,
+        "tau_int": -1.1223,
+        "ci_low": -1.5046,
+        "ci_high": -0.7399,
+        "evidence_state": "Supported Interaction"
+      },
+      {
+        "method": "SpaceFlow",
+        "n_replicates": 4,
+        "ari_low": 0.8785,
+        "ari_high": 0.3566,
+        "spatial_gain_low": 0.4701,
+        "spatial_gain_high": -0.5271,
+        "tau_int": -0.9972,
+        "ci_low": -1.0832,
+        "ci_high": -0.9111,
+        "evidence_state": "Supported Interaction"
+      },
+      {
+        "method": "SCAN-IT",
+        "n_replicates": 4,
+        "ari_low": 0.9235,
+        "ari_high": 0.4955,
+        "spatial_gain_low": 0.5151,
+        "spatial_gain_high": -0.3882,
+        "tau_int": -0.9033,
+        "ci_low": -1.0559,
+        "ci_high": -0.7507,
+        "evidence_state": "Supported Interaction"
+      },
+      {
+        "method": "STAGATE",
+        "n_replicates": 4,
+        "ari_low": 0.9482,
+        "ari_high": 0.8346,
+        "spatial_gain_low": 0.5398,
+        "spatial_gain_high": -0.0491,
+        "tau_int": -0.5889,
+        "ci_low": -0.7698,
+        "ci_high": -0.408,
+        "evidence_state": "Supported Interaction"
+      },
+      {
+        "method": "GraphST",
+        "n_replicates": 4,
+        "ari_low": 0.8212,
+        "ari_high": 0.695,
+        "spatial_gain_low": 0.4129,
+        "spatial_gain_high": -0.1887,
+        "tau_int": -0.6015,
+        "ci_low": -1.1518,
+        "ci_high": -0.0513,
+        "evidence_state": "Supported Interaction"
+      },
+      {
+        "method": "SEDR",
+        "n_replicates": 4,
+        "ari_low": 0.937,
+        "ari_high": 0.5286,
+        "spatial_gain_low": 0.5287,
+        "spatial_gain_high": -0.3551,
+        "tau_int": -0.8838,
+        "ci_low": -1.1119,
+        "ci_high": -0.6556,
+        "evidence_state": "Supported Interaction"
+      },
+      {
+        "method": "CCST",
+        "n_replicates": 4,
+        "ari_low": 0.8869,
+        "ari_high": 0.6713,
+        "spatial_gain_low": 0.4785,
+        "spatial_gain_high": -0.2124,
+        "tau_int": -0.6909,
+        "ci_low": -0.7761,
+        "ci_high": -0.6057,
+        "evidence_state": "Supported Interaction"
+      },
+      {
+        "method": "SpatialPCA",
+        "n_replicates": 4,
+        "ari_low": 0.893,
+        "ari_high": 0.6287,
+        "spatial_gain_low": 0.4846,
+        "spatial_gain_high": -0.255,
+        "tau_int": -0.7396,
+        "ci_low": -1.0407,
+        "ci_high": -0.4384,
+        "evidence_state": "Supported Interaction"
+      },
+      {
+        "method": "SpaGCN",
+        "n_replicates": 4,
+        "ari_low": 0.7294,
+        "ari_high": 0.8952,
+        "spatial_gain_low": 0.3211,
+        "spatial_gain_high": 0.0115,
+        "tau_int": -0.3095,
+        "ci_low": -0.8007,
+        "ci_high": 0.1817,
+        "evidence_state": "Inconclusive"
+      }
+    ],
+    "exp2_type2_infiltration_0.0_to_0.5": [
+      {
+        "method": "BASS",
+        "n_replicates": 16,
+        "ari_low": 0.9829,
+        "ari_high": 0.9524,
+        "spatial_gain_low": 0.5755,
+        "spatial_gain_high": 0.5879,
+        "tau_int": 0.0123,
+        "ci_low": -0.0013,
+        "ci_high": 0.0259,
+        "evidence_state": "Practically Equivalent"
+      },
+      {
+        "method": "BANKSY",
+        "n_replicates": 16,
+        "ari_low": 0.8154,
+        "ari_high": 0.7238,
+        "spatial_gain_low": 0.408,
+        "spatial_gain_high": 0.3592,
+        "tau_int": -0.0488,
+        "ci_low": -0.1431,
+        "ci_high": 0.0455,
+        "evidence_state": "Inconclusive"
+      },
+      {
+        "method": "SpaceFlow",
+        "n_replicates": 16,
+        "ari_low": 0.8409,
+        "ari_high": 0.6447,
+        "spatial_gain_low": 0.4335,
+        "spatial_gain_high": 0.2801,
+        "tau_int": -0.1534,
+        "ci_low": -0.2594,
+        "ci_high": -0.0474,
+        "evidence_state": "Supported Interaction"
+      },
+      {
+        "method": "SCAN-IT",
+        "n_replicates": 16,
+        "ari_low": 0.8259,
+        "ari_high": 0.8629,
+        "spatial_gain_low": 0.4185,
+        "spatial_gain_high": 0.4983,
+        "tau_int": 0.0799,
+        "ci_low": -0.0589,
+        "ci_high": 0.2186,
+        "evidence_state": "Inconclusive"
+      },
+      {
+        "method": "STAGATE",
+        "n_replicates": 16,
+        "ari_low": 0.9454,
+        "ari_high": 0.6242,
+        "spatial_gain_low": 0.5381,
+        "spatial_gain_high": 0.2596,
+        "tau_int": -0.2784,
+        "ci_low": -0.3666,
+        "ci_high": -0.1902,
+        "evidence_state": "Supported Interaction"
+      },
+      {
+        "method": "GraphST",
+        "n_replicates": 16,
+        "ari_low": 0.9349,
+        "ari_high": 0.5579,
+        "spatial_gain_low": 0.5275,
+        "spatial_gain_high": 0.1934,
+        "tau_int": -0.3341,
+        "ci_low": -0.4098,
+        "ci_high": -0.2585,
+        "evidence_state": "Supported Interaction"
+      },
+      {
+        "method": "SEDR",
+        "n_replicates": 16,
+        "ari_low": 0.9618,
+        "ari_high": 0.8592,
+        "spatial_gain_low": 0.5544,
+        "spatial_gain_high": 0.4946,
+        "tau_int": -0.0599,
+        "ci_low": -0.1375,
+        "ci_high": 0.0178,
+        "evidence_state": "Inconclusive"
+      },
+      {
+        "method": "CCST",
+        "n_replicates": 16,
+        "ari_low": 0.879,
+        "ari_high": 0.7476,
+        "spatial_gain_low": 0.4716,
+        "spatial_gain_high": 0.383,
+        "tau_int": -0.0886,
+        "ci_low": -0.1387,
+        "ci_high": -0.0385,
+        "evidence_state": "Supported Interaction"
+      },
+      {
+        "method": "SpatialPCA",
+        "n_replicates": 16,
+        "ari_low": 0.94,
+        "ari_high": 0.7789,
+        "spatial_gain_low": 0.5327,
+        "spatial_gain_high": 0.4143,
+        "tau_int": -0.1184,
+        "ci_low": -0.1867,
+        "ci_high": -0.05,
+        "evidence_state": "Supported Interaction"
+      },
+      {
+        "method": "SpaGCN",
+        "n_replicates": 16,
+        "ari_low": 0.4671,
+        "ari_high": 0.4812,
+        "spatial_gain_low": 0.0597,
+        "spatial_gain_high": 0.1166,
+        "tau_int": 0.0569,
+        "ci_low": 0.0155,
+        "ci_high": 0.0984,
+        "evidence_state": "Inconclusive"
+      }
+    ]
+  },
+  "heldout_recommendation_eval": {
+    "n_evaluated_conf_slices": 21,
+    "static_exploration_winner": "BASS",
+    "mean_oracle_ari": 0.5441,
+    "mean_static_winner_ari": 0.4559,
+    "mean_d_obs_agent_ari": 0.4559,
+    "mean_regret_static": 0.0882,
+    "mean_regret_d_obs_agent": 0.0882,
+    "heldout_dataset_breakdown": {
+      "10xVisium_Fu": {
+        "n_slices": 1,
+        "oracle_mean_ari": 0.6122,
+        "static_winner_ari": 0.6024,
+        "d_obs_agent_ari": 0.6024,
+        "most_recommended_method": "BASS"
+      },
+      "MERFISH_Moffitt": {
+        "n_slices": 5,
+        "oracle_mean_ari": 0.5998,
+        "static_winner_ari": 0.5789,
+        "d_obs_agent_ari": 0.5789,
+        "most_recommended_method": "BASS"
+      },
+      "STARmap_Wang": {
+        "n_slices": 1,
+        "oracle_mean_ari": 0.7298,
+        "static_winner_ari": 0.6337,
+        "d_obs_agent_ari": 0.6337,
+        "most_recommended_method": "BASS"
+      },
+      "Slide-seqV2_Lan": {
+        "n_slices": 11,
+        "oracle_mean_ari": 0.5316,
+        "static_winner_ari": 0.3908,
+        "d_obs_agent_ari": 0.3908,
+        "most_recommended_method": "BASS"
+      },
+      "StereoSeq_Chen": {
+        "n_slices": 3,
+        "oracle_mean_ari": 0.4122,
+        "static_winner_ari": 0.3813,
+        "d_obs_agent_ari": 0.3813,
+        "most_recommended_method": "BASS"
+      }
+    }
+  }
+}

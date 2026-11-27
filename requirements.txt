@@ -1,0 +1,13 @@
+# Core scientific stack (typically pre-installed in spatial/scRNA-seq environments)
+numpy>=1.23
+scipy>=1.9
+pandas>=1.5
+scikit-learn>=1.2
+matplotlib>=3.6
+
+# Optional spatial & deep learning packages (auto-detected if available)
+# anndata>=0.9
+# scanpy>=1.9
+# torch>=2.0
+# jupyter>=1.0
+# pyyaml>=6.0
