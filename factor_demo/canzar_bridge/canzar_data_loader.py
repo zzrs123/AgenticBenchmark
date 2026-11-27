@@ -256,9 +256,19 @@ def generate_canzar_semisynthetic_slice(
 
     gz_path = simulator_dir / "subset_anndata.h5ad.gz"
     unzipped_path = simulator_dir / "subset_anndata.h5ad"
+    if unzipped_path.exists() and unzipped_path.stat().st_size < 100_000_000:
+        # Remove truncated leftover from any interrupted gunzip
+        unzipped_path.unlink()
     if not unzipped_path.exists():
-        with gzip.open(gz_path, "rb") as f_in, unzipped_path.open("wb") as f_out:
-            shutil.copyfileobj(f_in, f_out)
+        tmp_path = simulator_dir / "subset_anndata.h5ad.tmp"
+        try:
+            with gzip.open(gz_path, "rb") as f_in, tmp_path.open("wb") as f_out:
+                shutil.copyfileobj(f_in, f_out)
+            tmp_path.replace(unzipped_path)
+        except Exception:
+            if tmp_path.exists():
+                tmp_path.unlink()
+            raise
 
     adata = ad.read_h5ad(unzipped_path)
     celltypes_df = pd.read_csv(simulator_dir / "celltypes.csv", index_col=0)
