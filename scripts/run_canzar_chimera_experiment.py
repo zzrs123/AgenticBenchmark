@@ -212,6 +212,11 @@ def main() -> None:
 
             for arm in arms_to_log:
                 res = arm_outputs[arm]
+                arm_gate = (
+                    "ARM_FALLBACK_MODIFIED_CLUSTERING"
+                    if (res["fallback_notes"] and gate_status == "VERIFIED_AGAINST_NATIVE_SCRIPT")
+                    else gate_status
+                )
                 ari = float(adjusted_rand_score(y_true, res["pred_labels"]))
                 records.append(
                     {
@@ -222,7 +227,7 @@ def main() -> None:
                         "effective_method_id": res["effective_method_id"],
                         "fallback_notes": res["fallback_notes"],
                         "sedr_intervention_mode": res["config"]["sedr_intervention_mode"],
-                        "upstream_gate_status": gate_status,
+                        "upstream_gate_status": arm_gate,
                         "native_vs_refac_ari": nat_agree,
                         "graph_scale_mismatch_suspected": g_rep.scale_mismatch_suspected,
                         "arm": arm,
@@ -230,7 +235,7 @@ def main() -> None:
                         "ARI": round(ari, 4),
                     }
                 )
-                print(f"   -> [{arm}] effective={res['effective_method_id']} | gate={gate_status} | ARI={ari:.4f}")
+                print(f"   -> [{arm}] effective={res['effective_method_id']} | gate={arm_gate} | ARI={ari:.4f}")
 
     def _write_or_append_json(path: Path, new_items: List[Dict[str, Any]]) -> None:
         if args.append and path.exists():

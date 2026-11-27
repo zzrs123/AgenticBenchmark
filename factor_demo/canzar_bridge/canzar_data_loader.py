@@ -272,7 +272,10 @@ def generate_canzar_semisynthetic_slice(
 
     adata = ad.read_h5ad(unzipped_path)
     celltypes_df = pd.read_csv(simulator_dir / "celltypes.csv", index_col=0)
-    region_col = "Annotation" if "Annotation" in adata.obs.columns else adata.obs.columns[0]
+    region_col = next(
+        (c for c in ("ClusterNm", "Annotation", "cell_type", "region") if c in adata.obs.columns),
+        adata.obs.columns[0],
+    )
 
     if perturbation == "type1_ambient":
         counts, coords, labels = de.counts_perturbation_type1(
