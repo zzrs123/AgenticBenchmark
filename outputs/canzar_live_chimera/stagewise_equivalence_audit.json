@@ -36,39 +36,5 @@
       "pyGMM_fallback_for_R_mclust(RRuntimeError)"
     ],
     "passed_strict_equivalence": false
-  },
-  {
-    "method_id": "SEDR",
-    "effective_variant_id": "SEDR",
-    "slice_id": "osmFISH_Codeluppi::correctedsample",
-    "cell_gene_shape_match": true,
-    "preprocess_rel_frobenius_diff": 0.0,
-    "preprocess_max_abs_diff": 0.0,
-    "edge_set_jaccard": 1.0,
-    "edge_weight_l1_diff": 0.0,
-    "self_loop_match": true,
-    "row_sum_max_diff": 0.0,
-    "embedding_gram_cosine": 1.000098,
-    "fixed_seed_ari_agreement": 0.970964,
-    "baseline_multiseed_ari_mean": null,
-    "fallback_notes": [],
-    "passed_strict_equivalence": false
-  },
-  {
-    "method_id": "SEDR",
-    "effective_variant_id": "SEDR",
-    "slice_id": "osmFISH_Codeluppi::correctedsample",
-    "cell_gene_shape_match": true,
-    "preprocess_rel_frobenius_diff": 0.0,
-    "preprocess_max_abs_diff": 0.0,
-    "edge_set_jaccard": 1.0,
-    "edge_weight_l1_diff": 0.0,
-    "self_loop_match": true,
-    "row_sum_max_diff": 0.0,
-    "embedding_gram_cosine": 1.000099,
-    "fixed_seed_ari_agreement": 0.998398,
-    "baseline_multiseed_ari_mean": null,
-    "fallback_notes": [],
-    "passed_strict_equivalence": true
   }
 ]
