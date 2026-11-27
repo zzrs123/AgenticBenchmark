@@ -13,3 +13,10 @@ venv/
 # Large binary AnnData matrices (>50MB GitHub warning threshold; kept locally on disk)
 *.h5ad
 *.h5ad.gz
+
+# Intermediate simulation CSVs & live execution logs on server
+outputs/canzar_live_chimera/sim_slices/
+outputs/canzar_live_chimera/*/*/*/*/clustering.tsv
+outputs/canzar_live_chimera/*/*/*/*/spaceflow_embedding.txt
+external/spatial-domain-analysis-framework/results/*/*/*/clustering.tsv
+logs_server/

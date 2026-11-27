@@ -60,6 +60,11 @@ def main() -> None:
         action="store_true",
         help="Abort `self`/`null` counterfactual arms for any method failing native upstream agreement or triggering cluster fallback.",
     )
+    parser.add_argument(
+        "--append",
+        action="store_true",
+        help="Append records to existing summary JSONs (allows running distinct methods in separate Conda envs).",
+    )
     parser.add_argument("--output-dir", type=str, default=str(PROJECT_ROOT / "outputs" / "canzar_live_chimera"))
     args = parser.parse_args()
 
@@ -227,11 +232,21 @@ def main() -> None:
                 )
                 print(f"   -> [{arm}] effective={res['effective_method_id']} | gate={gate_status} | ARI={ari:.4f}")
 
+    def _write_or_append_json(path: Path, new_items: List[Dict[str, Any]]) -> None:
+        if args.append and path.exists():
+            try:
+                prev = json.loads(path.read_text(encoding="utf-8"))
+                if isinstance(prev, list):
+                    new_items = prev + new_items
+            except Exception:
+                pass
+        path.write_text(json.dumps(new_items, indent=2), encoding="utf-8")
+
     summary_path = out_root / "live_chimera_counterfactual_summary.json"
-    summary_path.write_text(json.dumps(records, indent=2), encoding="utf-8")
-    (out_root / "native_reproduction_audit.json").write_text(json.dumps(native_audit_logs, indent=2), encoding="utf-8")
-    (out_root / "stagewise_equivalence_audit.json").write_text(json.dumps(stagewise_audit_logs, indent=2), encoding="utf-8")
-    (out_root / "graph_sanity_audit.json").write_text(json.dumps(graph_sanity_logs, indent=2), encoding="utf-8")
+    _write_or_append_json(summary_path, records)
+    _write_or_append_json(out_root / "native_reproduction_audit.json", native_audit_logs)
+    _write_or_append_json(out_root / "stagewise_equivalence_audit.json", stagewise_audit_logs)
+    _write_or_append_json(out_root / "graph_sanity_audit.json", graph_sanity_logs)
     print(f"\n[Completed] Saved audited counterfactual results & ReproduceAgent logs to: {out_root}")
 
 

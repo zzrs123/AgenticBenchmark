@@ -131,8 +131,12 @@ def run_chimera_counterfactual(
         sc.pp.normalize_total(adata, target_sum=1e4)
         sc.pp.log1p(adata)
     elif preprocess_mod == "GraphST":
-        from GraphST.preprocess import preprocess as g_preprocess  # type: ignore[import-not-found]
-        g_preprocess(adata)
+        try:
+            from GraphST.preprocess import preprocess as g_preprocess  # type: ignore[import-not-found]
+            g_preprocess(adata)
+        except ImportError:
+            from GraphST import GraphST as gst_mod  # type: ignore[import-not-found]
+            gst_mod.preprocess(adata)
     elif preprocess_mod == "SpaceFlow":
         from SpaceFlow import SpaceFlow  # type: ignore[import-not-found]
         sc.pp.filter_genes(adata, min_counts=1)
@@ -151,11 +155,17 @@ def run_chimera_counterfactual(
     if adjacency_mod in ("STAGATE", "scanpy_nonspatial", "scanpy_smooth"):
         adj_raw = kneighbors_graph(adata.obsm["spatial"], n_neighbors=6, mode="connectivity")
     elif adjacency_mod == "GraphST":
-        from GraphST.preprocess import construct_interaction_KNN  # type: ignore[import-not-found]
-        construct_interaction_KNN(adata)
+        try:
+            from GraphST.preprocess import construct_interaction  # type: ignore[import-not-found]
+            construct_interaction(adata)
+        except ImportError:
+            from GraphST.preprocess import construct_interaction_KNN  # type: ignore[import-not-found]
+            construct_interaction_KNN(adata)
         adj_raw = sp.csr_matrix(adata.obsm["adj"])
     elif adjacency_mod == "SEDR":
         import SEDR  # type: ignore[import-not-found]
+        if hasattr(SEDR, "fix_seed"):
+            SEDR.fix_seed(2023)
         adj_raw = sp.csr_matrix(SEDR.graph_func.generate_adj_mat(adata, include_self=False, n=6))
     elif adjacency_mod == "SpaceFlow":
         from SpaceFlow import SpaceFlow  # type: ignore[import-not-found]
@@ -169,6 +179,10 @@ def run_chimera_counterfactual(
     if train_mod == "GraphST":
         import torch  # type: ignore[import-not-found]
         from GraphST.GraphST import GraphST  # type: ignore[import-not-found]
+        np.random.seed(88)
+        torch.manual_seed(88)
+        if torch.cuda.is_available():
+            torch.cuda.manual_seed(88)
         adj_dense = adj_hooked.toarray()
         adata.obsm["adj"] = adj_dense
         adata.obsm["graph_neigh"] = (adj_dense > 0).astype(np.float32)
@@ -182,6 +196,8 @@ def run_chimera_counterfactual(
     elif train_mod == "SEDR":
         import torch  # type: ignore[import-not-found]
         import SEDR  # type: ignore[import-not-found]
+        if hasattr(SEDR, "fix_seed"):
+            SEDR.fix_seed(2023)
         device = "cuda:0" if torch.cuda.is_available() else "cpu"
 
         # Encoder propagation graph always uses `adj_hooked`
