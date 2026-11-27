@@ -1,0 +1,53 @@
+[
+  {
+    "slice_id": "osmFISH_Codeluppi::correctedsample",
+    "method_id": "PreFlightCoordCheck",
+    "coord_span_xy": [
+      23895.59,
+      48290.23
+    ],
+    "median_1nn_spacing": 163.0725,
+    "default_radius": 150.0,
+    "default_mean_degree": 0.451,
+    "default_isolated_fraction": 0.6904,
+    "scale_mismatch_suspected": true,
+    "diagnostic_note": "radius=150.00 is smaller than/near median_1NN=163.07 (coord_span=(23895.6,48290.2)); likely coordinate unit mismatch.",
+    "adapted_radius": 402.7492,
+    "adapted_mean_degree": 4.476,
+    "adapted_isolated_fraction": 0.0308
+  },
+  {
+    "slice_id": "osmFISH_Codeluppi::correctedsample",
+    "method_id": "PreFlightCoordCheck",
+    "coord_span_xy": [
+      23895.59,
+      48290.23
+    ],
+    "median_1nn_spacing": 163.0725,
+    "default_radius": 150.0,
+    "default_mean_degree": 0.451,
+    "default_isolated_fraction": 0.6904,
+    "scale_mismatch_suspected": true,
+    "diagnostic_note": "radius=150.00 is smaller than/near median_1NN=163.07 (coord_span=(23895.6,48290.2)); likely coordinate unit mismatch.",
+    "adapted_radius": 402.7492,
+    "adapted_mean_degree": 4.476,
+    "adapted_isolated_fraction": 0.0308
+  },
+  {
+    "slice_id": "osmFISH_Codeluppi::correctedsample",
+    "method_id": "PreFlightCoordCheck",
+    "coord_span_xy": [
+      23895.59,
+      48290.23
+    ],
+    "median_1nn_spacing": 163.0725,
+    "default_radius": 150.0,
+    "default_mean_degree": 0.451,
+    "default_isolated_fraction": 0.6904,
+    "scale_mismatch_suspected": true,
+    "diagnostic_note": "radius=150.00 is smaller than/near median_1NN=163.07 (coord_span=(23895.6,48290.2)); likely coordinate unit mismatch.",
+    "adapted_radius": 402.7492,
+    "adapted_mean_degree": 4.476,
+    "adapted_isolated_fraction": 0.0308
+  }
+]

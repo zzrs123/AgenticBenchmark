@@ -1,0 +1,42 @@
+[
+  {
+    "method_id": "GraphST",
+    "dataset_name": "osmFISH_Codeluppi",
+    "sample_name": "correctedsample",
+    "command_executed": [
+      "/home/dugaoyuan/.conda/envs/GraphST/bin/python",
+      "workflow/scripts/graphst_run.py",
+      "-d",
+      "osmFISH_Codeluppi",
+      "-s",
+      "correctedsample",
+      "-n",
+      "11"
+    ],
+    "return_code": 1,
+    "wall_time_sec": 20.943,
+    "output_clustering_tsv": "/home/dugaoyuan/AAA-new-base/hkust/AgenticBenchmark/external/spatial-domain-analysis-framework/results/osmFISH_Codeluppi/GraphST/correctedsample/clustering.tsv",
+    "succeeded": false,
+    "stderr_tail": "home/dugaoyuan/.conda/envs/stlearn/lib/python3.8/site-packages/rpy2/rinterface_lib/conversion.py\", line 45, in _\n    cdata = function(*args, **kwargs)\n  File \"/home/dugaoyuan/.conda/envs/stlearn/lib/python3.8/site-packages/rpy2/rinterface.py\", line 817, in __call__\n    raise embedded.RRuntimeError(_rinterface._geterrmessage())\nrpy2.rinterface_lib.embedded.RRuntimeError: Error in (function (package, help, pos = 2, lib.loc = NULL, character.only = FALSE,  : \n  there is no package called \u2018mclust\u2019\n\n"
+  },
+  {
+    "method_id": "SEDR",
+    "dataset_name": "osmFISH_Codeluppi",
+    "sample_name": "correctedsample",
+    "command_executed": [
+      "/home/dugaoyuan/.conda/envs/SEDR/bin/python",
+      "workflow/scripts/sedr_run.py",
+      "-d",
+      "osmFISH_Codeluppi",
+      "-s",
+      "correctedsample",
+      "-n",
+      "11"
+    ],
+    "return_code": 0,
+    "wall_time_sec": 49.409,
+    "output_clustering_tsv": "/home/dugaoyuan/AAA-new-base/hkust/AgenticBenchmark/external/spatial-domain-analysis-framework/results/osmFISH_Codeluppi/SEDR/correctedsample/clustering.tsv",
+    "succeeded": true,
+    "stderr_tail": "00, 14.15it/s]\n 98%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258a| 196/200 [00:13<00:00, 14.14it/s]\n 99%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2589| 198/200 [00:13<00:00, 14.08it/s]\n100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 200/200 [00:14<00:00, 14.13it/s]\n100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 200/200 [00:14<00:00, 14.22it/s]\nR[write to console]:                    __           __ \n   ____ ___  _____/ /_  _______/ /_\n  / __ `__ \\/ ___/ / / / / ___/ __/\n / / / / / / /__/ / /_/ (__  ) /_  \n/_/ /_/ /_/\\___/_/\\__,_/____/\\__/   version 6.1.1\nType 'citation(\"mclust\")' for citing this R package in publications.\n\n"
+  }
+]
