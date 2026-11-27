@@ -17,7 +17,7 @@ from factor_demo.methods_zoo.base_pipeline import (
     MethodRunOutput,
     apply_graph_arm_hook,
     build_spatial_knn_graph,
-    cluster_embedding,
+    cluster_embedding_with_status,
     compute_effective_rank,
     preprocess_expression,
 )
@@ -52,7 +52,9 @@ def run_expr_baseline(
     clust_mode = cluster_override or "kmeans"
 
     feats = preprocess_expression(counts, mode=prep_mode, n_hvgs=110, n_pcs=20, seed=train_seed)
-    raw_preds = cluster_embedding(feats, n_domains=n_domains, cluster_head=clust_mode, seed=train_seed)
+    raw_preds, clust_conv = cluster_embedding_with_status(
+        feats, n_domains=n_domains, cluster_head=clust_mode, seed=train_seed
+    )
 
     k_nbr = 6 if tuning_protocol == "fixed" else 8
     adj_raw = build_spatial_knn_graph(coords, k_neighbors=k_nbr, include_self=True)
@@ -63,7 +65,7 @@ def run_expr_baseline(
         pred_labels=preds,
         embedding=feats,
         param_count=int(feats.shape[1]),
-        converged=True,
+        converged=clust_conv,
         final_loss=0.0,
         loss_drop_ratio=1.0,
         effective_rank=compute_effective_rank(feats),

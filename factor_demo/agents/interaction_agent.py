@@ -230,19 +230,35 @@ class DMInteractionAgent:
         self,
         hypotheses: List[PreRegisteredHypothesis],
         conf_slices: List[SpatialSlice],
+        stagewise_gate_by_method: Optional[Dict[str, bool]] = None,
+        budget_k: Optional[int] = None,
     ) -> Tuple[
         List[FactorialContrastResult],
         List[ValidityAuditRecord],
         Dict[str, Any],
         Dict[str, Any],
     ]:
-        """Run pre-registered 2x3 factorial experiments + crossed `Dose x Preprocessing` on `D_conf`."""
+        """Run pre-registered 2x3 factorial experiments + donor-level `Dose x Preprocessing` on `D_conf`.
+
+        When `budget_k` is provided, executes ONLY the top `budget_k` pre-registered hypotheses
+        ranked in `self.pre_confirmation_queue` (online compute-saving execution mode!).
+        """
         all_contrasts: List[FactorialContrastResult] = []
         audit_records: List[ValidityAuditRecord] = []
         dose_curve_store: Dict[str, Any] = {}
         slice_to_donor = {s.slice_id: s.donor_id for s in conf_slices}
+        gate_map = stagewise_gate_by_method or {}
 
-        for hyp in hypotheses:
+        selected_hypotheses = list(hypotheses)
+        if budget_k is not None and budget_k > 0 and self.pre_confirmation_queue:
+            rank_order = {
+                str(item["hypothesis_id"]): int(item["priority_rank"])
+                for item in self.pre_confirmation_queue
+            }
+            selected_hypotheses.sort(key=lambda h: rank_order.get(h.hypothesis_id, 999))
+            selected_hypotheses = selected_hypotheses[:budget_k]
+
+        for hyp in selected_hypotheses:
             op_name = hyp.data_operator_name
             doses = hyp.data_operator_doses
             dose_low, dose_high = float(doses[0]), float(doses[-1])
@@ -260,7 +276,8 @@ class DMInteractionAgent:
                     # For invariant features of this operator, threshold off-target z-drift <= 1.25
                     drift_ok = float(drift["max_off_target_drift_z"]) <= 1.25
                     for mid in hyp.target_methods:
-                        op_validity_by_method[mid].append(bool(eq_diffs[mid] <= 1e-4 and drift_ok))
+                        stage_ok = bool(gate_map.get(mid, True))
+                        op_validity_by_method[mid].append(bool(stage_ok and eq_diffs[mid] <= 1e-4 and drift_ok))
 
                     temp_audits.append(
                         ValidityAuditRecord(
@@ -366,39 +383,85 @@ class DMInteractionAgent:
                             c_fix.evidence_state += " [Protocol-Sensitive]"
                             c_ret.evidence_state += " [Protocol-Sensitive]"
 
-        # 3. Crossed `Data Dose (low vs high) x Preprocessing Scheme (PCA-20 vs HVG-110)` Check!
+        # 3. Crossed `Data Dose (low vs high) x Preprocessing Scheme (PCA-20 vs HVG-110)` with Donor-Level CI & TOST!
+        from scipy import stats as sp_stats
+
         h1 = hypotheses[0]
         d_lo, d_hi = float(h1.data_operator_doses[0]), float(h1.data_operator_doses[-1])
-        prep_crossover: Dict[str, Dict[str, float]] = {}
+        prep_crossover: Dict[str, Dict[str, Any]] = {}
 
         for mid in h1.target_methods:
             runner = METHODS_REGISTRY[mid]["runner"]  # type: ignore[index]
-            pca_lo, hvg_lo, pca_hi, hvg_hi = [], [], [], []
+            pca_lo_all, hvg_lo_all, pca_hi_all, hvg_hi_all = [], [], [], []
+            donor_tau_buckets: Dict[str, List[float]] = {}
+
             for slc in conf_slices:
                 s_lo = apply_data_operator(slc, h1.data_operator_name, dose=d_lo, seed=0)
                 s_hi = apply_data_operator(slc, h1.data_operator_name, dose=d_hi, seed=0)
                 x_lo = s_lo.get_model_input_counts()
                 x_hi = s_hi.get_model_input_counts()
+                s_pca_lo, s_hvg_lo, s_pca_hi, s_hvg_hi = [], [], [], []
                 for ts in range(self.n_train_seeds):
                     o_pca_lo = runner(x_lo, s_lo.coords, s_lo.n_domains, arm="refac", preprocess_override="pca", train_seed=ts)  # type: ignore[misc]
                     o_hvg_lo = runner(x_lo, s_lo.coords, s_lo.n_domains, arm="refac", preprocess_override="hvg", train_seed=ts)  # type: ignore[misc]
                     o_pca_hi = runner(x_hi, s_hi.coords, s_hi.n_domains, arm="refac", preprocess_override="pca", train_seed=ts)  # type: ignore[misc]
                     o_hvg_hi = runner(x_hi, s_hi.coords, s_hi.n_domains, arm="refac", preprocess_override="hvg", train_seed=ts)  # type: ignore[misc]
 
-                    pca_lo.append(evaluate_predictions(s_lo.domain_labels, o_pca_lo.pred_labels, s_lo.coords, s_lo.counts, s_lo.heldout_markers)["ARI"])
-                    hvg_lo.append(evaluate_predictions(s_lo.domain_labels, o_hvg_lo.pred_labels, s_lo.coords, s_lo.counts, s_lo.heldout_markers)["ARI"])
-                    pca_hi.append(evaluate_predictions(s_hi.domain_labels, o_pca_hi.pred_labels, s_hi.coords, s_hi.counts, s_hi.heldout_markers)["ARI"])
-                    hvg_hi.append(evaluate_predictions(s_hi.domain_labels, o_hvg_hi.pred_labels, s_hi.coords, s_hi.counts, s_hi.heldout_markers)["ARI"])
+                    s_pca_lo.append(evaluate_predictions(s_lo.domain_labels, o_pca_lo.pred_labels, s_lo.coords, s_lo.counts, s_lo.heldout_markers)["ARI"])
+                    s_hvg_lo.append(evaluate_predictions(s_lo.domain_labels, o_hvg_lo.pred_labels, s_lo.coords, s_lo.counts, s_lo.heldout_markers)["ARI"])
+                    s_pca_hi.append(evaluate_predictions(s_hi.domain_labels, o_pca_hi.pred_labels, s_hi.coords, s_hi.counts, s_hi.heldout_markers)["ARI"])
+                    s_hvg_hi.append(evaluate_predictions(s_hi.domain_labels, o_hvg_hi.pred_labels, s_hi.coords, s_hi.counts, s_hi.heldout_markers)["ARI"])
 
-            diff_lo = float(np.mean(pca_lo) - np.mean(hvg_lo))
-            diff_hi = float(np.mean(pca_hi) - np.mean(hvg_hi))
+                pca_lo_all.extend(s_pca_lo)
+                hvg_lo_all.extend(s_hvg_lo)
+                pca_hi_all.extend(s_pca_hi)
+                hvg_hi_all.extend(s_hvg_hi)
+
+                slc_diff_lo = float(np.mean(s_pca_lo) - np.mean(s_hvg_lo))
+                slc_diff_hi = float(np.mean(s_pca_hi) - np.mean(s_hvg_hi))
+                donor_tau_buckets.setdefault(slc.donor_id, []).append(slc_diff_hi - slc_diff_lo)
+
+            donor_taus = np.array([float(np.mean(v)) for v in donor_tau_buckets.values()], dtype=np.float64)
+            n_donors_prep = len(donor_taus)
+            mean_tau_prep = float(np.mean(donor_taus))
+            eq_m = h1.equivalence_margin
+
+            if n_donors_prep < 2:
+                ci95_lo, ci95_hi = float("-inf"), float("inf")
+                prep_state = "INSUFFICIENT_DONOR_REPLICATES"
+            else:
+                se_prep = float(np.std(donor_taus, ddof=1) / np.sqrt(n_donors_prep))
+                if se_prep < 1e-10:
+                    ci95_lo, ci95_hi = mean_tau_prep, mean_tau_prep
+                    ci90_lo, ci90_hi = mean_tau_prep, mean_tau_prep
+                else:
+                    t95 = float(sp_stats.t.ppf(1.0 - self.alpha / 2.0, df=n_donors_prep - 1))
+                    t90 = float(sp_stats.t.ppf(1.0 - self.alpha, df=n_donors_prep - 1))
+                    ci95_lo, ci95_hi = mean_tau_prep - t95 * se_prep, mean_tau_prep + t95 * se_prep
+                    ci90_lo, ci90_hi = mean_tau_prep - t90 * se_prep, mean_tau_prep + t90 * se_prep
+
+                if ci95_lo > eq_m:
+                    prep_state = "Supported Positive Prep x Dose Interaction"
+                elif ci95_hi < -eq_m:
+                    prep_state = "Supported Negative Prep x Dose Interaction"
+                elif ci90_lo >= -eq_m and ci90_hi <= eq_m:
+                    prep_state = "Practically Equivalent (within +/-Delta_eq)"
+                else:
+                    prep_state = "Inconclusive"
+
+            diff_lo = float(np.mean(pca_lo_all) - np.mean(hvg_lo_all))
+            diff_hi = float(np.mean(pca_hi_all) - np.mean(hvg_hi_all))
             prep_crossover[mid] = {
-                "ARI_with_PCA": round(float(0.5 * (np.mean(pca_lo) + np.mean(pca_hi))), 4),
-                "ARI_with_HVG": round(float(0.5 * (np.mean(hvg_lo) + np.mean(hvg_hi))), 4),
+                "ARI_with_PCA": round(float(0.5 * (np.mean(pca_lo_all) + np.mean(pca_hi_all))), 4),
+                "ARI_with_HVG": round(float(0.5 * (np.mean(hvg_lo_all) + np.mean(hvg_hi_all))), 4),
                 "PCA_minus_HVG": round(0.5 * (diff_lo + diff_hi), 4),
                 "PCA_minus_HVG_dose_low": round(diff_lo, 4),
                 "PCA_minus_HVG_dose_high": round(diff_hi, 4),
-                "tau_int_prep_scheme": round(diff_hi - diff_lo, 4),
+                "tau_int_prep_scheme": round(mean_tau_prep, 4),
+                "tau_int_prep_ci95_low": round(ci95_lo, 4) if np.isfinite(ci95_lo) else -999.0,
+                "tau_int_prep_ci95_high": round(ci95_hi, 4) if np.isfinite(ci95_hi) else 999.0,
+                "n_donors": n_donors_prep,
+                "prep_evidence_state": prep_state,
             }
 
         return all_contrasts, audit_records, dose_curve_store, prep_crossover

@@ -76,6 +76,14 @@ def run_chimera_counterfactual(
     out_path.mkdir(parents=True, exist_ok=True)
     fallback_notes: List[str] = []
 
+    if preprocess_mod == "scanpy":
+        preprocess_mod = "scanpy_nonspatial"
+        fallback_notes.append("mapped_legacy_scanpy_to_scanpy_nonspatial")
+    if adjacency_mod == "scanpy":
+        adjacency_mod = "scanpy_nonspatial"
+    if train_mod == "scanpy":
+        train_mod = "scanpy_nonspatial"
+
     counts_df = pd.read_csv(umi_csv, header=None)
     coords_df = pd.read_csv(coords_csv, header=None, names=["x", "y"])
     n_cells = counts_df.shape[0]
@@ -257,12 +265,20 @@ def run_chimera_counterfactual(
     tsv_path = out_path / "clustering.tsv"
     pd.Series(preds_aligned, name="region").to_csv(tsv_path, sep="\t", index=False)
 
+    X_prep_snapshot = np.asarray(
+        adata.obsm["X_pca"] if "X_pca" in adata.obsm else (adata.X.toarray() if sp.issparse(adata.X) else adata.X),
+        dtype=np.float32,
+    )[inv_ord]
+    adj_hooked_dense = adj_hooked.toarray()[inv_ord][:, inv_ord].astype(np.float32)
+
     return {
         "effective_method_id": effective_method_id,
         "fallback_notes": fallback_notes,
         "clustering_tsv": str(tsv_path),
         "pred_labels": preds_aligned,
         "embedding": embedding[inv_ord],
+        "X_preprocessed": X_prep_snapshot,
+        "adj_used": adj_hooked_dense,
         "config": {
             "preprocess": preprocess_mod,
             "adjacency": adjacency_mod,

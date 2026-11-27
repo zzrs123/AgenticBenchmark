@@ -270,3 +270,19 @@ $$\text{Regret}(D_{\text{new}}) = \max_{M \in \mathcal{M}} Y(D_{\text{new}}, M) 
 6. **`[M, C]` 联合去共线性、`RidgeCV/LassoCV`、供体聚合、`n_donors < 2` 保护与 90% TOST 区间**：`factor_demo/tools/stats_engine.py` L61–L64, L109–L125, L186–L295。
 7. **留出标志基因物理剔除（防训练泄漏）**：`factor_demo/data_lab/generator_and_loader.py` L30–L36 (`get_model_input_counts`)，调用处于 `factor_demo/agents/interaction_agent.py` L87, L280, L347。
 8. **`数据剂量 × 预处理方案(PCA-20 vs HVG-110)` 交叉对比**：`factor_demo/agents/interaction_agent.py` L338–L365 (`tau_int_prep_scheme`)。
+
+
+---
+
+## 11. v2.3 增量闭环记录：针对 Git 同步后三轮静态复核指出的 4 项接线缺口与细节修复
+
+针对审阅对 `c4aa842` 提出的 4 处剩余调用链/统计缺口及附带索引细节，代码仓已完成 **v2.3 定向闭环修复**（不扩张框架，专注补齐入口接线与统计严谨性）：
+
+| 审阅指出的剩余问题 | 修复状态 | 具体代码修复位置与机制 |
+| :--- | :---: | :--- |
+| **1. `ReproduceAgent` 尚未接入实验前置门控，且 `run_canzar_chimera_experiment.py` 未保存 `effective_method_id` / `fallback_notes`、CLI 默认仍为旧名 `scanpy`** | ✅ 已接通 | ① [run_canzar_chimera_experiment.py](../scripts/run_canzar_chimera_experiment.py)：默认在执行四臂反事实前调用 `ReproduceAgent.audit_and_repair_radius_graph`、`run_native_upstream_script`（针对内置真实 `osmFISH_Codeluppi` 原生脚本）与 `verify_stagewise_equivalence`，支持 `--strict-native-gate` 硬阻断，并将 `effective_method_id`、`fallback_notes`、`sedr_intervention_mode`、`upstream_gate_status`、`native_vs_refac_ari` 完整写入 `live_chimera_counterfactual_summary.json`，CLI 默认更新为 `scanpy_nonspatial`；<br>② [pipeline.py](../factor_demo/pipeline.py)：在进入确认实验前调用 `verify_stagewise_equivalence` 生成 `stagewise_equivalence_audit.json`，并将门控结果传入 `execute_confirmatory_experiments`。 |
+| **2. 三态解析（`1.0 / 0.0 / None`）在统计筛选入口被转回 `0.0`** | ✅ 已修复 | ① [canzar_ast_inspector.py](../factor_demo/canzar_bridge/canzar_ast_inspector.py)：移除把 `None` 静默填充为 `0.0` 的 `m_core` / `c_aux` 字典，仅输出 `m_core_tristate`、`c_aux_tristate` 与显式布尔掩码 `unknown_mask`；<br>② [run_canzar2026_real_audit.py](../scripts/run_canzar2026_real_audit.py) `screen_real_interactions()`：对每个属性仅在 `value is not None` 的已知方法子集（Available-Case Masking）上做标准化与偏相关回归，并在输出表显式报告 `known/26` 覆盖率，已由纯 Python 行为单测锁定。 |
+| **3. 真实 `.h5ad` 入口未按供体分组切分，且缺失外部测试集时静默执行 `ext_test_slices = conf_slices`** | ✅ 已修复 | ① [generator_and_loader.py](../factor_demo/data_lab/generator_and_loader.py)：新增 `assign_donor_grouped_splits()`，强制按 `donor_id` 分组切分（若检测到同一供体跨集合直接抛出 `ValueError`；当独立供体数 `< 6` 时仅划分 `exploration` 与 `confirmation`，绝不伪造外部测试集）；<br>② [pipeline.py](../factor_demo/pipeline.py)：彻底删除 `ext_test_slices = conf_slices` 静默替代；当无独立外部测试集供体时，下游评测显式输出 `"SKIPPED_NO_UNTOUCHED_EXTERNAL_TEST_DONORS"`。 |
+| **4. `FactorAuditedChimera` 变体混杂了 `k_nbr`/`gate_temp` 变化，且对角协方差 GMM 会吸收坐标缩放权重** | ✅ 已修复 | ① [deliverables.py](../factor_demo/deliverables.py)：将 `k_neighbors=8` 与门控温度 `gate_temperature=2.0` 在全部四变体中严格固定，构成无混杂的 `2×2`（固定/自适应权重 × 均匀/门控图）消融；<br>② [base_pipeline.py](../factor_demo/methods_zoo/base_pipeline.py) 与 [deliverables.py](../factor_demo/deliverables.py)：新增各向同性高斯混合聚类头 `gmm_spherical`（`covariance_type="spherical"`）作为拼接加权默认头，并提供 `KMeans` 四变体对照与固定图 $\lambda \in [0.05, 0.95]$ 敏感度检验函数 `audit_lambda_weight_control()`。 |
+| **5. 附带细节修复：留出 Marker 布尔索引副本 Bug、元特征彻底剔除 Marker、聚类头真实收敛状态、在线预算截断与预处理交互供体区间** | ✅ 已修复 | ① [generator_and_loader.py](../factor_demo/data_lab/generator_and_loader.py)：将 `log_rates[in_dom][:, m_indices] = 1.45` 修正为 `log_rates[np.ix_(in_dom, m_indices)] = 1.45`，确保留出标志基因真实上调；<br>② [dataset_metrics.py](../factor_demo/tools/dataset_metrics.py)：`compute_dataset_features` 改用 `slc.get_model_input_counts()`，使 `d_obs`/`d_ref` 元特征与模型训练均完全不接触 `heldout_markers`；<br>③ [base_pipeline.py](../factor_demo/methods_zoo/base_pipeline.py)：新增 `cluster_embedding_with_status` 返回真实 `converged_` / `n_iter_ < max_iter` 状态并接入全部 4 个方法；<br>④ [interaction_agent.py](../factor_demo/agents/interaction_agent.py)：支持 `budget_k` 在线截断执行事前队列前 $k$ 个假设，并为 `tau_int_prep_scheme` 增加供体聚合 95% CI 与 90% TOST 裁决；<br>⑤ 新增行为级单测 [test_scientific_behaviors.py](../tests/test_scientific_behaviors.py)。 |
+

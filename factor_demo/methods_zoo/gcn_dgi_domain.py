@@ -17,7 +17,7 @@ from factor_demo.methods_zoo.base_pipeline import (
     MethodRunOutput,
     apply_graph_arm_hook,
     build_spatial_knn_graph,
-    cluster_embedding,
+    cluster_embedding_with_status,
     compute_effective_rank,
     preprocess_expression,
     unsupervised_silhouette_proxy,
@@ -155,7 +155,9 @@ def run_gcn_dgi(
             spatial_reg_weight=float(cfg["spatial_reg_weight"]),
             seed=train_seed,
         )
-        preds = cluster_embedding(emb, n_domains=n_domains, cluster_head=clust_mode, seed=train_seed)
+        preds, clust_conv = cluster_embedding_with_status(
+            emb, n_domains=n_domains, cluster_head=clust_mode, seed=train_seed
+        )
         score = unsupervised_silhouette_proxy(emb, preds)
         if score > best_score or best_output is None:
             best_score = score
@@ -163,7 +165,7 @@ def run_gcn_dgi(
                 pred_labels=preds,
                 embedding=emb,
                 param_count=n_params,
-                converged=conv,
+                converged=bool(conv and clust_conv),
                 final_loss=f_loss,
                 loss_drop_ratio=drop,
                 effective_rank=compute_effective_rank(emb),

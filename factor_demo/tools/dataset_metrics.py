@@ -47,8 +47,13 @@ def _compute_morans_i_top_genes(log_expr: np.ndarray, coords: np.ndarray, k: int
 
 
 def compute_dataset_features(slc: SpatialSlice) -> Tuple[Dict[str, float], Dict[str, float]]:
-    """Compute (`d_obs`, `d_ref`) deterministically for a given spatial slice."""
-    counts = slc.counts
+    """Compute (`d_obs`, `d_ref`) deterministically using strictly `get_model_input_counts()`.
+
+    Excludes `heldout_markers` from ALL meta-features (`d_obs` & `d_ref`) so neither model
+    training, meta-feature screening, recommender fitting, nor Chimera calibration ever touches
+    held-out biological validation markers!
+    """
+    counts = slc.get_model_input_counts()
     coords = slc.coords
     labels = slc.domain_labels
     n_units, n_genes = counts.shape

@@ -1,6 +1,6 @@
 # 基于 Descoeudres et al. (2026.03) 真实数据集与 35 个真实方法的三智能体实测报告
 
-- **运行时间**：`2026-11-27 12:11:00`
+- **运行时间**：`2026-11-27 16:08:38`
 - **底层数据与方法底座**：直接对接 `external/spatial-domain-analysis-framework` 与 `external/spatial-domain-simulator`
 - **真实组织切片总数**：`82` 张切片（跨 9 个真实数据集；严格切分为 **56 张探索集切片** vs. **26 张跨器官/跨平台独立确认集切片**）
 - **静态代码解析方法总数**：`35` 个真实空间域脚本（25 个 `.py` + 10 个 `.R` + `chimera_run.py` 六大模块化深度模型）
@@ -35,11 +35,11 @@
 | 方法名 | 类别 | 脚本文件 | HMRF/Potts 先验 | DGI 对比 | HVG (`c_aux`) | PCA (`c_aux`) | `mclust` (`c_aux`) | 字面量硬编码种子 | 包内待核查数 (`unknown`) | 自动提取的真实源码证据链 (`file:L#`) |
 | :--- | :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
 | `GraphST` | NN | `graphst_run.py` | 0 | `?` | 0 | 0 | 0 | 1 | 2 | `graphst_run.py:L6` (has_hardcoded_seed); `chimera_run.py:L393` (chimera_GraphST_preprocess); `chimera_run.py:L397` (chimera_GraphST_adjacency) |
-| `STAGATE` | NN | `stagate_run.py` | 0 | `?` | 1 | 0 | 1 | 1 | 2 | `stagate_run.py:L7` (has_hardcoded_seed); `stagate_run.py:L27` (uses_mclust_gmm); `stagate_run.py:L50` (uses_hvg_selection) |
-| `SEDR` | NN | `sedr_run.py` | 0 | `?` | 1 | 1 | 1 | 1 | 2 | `sedr_run.py:L26` (uses_mclust_gmm); `sedr_run.py:L61` (uses_hvg_selection); `sedr_run.py:L68` (uses_pca_reduction) |
+| `STAGATE` | NN | `stagate_run.py` | 0 | `?` | 1 | 0 | 1 | 1 | 1 | `stagate_run.py:L7` (has_hardcoded_seed); `stagate_run.py:L27` (uses_mclust_gmm); `stagate_run.py:L50` (uses_hvg_selection) |
+| `SEDR` | NN | `sedr_run.py` | 0 | `?` | 1 | 1 | 1 | 1 | 1 | `sedr_run.py:L26` (uses_mclust_gmm); `sedr_run.py:L61` (uses_hvg_selection); `sedr_run.py:L68` (uses_pca_reduction) |
 | `CCST` | NN | `ccst_run.py` | 0 | 1 | 0 | 0 | 0 | 1 | 1 | `ccst_run.py:L10` (has_hardcoded_seed); `ccst_run.py:L26` (uses_pca_reduction); `ccst_run.py:L108` (uses_dgi_contrastive) |
 | `SCAN-IT` | NN | `scanit_run.py` | 0 | `?` | 1 | 0 | 0 | 0 | 2 | `scanit_run.py:L19` (uses_hvg_selection); `scanit_run.py:L36` (uses_alpha_or_voronoi_graph); `scanit_run.py:L92` (uses_kmeans_or_leiden) |
-| `SpaceFlow` | NN | `spaceflow_run.py` | 0 | `?` | 1 | 0 | 0 | 0 | 2 | `chimera_run.py:L422` (chimera_SpaceFlow_preprocess); `chimera_run.py:L428` (chimera_SpaceFlow_adjacency); `chimera_run.py:L433` (chimera_SpaceFlow_train) |
+| `SpaceFlow` | NN | `spaceflow_run.py` | 0 | 1 | 1 | 0 | 0 | 0 | 1 | `chimera_run.py:L422` (chimera_SpaceFlow_preprocess); `chimera_run.py:L428` (chimera_SpaceFlow_adjacency); `chimera_run.py:L433` (chimera_SpaceFlow_train) |
 | `BANKSY` | clust | `banksy_run.py` | 0 | 0 | 1 | 1 | 1 | 0 | 1 | `banksy_run.py:L36` (uses_hvg_selection); `banksy_run.py:L64` (uses_pca_reduction); `banksy_run.py:L65` (uses_mclust_gmm) |
 | `CellCharter` | clust | `cellcharter_run.py` | 0 | 0 | `?` | `?` | 0 | 0 | 2 | `cellcharter_run.py:L41` (uses_alpha_or_voronoi_graph) |
 | `BASS` | stat | `bass_run.R` | 1 | 0 | `?` | `?` | 0 | 1 | 3 | `bass_run.R:L6` (has_hardcoded_seed); `bass_run.R:L31` (uses_hmrf_potts_prior) |
@@ -51,20 +51,20 @@
 
 ---
 
-## 三、 Agent 3 外循环：56 张真实探索集切片上的去主效应交互筛选（`D×M` vs `D×C`）
+## 三、 Agent 3 外循环：56 张真实探索集切片上的去主效应交互筛选（`D×M` vs `D×C`，已剔除 `unknown` 缺失掩码）
 
-| 排名 | 切片特征 (`d_obs` / `d_ref`) | 方法/管线属性 | 组别 | 交互斜率 `W` | 偏相关 `r` |
-| :---: | :--- | :--- | :---: | :---: | :---: |
-| 1 | `is_single_cell` | `is_neighborhood_clustering` | `D_x_M` | +0.0324 | +0.3254 |
-| 2 | `is_single_cell` | `has_hardcoded_seed` | `D_x_C` | -0.0303 | -0.3038 |
-| 3 | `log10_panel_genes` | `is_neighborhood_clustering` | `D_x_M` | -0.0280 | -0.2813 |
-| 4 | `is_single_cell` | `uses_alpha_or_voronoi_graph` | `D_x_M` | +0.0270 | +0.2713 |
-| 5 | `log10_panel_genes` | `has_hardcoded_seed` | `D_x_C` | +0.0263 | +0.2627 |
-| 6 | `scanpy_SI_expr` | `is_neighborhood_clustering` | `D_x_M` | +0.0241 | +0.2424 |
-| 7 | `log10_panel_genes` | `uses_alpha_or_voronoi_graph` | `D_x_M` | -0.0233 | -0.2337 |
-| 8 | `gt_SI_expr` | `is_neighborhood_clustering` | `D_x_M` | -0.0213 | -0.2143 |
-| 9 | `scanpy_SI_expr` | `has_hardcoded_seed` | `D_x_C` | -0.0212 | -0.2125 |
-| 10 | `gt_SI_expr` | `has_hardcoded_seed` | `D_x_C` | +0.0195 | +0.1955 |
+| 排名 | 切片特征 (`d_obs` / `d_ref`) | 方法/管线属性 | 组别 | 已解析方法数 (`known/26`) | 交互斜率 `W` | 偏相关 `r` |
+| :---: | :--- | :--- | :---: | :---: | :---: | :---: |
+| 1 | `is_single_cell` | `uses_alpha_or_voronoi_graph` | `D_x_M` | `7/26` | +0.0442 | +0.4055 |
+| 2 | `log10_panel_genes` | `uses_alpha_or_voronoi_graph` | `D_x_M` | `7/26` | -0.0374 | -0.3429 |
+| 3 | `is_single_cell` | `is_neighborhood_clustering` | `D_x_M` | `26/26` | +0.0324 | +0.3254 |
+| 4 | `is_single_cell` | `has_hardcoded_seed` | `D_x_C` | `26/26` | -0.0303 | -0.3038 |
+| 5 | `log10_panel_genes` | `is_neighborhood_clustering` | `D_x_M` | `26/26` | -0.0280 | -0.2813 |
+| 6 | `gt_SI_expr` | `uses_alpha_or_voronoi_graph` | `D_x_M` | `7/26` | -0.0287 | -0.2636 |
+| 7 | `log10_panel_genes` | `has_hardcoded_seed` | `D_x_C` | `26/26` | +0.0263 | +0.2627 |
+| 8 | `scanpy_SI_expr` | `uses_alpha_or_voronoi_graph` | `D_x_M` | `7/26` | +0.0275 | +0.2526 |
+| 9 | `scanpy_SI_expr` | `is_neighborhood_clustering` | `D_x_M` | `26/26` | +0.0241 | +0.2424 |
+| 10 | `scanpy_PAS_spatial` | `uses_alpha_or_voronoi_graph` | `D_x_M` | `7/26` | +0.0254 | +0.2330 |
 
 ---
 
@@ -72,9 +72,9 @@
 
 > **严谨性说明**：本节基于 Canzar 仓库预计算的 `scores.csv` 计算 `[ARI_M - ARI_scanpy]_high - [ARI_M - ARI_scanpy]_low`。由于 `M` 与 `scanpy` 同时存在预处理、表征与聚类头差异，该量反映**完整方法管线相对非空间基线的优势如何随数据条件变化**（作为观测与再分析线索），**不解释为单一空间图组件的内部净贡献**；同一方法内部的四臂（`orig/refac/self/null`）组件实验由 `chimera_counterfactual_driver.py` 在服务器上独立执行。
 
-### 1. 算子 `exp8`：空间分辨率退化（单细胞 `grid=0.5` $\rightarrow$ Visium 级 `grid=5.0`）对空间建模净收益的影响
+### 1. 算子 `exp8`：空间分辨率退化（单细胞 `grid=0.5` $\rightarrow$ Visium 级 `grid=5.0`）下相对外部 `scanpy` 的完整管线优势变化
 
-| 方法 | 重复单元数 | 高分辨 ARI (`0.5`) | 低分辨 ARI (`5.0`) | 高分辨空间净增益 (`M - scanpy`) | 低分辨空间净增益 (`M - scanpy`) | 2×2 因子交互 `tau_int` | 95% CI | 校准证据状态 (`±0.03`) |
+| 方法 | 重复单元数 | 高分辨 ARI (`0.5`) | 低分辨 ARI (`5.0`) | 高分辨相对管线优势 (`M - scanpy`) | 低分辨相对管线优势 (`M - scanpy`) | 2×2 交互变化量 `tau_int` | 95% CI | 校准证据状态 (`±0.03`) |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
 | `BASS` | 4 | 0.986 | 0.899 | +0.578 | +0.015 | **-0.563** | [-0.696, -0.430] | **Supported Interaction** |
 | `BANKSY` | 4 | 0.826 | 0.179 | +0.417 | -0.705 | **-1.122** | [-1.505, -0.740] | **Supported Interaction** |
@@ -87,9 +87,9 @@
 | `SpatialPCA` | 4 | 0.893 | 0.629 | +0.485 | -0.255 | **-0.740** | [-1.041, -0.438] | **Supported Interaction** |
 | `SpaGCN` | 4 | 0.729 | 0.895 | +0.321 | +0.011 | **-0.309** | [-0.801, +0.182] | **Inconclusive** |
 
-### 2. 算子 `exp2`：Type II 细胞浸润异质性（`0%` $\rightarrow$ `50%` 异质细胞置换）对空间建模净收益的影响
+### 2. 算子 `exp2`：Type II 细胞浸润异质性（`0%` $\rightarrow$ `50%` 异质细胞置换）下相对外部 `scanpy` 的完整管线优势变化
 
-| 方法 | 重复单元数 | 0% 浸润 ARI | 50% 浸润 ARI | 0% 空间净增益 (`M - scanpy`) | 50% 空间净增益 (`M - scanpy`) | 2×2 因子交互 `tau_int` | 95% CI | 校准证据状态 (`±0.03`) |
+| 方法 | 重复单元数 | 0% 浸润 ARI | 50% 浸润 ARI | 0% 相对管线优势 (`M - scanpy`) | 50% 相对管线优势 (`M - scanpy`) | 2×2 交互变化量 `tau_int` | 95% CI | 校准证据状态 (`±0.03`) |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
 | `BASS` | 16 | 0.983 | 0.952 | +0.576 | +0.588 | **+0.012** | [-0.001, +0.026] | **Practically Equivalent** |
 | `BANKSY` | 16 | 0.815 | 0.724 | +0.408 | +0.359 | **-0.049** | [-0.143, +0.045] | **Inconclusive** |
@@ -126,5 +126,5 @@
 上述真实切片审计完成后，可在服务器的 `Chimera` Conda 环境（`external/spatial-domain-analysis-framework/workflow/envs/chimera.yml`）直接对 `osmFISH_Codeluppi` 及 `subset_anndata.h5ad.gz` 运行全新的同谱置换图 `null` ($\mathbf{P}\mathbf{A}\mathbf{P}^\top$) 与自环 `self` ($\mathbf{I}$) 实验：
 
 ```bash
-python scripts/run_canzar_chimera_experiment.py --use-osmfish --simulate-infiltration --methods GraphST STAGATE SEDR SpaceFlow scanpy
+python scripts/run_canzar_chimera_experiment.py --use-osmfish --simulate-infiltration --methods GraphST STAGATE SEDR SpaceFlow scanpy_nonspatial
 ```

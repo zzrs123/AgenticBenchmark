@@ -55,7 +55,7 @@ class SpatialSlice:
 def load_h5ad_slice(
     h5ad_path: str | Path,
     slice_id: Optional[str] = None,
-    split: str = "exploration",
+    split: Optional[str] = None,
     label_key_candidates: Tuple[str, ...] = ("domain", "ground_truth", "layer_guess", "region", "cluster"),
     spatial_key: str = "spatial",
 ) -> SpatialSlice:
@@ -93,11 +93,21 @@ def load_h5ad_slice(
     label_map = {name: idx for idx, name in enumerate(uniq)}
     y = np.array([label_map[name] for name in raw_labels], dtype=np.int64)
 
+    explicit_split = split
+    if explicit_split is None:
+        if "split" in adata.uns and str(adata.uns["split"]) in ("exploration", "confirmation", "external_test"):
+            explicit_split = str(adata.uns["split"])
+        elif "split" in adata.obs.columns and str(adata.obs["split"].iloc[0]) in ("exploration", "confirmation", "external_test"):
+            explicit_split = str(adata.obs["split"].iloc[0])
+
+    donor_col = next((c for c in ("donor", "donor_id", "subject", "patient", "animal_id") if c in adata.obs.columns), None)
+    donor_id = str(adata.obs[donor_col].iloc[0]) if donor_col is not None else path.stem
+
     gene_names = [str(g) for g in adata.var_names]
     return SpatialSlice(
         slice_id=slice_id or path.stem,
-        split=split,
-        donor_id=str(adata.obs["donor"].iloc[0]) if "donor" in adata.obs.columns else path.stem,
+        split=explicit_split or "unassigned",
+        donor_id=donor_id,
         platform_tag=str(adata.uns.get("platform", "h5ad_real")),
         tissue_tag=str(adata.uns.get("tissue", "real_tissue")),
         counts=X,
@@ -108,6 +118,62 @@ def load_h5ad_slice(
         heldout_markers={},
         metadata={"source_path": str(path), "label_column": label_col},
     )
+
+
+def assign_donor_grouped_splits(slices: List[SpatialSlice]) -> List[SpatialSlice]:
+    """Partition slices strictly by `donor_id` so no donor ever leaks across splits!
+
+    - Preserves pre-assigned splits if all slices already carry explicit valid splits AND donor-disjointness holds.
+    - Otherwise partitions unique donors deterministically:
+      * >= 6 unique donors -> ~50% `exploration` (>=2), ~25% `confirmation` (>=2), remainder `external_test` (>=2).
+      * 4..5 unique donors -> `exploration` (>=2) + `confirmation` (>=2), leaving `external_test` EMPTY
+        (never silently aliasing `confirmation` as `external_test`!).
+      * < 4 unique donors -> raises `ValueError` requiring >= 4 distinct donors for exploration + confirmation.
+    """
+    valid_splits = {"exploration", "confirmation", "external_test"}
+    if all(s.split in valid_splits for s in slices):
+        donor_splits: Dict[str, set[str]] = {}
+        for s in slices:
+            donor_splits.setdefault(s.donor_id, set()).add(s.split)
+        leaking = {d: sps for d, sps in donor_splits.items() if len(sps) > 1}
+        if leaking:
+            raise ValueError(f"Donor split leakage detected across splits: {leaking}")
+        return slices
+
+    unique_donors = sorted({s.donor_id for s in slices})
+    n_donors = len(unique_donors)
+    if n_donors < 4:
+        raise ValueError(
+            f"Donor-grouped cohort split requires at least 4 distinct donors (>=2 exploration + >=2 confirmation), "
+            f"found {n_donors}: {unique_donors}"
+        )
+
+    if n_donors >= 6:
+        n_conf = max(2, n_donors // 4)
+        n_ext = max(2, n_donors // 4)
+        n_expl = n_donors - n_conf - n_ext
+        donor_to_split = {}
+        for idx, d in enumerate(unique_donors):
+            if idx < n_expl:
+                donor_to_split[d] = "exploration"
+            elif idx < n_expl + n_conf:
+                donor_to_split[d] = "confirmation"
+            else:
+                donor_to_split[d] = "external_test"
+    else:
+        n_conf = 2
+        n_expl = n_donors - n_conf
+        donor_to_split = {
+            d: ("exploration" if idx < n_expl else "confirmation")
+            for idx, d in enumerate(unique_donors)
+        }
+
+    out: List[SpatialSlice] = []
+    for s in slices:
+        sc_copy = s.copy()
+        sc_copy.split = donor_to_split[s.donor_id]
+        out.append(sc_copy)
+    return out
 
 
 def _generate_single_slice(
@@ -192,7 +258,8 @@ def _generate_single_slice(
         heldout_markers[d] = m_indices
         in_dom = (cell_types == d)
         log_rates[:, m_indices] = -0.3
-        log_rates[in_dom][:, m_indices] = 1.45
+        # Use np.ix_ so assignment writes directly into `log_rates` (never to a boolean-indexed copy!)
+        log_rates[np.ix_(in_dom, m_indices)] = 1.45
 
     # Library size variation + Poisson/Gamma (Negative Binomial) counts + technical dropout
     lib_scale = rng.lognormal(mean=0.0, sigma=0.28, size=(n_units, 1))

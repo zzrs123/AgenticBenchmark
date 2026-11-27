@@ -261,8 +261,15 @@ def inspect_canzar_method_script(
                     has_alpha = "graph_alpha" in fn_seg
                     m_core_tristate["uses_alpha_or_voronoi_graph"] = 1.0 if has_alpha else 0.0
                     evidence_source["uses_alpha_or_voronoi_graph"] = "chimera_direct_ast"
+                elif fn_node.name == f"{tag}_train":
+                    if "sedr_net" in fn_seg or "train_with_dec" in fn_seg or "train_stagate" in fn_seg:
+                        m_core_tristate["uses_autoencoder_recon"] = 1.0
+                        evidence_source["uses_autoencoder_recon"] = "chimera_direct_ast"
+                    if "spaceflow" in fn_seg or "train_dgi" in fn_seg:
+                        m_core_tristate["uses_dgi_contrastive"] = 1.0
+                        evidence_source["uses_dgi_contrastive"] = "chimera_direct_ast"
 
-    # Mark remaining `None` entries explicitly as unresolved in wrapper
+    # Mark remaining `None` entries explicitly as unresolved in wrapper (never coerce `None` to `0.0`!)
     for k, v in m_core_tristate.items():
         if v is None:
             evidence_source.setdefault(k, "unresolved_in_wrapper_needs_pkg_source")
@@ -270,10 +277,9 @@ def inspect_canzar_method_script(
         if v is None:
             evidence_source.setdefault(k, "unresolved_in_wrapper_needs_pkg_source")
 
-    # Provide numeric encoding ONLY for confirmed indicators + explicit `unknown` indicator masks for regressions
-    m_core_confirmed = {k: (float(v) if v is not None else 0.0) for k, v in m_core_tristate.items()}
-    c_aux_confirmed = {k: (float(v) if v is not None else 0.0) for k, v in c_aux_tristate.items()}
-    unknown_fields = [k for k, v in {**m_core_tristate, **c_aux_tristate}.items() if v is None]
+    merged_tristate = {**m_core_tristate, **c_aux_tristate}
+    unknown_mask = {k: (v is None) for k, v in merged_tristate.items()}
+    unknown_fields = [k for k, is_unk in unknown_mask.items() if is_unk]
 
     return {
         "method_id": method_name,
@@ -281,8 +287,7 @@ def inspect_canzar_method_script(
         "script_file": script_file.name,
         "m_core_tristate": m_core_tristate,
         "c_aux_tristate": c_aux_tristate,
-        "m_core": m_core_confirmed,
-        "c_aux": c_aux_confirmed,
+        "unknown_mask": unknown_mask,
         "unknown_fields": unknown_fields,
         "evidence_source": evidence_source,
         "evidence_spans": spans,

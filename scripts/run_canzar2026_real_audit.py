@@ -110,33 +110,38 @@ def screen_real_interactions(
                 residuals[(s, m)] = ari_lookup[(s, m)] - grand_mu - s_means[s] - m_means[m]
 
     d_keys = sorted(next(iter(d_features.values())).keys())
-    m_keys = sorted(next(iter(m_profiles.values()))["m_core"].keys())
-    c_keys = sorted(next(iter(m_profiles.values()))["c_aux"].keys())
+    m_keys = sorted(next(iter(m_profiles.values()))["m_core_tristate"].keys())
+    c_keys = sorted(next(iter(m_profiles.values()))["c_aux_tristate"].keys())
 
-    # Standardize D across expl_samples, M/C across eval_methods
+    # Standardize D across expl_samples; for M/C, strictly mask out `None` (`unknown`) per attribute!
     d_std_cols = {
         dk: dict(zip(expl_samples, _zscore_list([d_features[s][dk] for s in expl_samples])))
         for dk in d_keys
     }
-    mc_std_cols: Dict[Tuple[str, str], Dict[str, float]] = {}
-    for mk in m_keys:
-        mc_std_cols[("D_x_M", mk)] = dict(
-            zip(eval_methods, _zscore_list([m_profiles[m]["m_core"][mk] for m in eval_methods]))
-        )
-    for ck in c_keys:
-        mc_std_cols[("D_x_C", ck)] = dict(
-            zip(eval_methods, _zscore_list([m_profiles[m]["c_aux"][ck] for m in eval_methods]))
-        )
+    mc_specs: List[Tuple[str, str, Dict[str, float], int, int]] = []
+    for grp, dict_key, keys in (
+        ("D_x_M", "m_core_tristate", m_keys),
+        ("D_x_C", "c_aux_tristate", c_keys),
+    ):
+        for fk in keys:
+            known_m = [m for m in eval_methods if m_profiles[m][dict_key][fk] is not None]
+            n_unk = len(eval_methods) - len(known_m)
+            if len(known_m) < 4:
+                continue
+            z_vals = _zscore_list([float(m_profiles[m][dict_key][fk]) for m in known_m])
+            if all(abs(z) < 1e-8 for z in z_vals):
+                continue
+            mc_specs.append((grp, fk, dict(zip(known_m, z_vals)), len(known_m), n_unk))
 
     candidates = []
     for dk in d_keys:
-        for (grp, f_name), m_col in mc_std_cols.items():
+        for grp, f_name, m_col_known, n_known, n_unk in mc_specs:
             x_prod = []
             y_res = []
             for s in expl_samples:
-                for m in eval_methods:
+                for m, m_z in m_col_known.items():
                     if (s, m) in residuals:
-                        x_prod.append(d_std_cols[dk][s] * m_col[m])
+                        x_prod.append(d_std_cols[dk][s] * m_z)
                         y_res.append(residuals[(s, m)])
             denom = sum(x * x for x in x_prod)
             if denom < 1e-6:
@@ -145,11 +150,16 @@ def screen_real_interactions(
             r_num = sum(x * y for x, y in zip(x_prod, y_res))
             r_den = math.sqrt(denom * max(1e-8, sum(y * y for y in y_res)))
             corr = r_num / r_den
+            unk_frac = round(n_unk / max(1, len(eval_methods)), 3)
             candidates.append(
                 {
                     "d_feature": dk,
                     "mc_feature": f_name,
                     "group": grp,
+                    "n_known_methods": n_known,
+                    "n_unknown_methods": n_unk,
+                    "unknown_fraction": unk_frac,
+                    "coverage_note": "masked_available_case" if n_unk > 0 else "complete_26_methods",
                     "w_interaction": round(w_est, 4),
                     "partial_r": round(corr, 4),
                     "abs_score": round(abs(corr), 4),
@@ -165,11 +175,11 @@ def analyze_canzar_controlled_sweeps(
     target_methods: List[str],
     eq_margin: float = 0.03,
 ) -> Dict[str, List[Dict[str, Any]]]:
-    """Compute baseline-referenced 2x2 factorial contrasts on Canzar 2026 controlled sweeps (`exp8` & `exp2`).
+    """Compute external-baseline-referenced 2x2 contrasts on Canzar 2026 controlled sweeps (`exp8` & `exp2`).
 
-    Uses `scanpy` (pure non-spatial clustering on exact same perturbed slice) as the internal
-    no-spatial-aggregation reference arm (`self` proxy), measuring how spatial gain
-    `Delta(dose) = ARI_method(dose) - ARI_scanpy(dose)` changes across controlled doses!
+    Uses `scanpy` (external non-spatial pipeline on exact same perturbed slice) as an observational
+    reference baseline, measuring how whole-pipeline advantage `Delta(dose) = ARI_method(dose) - ARI_scanpy(dose)`
+    changes across controlled doses (NOT interpreted as within-method single-component isolation).
     """
     scores_path = framework_dir / "results" / "scores.csv"
     synth_ds = {"synth-blobs", "synth-circles", "synth-moons", "synth-varied"}
@@ -252,8 +262,8 @@ def analyze_canzar_controlled_sweeps(
                     "n_replicates": len(taus),
                     "ari_low": round(statistics.mean(raw_lo), 4),
                     "ari_high": round(statistics.mean(raw_hi), 4),
-                    "spatial_gain_low": round(statistics.mean(deltas_lo), 4),
-                    "spatial_gain_high": round(statistics.mean(deltas_hi), 4),
+                    "pipeline_adv_low": round(statistics.mean(deltas_lo), 4),
+                    "pipeline_adv_high": round(statistics.mean(deltas_hi), 4),
                     "tau_int": round(mean_tau, 4),
                     "ci_low": round(ci_lo, 4),
                     "ci_high": round(ci_hi, 4),
@@ -407,7 +417,11 @@ def main() -> None:
 
     # Build comprehensive Markdown report grounded 100% in Canzar et al. (March 2026) real data & scripts
     ts = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    hardcoded_seed_methods = [m["method_id"] for m in method_inspections if m["c_aux"]["has_hardcoded_seed"] > 0.5]
+    hardcoded_seed_methods = [
+        m["method_id"]
+        for m in method_inspections
+        if (m["c_aux_tristate"]["has_hardcoded_seed"] or 0.0) > 0.5
+    ]
 
     md_lines = [
         "# 基于 Descoeudres et al. (2026.03) 真实数据集与 35 个真实方法的三智能体实测报告",
@@ -481,16 +495,16 @@ def main() -> None:
             "",
             "---",
             "",
-            "## 三、 Agent 3 外循环：56 张真实探索集切片上的去主效应交互筛选（`D×M` vs `D×C`）",
+            "## 三、 Agent 3 外循环：56 张真实探索集切片上的去主效应交互筛选（`D×M` vs `D×C`，已剔除 `unknown` 缺失掩码）",
             "",
-            "| 排名 | 切片特征 (`d_obs` / `d_ref`) | 方法/管线属性 | 组别 | 交互斜率 `W` | 偏相关 `r` |",
-            "| :---: | :--- | :--- | :---: | :---: | :---: |",
+            "| 排名 | 切片特征 (`d_obs` / `d_ref`) | 方法/管线属性 | 组别 | 已解析方法数 (`known/26`) | 交互斜率 `W` | 偏相关 `r` |",
+            "| :---: | :--- | :--- | :---: | :---: | :---: | :---: |",
         ]
     )
 
     for idx, c in enumerate(candidates[:10], start=1):
         md_lines.append(
-            f"| {idx} | `{c['d_feature']}` | `{c['mc_feature']}` | `{c['group']}` | "
+            f"| {idx} | `{c['d_feature']}` | `{c['mc_feature']}` | `{c['group']}` | `{c['n_known_methods']}/26` | "
             f"{c['w_interaction']:+.4f} | {c['partial_r']:+.4f} |"
         )
 
@@ -503,9 +517,9 @@ def main() -> None:
             "",
             "> **严谨性说明**：本节基于 Canzar 仓库预计算的 `scores.csv` 计算 `[ARI_M - ARI_scanpy]_high - [ARI_M - ARI_scanpy]_low`。由于 `M` 与 `scanpy` 同时存在预处理、表征与聚类头差异，该量反映**完整方法管线相对非空间基线的优势如何随数据条件变化**（作为观测与再分析线索），**不解释为单一空间图组件的内部净贡献**；同一方法内部的四臂（`orig/refac/self/null`）组件实验由 `chimera_counterfactual_driver.py` 在服务器上独立执行。",
             "",
-            "### 1. 算子 `exp8`：空间分辨率退化（单细胞 `grid=0.5` $\\rightarrow$ Visium 级 `grid=5.0`）对空间建模净收益的影响",
+            "### 1. 算子 `exp8`：空间分辨率退化（单细胞 `grid=0.5` $\\rightarrow$ Visium 级 `grid=5.0`）下相对外部 `scanpy` 的完整管线优势变化",
             "",
-            "| 方法 | 重复单元数 | 高分辨 ARI (`0.5`) | 低分辨 ARI (`5.0`) | 高分辨空间净增益 (`M - scanpy`) | 低分辨空间净增益 (`M - scanpy`) | 2×2 因子交互 `tau_int` | 95% CI | 校准证据状态 (`±0.03`) |",
+            "| 方法 | 重复单元数 | 高分辨 ARI (`0.5`) | 低分辨 ARI (`5.0`) | 高分辨相对管线优势 (`M - scanpy`) | 低分辨相对管线优势 (`M - scanpy`) | 2×2 交互变化量 `tau_int` | 95% CI | 校准证据状态 (`±0.03`) |",
             "| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |",
         ]
     )
@@ -513,16 +527,16 @@ def main() -> None:
     for row in sweep_contrasts["exp8_resolution_coarsening_0.5_to_5.0"]:
         md_lines.append(
             f"| `{row['method']}` | {row['n_replicates']} | {row['ari_low']:.3f} | {row['ari_high']:.3f} | "
-            f"{row['spatial_gain_low']:+.3f} | {row['spatial_gain_high']:+.3f} | **{row['tau_int']:+.3f}** | "
+            f"{row['pipeline_adv_low']:+.3f} | {row['pipeline_adv_high']:+.3f} | **{row['tau_int']:+.3f}** | "
             f"[{row['ci_low']:+.3f}, {row['ci_high']:+.3f}] | **{row['evidence_state']}** |"
         )
 
     md_lines.extend(
         [
             "",
-            "### 2. 算子 `exp2`：Type II 细胞浸润异质性（`0%` $\\rightarrow$ `50%` 异质细胞置换）对空间建模净收益的影响",
+            "### 2. 算子 `exp2`：Type II 细胞浸润异质性（`0%` $\\rightarrow$ `50%` 异质细胞置换）下相对外部 `scanpy` 的完整管线优势变化",
             "",
-            "| 方法 | 重复单元数 | 0% 浸润 ARI | 50% 浸润 ARI | 0% 空间净增益 (`M - scanpy`) | 50% 空间净增益 (`M - scanpy`) | 2×2 因子交互 `tau_int` | 95% CI | 校准证据状态 (`±0.03`) |",
+            "| 方法 | 重复单元数 | 0% 浸润 ARI | 50% 浸润 ARI | 0% 相对管线优势 (`M - scanpy`) | 50% 相对管线优势 (`M - scanpy`) | 2×2 交互变化量 `tau_int` | 95% CI | 校准证据状态 (`±0.03`) |",
             "| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |",
         ]
     )
@@ -530,7 +544,7 @@ def main() -> None:
     for row in sweep_contrasts["exp2_type2_infiltration_0.0_to_0.5"]:
         md_lines.append(
             f"| `{row['method']}` | {row['n_replicates']} | {row['ari_low']:.3f} | {row['ari_high']:.3f} | "
-            f"{row['spatial_gain_low']:+.3f} | {row['spatial_gain_high']:+.3f} | **{row['tau_int']:+.3f}** | "
+            f"{row['pipeline_adv_low']:+.3f} | {row['pipeline_adv_high']:+.3f} | **{row['tau_int']:+.3f}** | "
             f"[{row['ci_low']:+.3f}, {row['ci_high']:+.3f}] | **{row['evidence_state']}** |"
         )
 
@@ -567,7 +581,7 @@ def main() -> None:
             "上述真实切片审计完成后，可在服务器的 `Chimera` Conda 环境（`external/spatial-domain-analysis-framework/workflow/envs/chimera.yml`）直接对 `osmFISH_Codeluppi` 及 `subset_anndata.h5ad.gz` 运行全新的同谱置换图 `null` ($\\mathbf{P}\\mathbf{A}\\mathbf{P}^\\top$) 与自环 `self` ($\\mathbf{I}$) 实验：",
             "",
             "```bash",
-            "python scripts/run_canzar_chimera_experiment.py --use-osmfish --simulate-infiltration --methods GraphST STAGATE SEDR SpaceFlow scanpy",
+            "python scripts/run_canzar_chimera_experiment.py --use-osmfish --simulate-infiltration --methods GraphST STAGATE SEDR SpaceFlow scanpy_nonspatial",
             "```",
             "",
         ]

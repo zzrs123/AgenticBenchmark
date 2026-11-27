@@ -115,18 +115,25 @@ def standardize_branch(branch: np.ndarray) -> np.ndarray:
     return ((branch - mu) / sd).astype(np.float32)
 
 
-def cluster_embedding(
+def cluster_embedding_with_status(
     embedding: np.ndarray,
     n_domains: int,
     cluster_head: str = "gmm",
     seed: int = 0,
     preserve_relative_weights: bool = True,
-) -> np.ndarray:
-    """Cluster low-dimensional representation into `n_domains` clusters.
+) -> Tuple[np.ndarray, bool]:
+    """Cluster low-dimensional representation and return `(pred_labels, cluster_converged)`.
 
-    CRITICAL: When `preserve_relative_weights=True` (default), centers columns and scales the
-    entire matrix by a SINGLE global scalar RMS norm rather than per-column standard deviation,
-    so deliberate branch weights (e.g. `[sqrt(1-lam)*Z_self, sqrt(lam)*Z_nbr]`) are strictly preserved!
+    CRITICAL MATHEMATICAL DISTINCTIONS:
+    1. When `preserve_relative_weights=True` (default), centers columns and scales the entire
+       matrix by a SINGLE global scalar RMS norm rather than per-column standard deviation,
+       so deliberate branch weights (e.g. `[sqrt(1-lam)*Z_self, sqrt(lam)*Z_nbr]`) are preserved.
+    2. Diagonal-covariance GMM (`cluster_head="gmm"`, `covariance_type="diag"`) estimates
+       per-dimension variances `sigma_d^2`, which can algebraically absorb coordinate scaling
+       in EM updates (up to `reg_covar` and initialization). Therefore, weighted branch
+       concatenation (`FactorAuditedChimera` / `BANKSY_Concat`) uses isotropic Euclidean
+       clustering (`"gmm_spherical"` or `"kmeans"`), where `lambda` directly weights the
+       objective `(1 - lam)*||z_self - mu_self||^2 + lam*||z_nbr - mu_nbr||^2`!
     """
     centered = embedding - np.mean(embedding, axis=0, keepdims=True)
     if preserve_relative_weights:
@@ -134,19 +141,43 @@ def cluster_embedding(
         emb = centered / global_scale
     else:
         emb = centered / (np.std(centered, axis=0, keepdims=True) + 1e-5)
-    if cluster_head == "gmm":
+
+    if cluster_head in ("gmm", "gmm_spherical"):
+        cov_type = "spherical" if cluster_head == "gmm_spherical" else "diag"
         gmm = GaussianMixture(
             n_components=n_domains,
-            covariance_type="diag",
+            covariance_type=cov_type,
             reg_covar=1e-3,
+            max_iter=200,
             n_init=2,
             random_state=seed,
         )
-        return gmm.fit_predict(emb).astype(np.int64)
+        preds = gmm.fit_predict(emb).astype(np.int64)
+        return preds, bool(getattr(gmm, "converged_", False))
     if cluster_head == "kmeans":
-        km = KMeans(n_clusters=n_domains, n_init=10, random_state=seed)
-        return km.fit_predict(emb).astype(np.int64)
+        max_iter = 300
+        km = KMeans(n_clusters=n_domains, max_iter=max_iter, n_init=10, random_state=seed)
+        preds = km.fit_predict(emb).astype(np.int64)
+        return preds, bool(getattr(km, "n_iter_", 0) < max_iter)
     raise ValueError(f"Unknown cluster head: {cluster_head}")
+
+
+def cluster_embedding(
+    embedding: np.ndarray,
+    n_domains: int,
+    cluster_head: str = "gmm",
+    seed: int = 0,
+    preserve_relative_weights: bool = True,
+) -> np.ndarray:
+    """Cluster low-dimensional representation into `n_domains` clusters."""
+    preds, _ = cluster_embedding_with_status(
+        embedding=embedding,
+        n_domains=n_domains,
+        cluster_head=cluster_head,
+        seed=seed,
+        preserve_relative_weights=preserve_relative_weights,
+    )
+    return preds
 
 
 def compute_effective_rank(embedding: np.ndarray) -> float:

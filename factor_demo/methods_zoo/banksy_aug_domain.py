@@ -18,7 +18,7 @@ from factor_demo.methods_zoo.base_pipeline import (
     MethodRunOutput,
     apply_graph_arm_hook,
     build_spatial_knn_graph,
-    cluster_embedding,
+    cluster_embedding_with_status,
     compute_effective_rank,
     preprocess_expression,
     standardize_branch,
@@ -75,7 +75,7 @@ def run_banksy_concat(
             axis=1,
         ).astype(np.float32)
 
-        preds = cluster_embedding(
+        preds, clust_conv = cluster_embedding_with_status(
             emb, n_domains=n_domains, cluster_head=clust_mode, seed=train_seed, preserve_relative_weights=True
         )
         score = unsupervised_silhouette_proxy(emb, preds)
@@ -85,7 +85,7 @@ def run_banksy_concat(
                 pred_labels=preds,
                 embedding=emb,
                 param_count=int(emb.shape[1]),
-                converged=True,
+                converged=clust_conv,
                 final_loss=0.0,
                 loss_drop_ratio=1.0,
                 effective_rank=compute_effective_rank(emb),

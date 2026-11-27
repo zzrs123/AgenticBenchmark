@@ -99,50 +99,80 @@ class TestFactorDemoIntegrity(unittest.TestCase):
             for idx, cell in enumerate(code_cells):
                 ast.parse("".join(cell["source"]), filename=f"{nb_name}_cell_{idx}")
 
-    def test_v22_audit_fixes_verified_in_source(self) -> None:
-        """Prevent doc-code desync by verifying exact v2.1/v2.2 symbols & guards in source files."""
-        # 1. ReproduceAgent native runner & edge-set Jaccard equivalence
-        rep_src = (PROJECT_ROOT / "factor_demo" / "agents" / "reproduce_agent.py").read_text(encoding="utf-8")
-        self.assertIn("def run_native_upstream_script", rep_src)
-        self.assertIn("edge_set_jaccard", rep_src)
-        self.assertIn("self_loop_match", rep_src)
+    def test_v22_and_v23_audit_fixes_and_pure_python_behaviors(self) -> None:
+        """Verify v2.2 & v2.3 wiring, behavioral unknown-mask screening, and bug fixes."""
+        from scripts.run_canzar2026_real_audit import screen_real_interactions
 
-        # 2. Deliverables: 4-way Chimera ablation, branch standardization, and low-rank SVD consensus (no dense N x N!)
-        deliv_src = (PROJECT_ROOT / "factor_demo" / "deliverables.py").read_text(encoding="utf-8")
-        self.assertIn('VARIANTS = ("fixed_concat", "gated_only", "adaptive_weight_only", "full_gated_adaptive")', deliv_src)
-        self.assertIn("standardize_branch(", deliv_src)
-        self.assertIn("preserve_relative_weights=True", deliv_src)
-        self.assertIn("np.linalg.svd(B_tilde, full_matrices=False)", deliv_src)
-        self.assertNotIn("one_hot @ one_hot.T", deliv_src)
+        # 1. Behavioral pure-Python test: `screen_real_interactions` MUST mask `None` (`unknown`)
+        #    rather than coercing `None -> 0.0`!
+        expl_samples = ["S1", "S2", "S3", "S4"]
+        eval_methods = ["M1", "M2", "M3", "M4", "M5", "M6"]
+        d_features = {
+            "S1": {"het": 0.10},
+            "S2": {"het": 0.20},
+            "S3": {"het": 0.40},
+            "S4": {"het": 0.60},
+        }
+        # M5 and M6 have `None` ("unknown") for `feat_a`; if `None` were turned into 0.0, `n_known_methods` would be 6!
+        m_profiles = {
+            "M1": {"m_core_tristate": {"feat_a": 1.0}, "c_aux_tristate": {"prep_x": 0.0}},
+            "M2": {"m_core_tristate": {"feat_a": 1.0}, "c_aux_tristate": {"prep_x": 1.0}},
+            "M3": {"m_core_tristate": {"feat_a": 0.0}, "c_aux_tristate": {"prep_x": 0.0}},
+            "M4": {"m_core_tristate": {"feat_a": 0.0}, "c_aux_tristate": {"prep_x": 1.0}},
+            "M5": {"m_core_tristate": {"feat_a": None}, "c_aux_tristate": {"prep_x": 0.0}},
+            "M6": {"m_core_tristate": {"feat_a": None}, "c_aux_tristate": {"prep_x": 1.0}},
+        }
+        ari_lookup = {}
+        for i_s, s in enumerate(expl_samples):
+            for m in eval_methods:
+                base = 0.70 - 0.12 * i_s if m in ("M1", "M2") else 0.55
+                # Inject extreme outlier on M5/M6 ("unknown" methods) to prove they are excluded from `feat_a`!
+                if m in ("M5", "M6"):
+                    base = -9.0 * i_s
+                ari_lookup[(s, m)] = base
 
-        # 3. Base pipeline: global scalar scaling when preserve_relative_weights=True
-        base_src = (PROJECT_ROOT / "factor_demo" / "methods_zoo" / "base_pipeline.py").read_text(encoding="utf-8")
-        self.assertIn("def standardize_branch", base_src)
-        self.assertIn("preserve_relative_weights: bool = True", base_src)
+        cands = screen_real_interactions(expl_samples, eval_methods, ari_lookup, d_features, m_profiles)
+        by_feat = {c["mc_feature"]: c for c in cands}
+        self.assertEqual(by_feat["feat_a"]["n_known_methods"], 4)
+        self.assertEqual(by_feat["feat_a"]["n_unknown_methods"], 2)
+        self.assertEqual(by_feat["feat_a"]["coverage_note"], "masked_available_case")
+        self.assertEqual(by_feat["prep_x"]["n_known_methods"], 6)
+        self.assertEqual(by_feat["prep_x"]["n_unknown_methods"], 0)
 
-        # 4. Chimera driver: SEDR encoder_only vs full_mechanism, pure nonspatial scanpy, fallback rename
-        drv_src = (PROJECT_ROOT / "factor_demo" / "canzar_bridge" / "chimera_counterfactual_driver.py").read_text(encoding="utf-8")
-        self.assertIn('sedr_intervention_mode: str = "encoder_only"', drv_src)
-        self.assertIn("scanpy_nonspatial", drv_src)
-        self.assertIn("pyGMM_fallback_for_R_mclust", drv_src)
+        # 2. Verify `canzar_ast_inspector` no longer exports zero-filled `m_core`/`c_aux` dicts
+        inspected = inspect_all_canzar_methods(DEFAULT_FRAMEWORK_DIR)
+        for rec in inspected:
+            self.assertNotIn("m_core", rec)
+            self.assertNotIn("c_aux", rec)
+            self.assertIn("unknown_mask", rec)
 
-        # 5. InteractionAgent: marker exclusion, pre_confirmation_queue, real convergence, crossed Dose x Prep
-        int_src = (PROJECT_ROOT / "factor_demo" / "agents" / "interaction_agent.py").read_text(encoding="utf-8")
-        self.assertIn("get_model_input_counts()", int_src)
-        self.assertIn("self.pre_confirmation_queue", int_src)
-        self.assertNotIn("convergence_ok_rate=1.0", int_src)
-        self.assertIn("tau_int_prep_scheme", int_src)
-
-        # 6. StatsEngine: RidgeCV/LassoCV, donor clustering, n_donors < 2 guard, 90% TOST CI
-        stat_src = (PROJECT_ROOT / "factor_demo" / "tools" / "stats_engine.py").read_text(encoding="utf-8")
-        self.assertIn("RidgeCV", stat_src)
-        self.assertIn("LassoCV", stat_src)
-        self.assertIn("if n_donors < 2:", stat_src)
-        self.assertIn("t_crit_90", stat_src)
-
-        # 7. Data Lab: 3-way split including external_test
+        # 3. Verify NumPy boolean-copy bug fix (`np.ix_`), marker-free `d_obs`, donor-grouped split, and no silent `ext_test = conf`
         gen_src = (PROJECT_ROOT / "factor_demo" / "data_lab" / "generator_and_loader.py").read_text(encoding="utf-8")
-        self.assertIn('"external_test"', gen_src)
+        self.assertIn("log_rates[np.ix_(in_dom, m_indices)] = 1.45", gen_src)
+        self.assertNotIn("log_rates[in_dom][:, m_indices]", gen_src)
+        self.assertIn("def assign_donor_grouped_splits", gen_src)
+
+        dm_src = (PROJECT_ROOT / "factor_demo" / "tools" / "dataset_metrics.py").read_text(encoding="utf-8")
+        self.assertIn("counts = slc.get_model_input_counts()", dm_src)
+
+        pipe_src = (PROJECT_ROOT / "factor_demo" / "pipeline.py").read_text(encoding="utf-8")
+        self.assertNotIn("ext_test_slices = conf_slices", pipe_src)
+        self.assertIn("SKIPPED_NO_UNTOUCHED_EXTERNAL_TEST_DONORS", pipe_src)
+        self.assertIn("verify_stagewise_equivalence(", pipe_src)
+
+        # 4. Verify live Chimera CLI wires `ReproduceAgent`, `effective_method_id`, `fallback_notes`, and `scanpy_nonspatial`
+        cli_src = (PROJECT_ROOT / "scripts" / "run_canzar_chimera_experiment.py").read_text(encoding="utf-8")
+        self.assertIn("run_native_upstream_script(", cli_src)
+        self.assertIn("verify_stagewise_equivalence(", cli_src)
+        self.assertIn('"effective_method_id": res["effective_method_id"]', cli_src)
+        self.assertIn('"fallback_notes": res["fallback_notes"]', cli_src)
+        self.assertIn('"scanpy_nonspatial"', cli_src)
+
+        # 5. Verify unconfounded Chimera 2x2 ablation, isotropic `gmm_spherical`, and `audit_lambda_weight_control`
+        deliv_src = (PROJECT_ROOT / "factor_demo" / "deliverables.py").read_text(encoding="utf-8")
+        self.assertIn('cluster_head: str = "gmm_spherical"', deliv_src)
+        self.assertIn("def audit_lambda_weight_control", deliv_src)
+        self.assertNotIn("k_nbr = 8 if loc_het > self.het_median_calib else 10", deliv_src)
 
 
 if __name__ == "__main__":

@@ -205,16 +205,19 @@ def generate_markdown_report(
             "",
             "## 七、 竞争管线直接交叉验证（PCA vs. HVG）与样本外推荐评测",
             "",
-            "### 1. 预处理因子直接交叉实验（保持原空间图 `refac` 不变）",
+            "### 1. 数据剂量 × 预处理方案（PCA-20 vs. HVG-110）双因素交叉实验（供体级区间与 TOST 裁决）",
             "",
-            "| 方法 ID | 使用 PCA 平均 ARI | 使用 HVG 平均 ARI | 差值 (`PCA - HVG`) |",
-            "| :--- | :---: | :---: | :---: |",
+            "| 方法 ID | 低剂量 `PCA-HVG` | 高剂量 `PCA-HVG` | 交叉交互项 `tau_int_prep` | 供体级 95% CI | 证据状态 |",
+            "| :--- | :---: | :---: | :---: | :---: | :--- |",
         ]
     )
 
     for mid, pv in prep_crossover.items():
         lines.append(
-            f"| `{mid}` | {pv['ARI_with_PCA']:.4f} | {pv['ARI_with_HVG']:.4f} | {pv['PCA_minus_HVG']:+.4f} |"
+            f"| `{mid}` | {pv.get('PCA_minus_HVG_dose_low', 0.0):+.4f} | "
+            f"{pv.get('PCA_minus_HVG_dose_high', 0.0):+.4f} | **{pv.get('tau_int_prep_scheme', 0.0):+.4f}** | "
+            f"[{pv.get('tau_int_prep_ci95_low', 0.0):+.4f}, {pv.get('tau_int_prep_ci95_high', 0.0):+.4f}] | "
+            f"`{pv.get('prep_evidence_state', 'N/A')}` |"
         )
 
     lines.extend(

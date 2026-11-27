@@ -35,7 +35,7 @@ from sklearn.linear_model import RidgeCV
 from factor_demo.methods_zoo.base_pipeline import (
     MethodRunOutput,
     build_spatial_knn_graph,
-    cluster_embedding,
+    cluster_embedding_with_status,
     compute_effective_rank,
     preprocess_expression,
     standardize_branch,
@@ -43,7 +43,18 @@ from factor_demo.methods_zoo.base_pipeline import (
 
 
 class FactorAuditedChimera:
-    """Modular case-study detector supporting 4-way component ablation (`variant`)."""
+    """Modular case-study detector with unconfounded 2x2 ablation & isotropic weight-preserving clustering.
+
+    Unconfounded 2x2 Factorial Variants (holding `k_nbr=8` and `gate_temp=2.0` strictly fixed!):
+    - `"fixed_concat"`        : `lam_sp=0.35`, uniform kNN (`k=8`)
+    - `"gated_only"`          : `lam_sp=0.35`, cosine-gated kNN (`k=8`, `gate_temp=2.0`)
+    - `"adaptive_weight_only"`: `d_obs`-adaptive `lam_sp in {0.20, 0.50}`, uniform kNN (`k=8`)
+    - `"full_gated_adaptive"` : `d_obs`-adaptive `lam_sp in {0.20, 0.50}`, cosine-gated kNN (`k=8`, `gate_temp=2.0`)
+
+    Uses `cluster_head="gmm_spherical"` (isotropic Gaussian mixture) or `"kmeans"` by default rather than
+    diagonal-covariance GMM (`"gmm"`), because per-coordinate diagonal variances `sigma_d^2` can absorb
+    coordinate scaling `[sqrt(1-lam), sqrt(lam)]` during EM updates!
+    """
 
     VARIANTS = ("fixed_concat", "gated_only", "adaptive_weight_only", "full_gated_adaptive")
 
@@ -66,9 +77,13 @@ class FactorAuditedChimera:
         d_obs_slice: Optional[Dict[str, float]] = None,
         variant: str = "full_gated_adaptive",
         preprocess_mode: str = "pca",
+        cluster_head: str = "gmm_spherical",
+        k_neighbors: int = 8,
+        gate_temperature: float = 2.0,
+        fixed_lambda: Optional[float] = None,
         seed: int = 0,
     ) -> MethodRunOutput:
-        """Run specified ablation variant of FACTOR-Chimera (given target `n_domains`)."""
+        """Run specified unconfounded 2x2 ablation variant of FACTOR-Chimera (given target `n_domains`)."""
         if variant not in self.VARIANTS:
             raise ValueError(f"Unknown Chimera variant: {variant}. Expected one of {self.VARIANTS}")
 
@@ -83,27 +98,28 @@ class FactorAuditedChimera:
             else self.het_median_calib
         )
 
-        if use_adaptive_lam:
-            lam_sp = 0.28 if loc_het > self.het_median_calib else 0.48
-            k_nbr = 8 if loc_het > self.het_median_calib else 10
+        if fixed_lambda is not None:
+            lam_sp = float(fixed_lambda)
+        elif use_adaptive_lam:
+            lam_sp = 0.20 if loc_het > self.het_median_calib else 0.50
         else:
             lam_sp = 0.35
-            k_nbr = 8
 
-        adj_knn = build_spatial_knn_graph(coords, k_neighbors=k_nbr, include_self=False)
+        # Hold `k_neighbors` and `gate_temperature` strictly invariant across all 4 variants!
+        adj_knn = build_spatial_knn_graph(coords, k_neighbors=k_neighbors, include_self=False)
 
         if use_edge_gating:
-            gate_temp = 2.5 if (use_adaptive_lam and loc_het > self.het_median_calib) else 1.8
+            eff_temp = float(gate_temperature)
             norms = np.linalg.norm(feats, axis=1, keepdims=True) + 1e-6
             f_unit = feats / norms
             cos_sim = f_unit @ f_unit.T
-            att = np.exp(gate_temp * cos_sim) * (adj_knn > 0).astype(np.float32)
+            att = np.exp(eff_temp * cos_sim) * (adj_knn > 0).astype(np.float32)
             agg_op = att / np.maximum(np.sum(att, axis=1, keepdims=True), 1e-6)
         else:
-            gate_temp = 0.0
+            eff_temp = 0.0
             agg_op = adj_knn
 
-        # Standardize BOTH branches BEFORE weighting so `lam_sp` genuinely controls relative variance!
+        # Standardize BOTH branches BEFORE weighting so `lam_sp` genuinely controls relative Euclidean norm!
         z_self_std = standardize_branch(feats)
         z_nbr_std = standardize_branch(agg_op @ feats)
 
@@ -112,10 +128,10 @@ class FactorAuditedChimera:
             axis=1,
         ).astype(np.float32)
 
-        preds = cluster_embedding(
+        preds, clust_conv = cluster_embedding_with_status(
             emb,
             n_domains=n_domains,
-            cluster_head="gmm",
+            cluster_head=cluster_head,
             seed=seed,
             preserve_relative_weights=True,
         )
@@ -123,19 +139,57 @@ class FactorAuditedChimera:
             pred_labels=preds,
             embedding=emb,
             param_count=int(emb.shape[1]),
-            converged=True,
+            converged=clust_conv,
             final_loss=0.0,
             loss_drop_ratio=1.0,
             effective_rank=compute_effective_rank(emb),
             hyperparams_used={
                 "variant": variant,
                 "preprocess": preprocess_mode,
-                "k_neighbors": k_nbr,
+                "k_neighbors": k_neighbors,
                 "lambda_sp": lam_sp,
-                "gate_temperature": gate_temp,
-                "cluster_head": "gmm",
+                "gate_temperature": eff_temp,
+                "cluster_head": cluster_head,
             },
         )
+
+    def audit_lambda_weight_control(
+        self,
+        counts: np.ndarray,
+        coords: np.ndarray,
+        n_domains: int,
+        lambdas: tuple[float, ...] = (0.05, 0.25, 0.50, 0.75, 0.95),
+        seed: int = 0,
+    ) -> Dict[str, Any]:
+        """Sweep `lambda_sp` on a fixed graph (`k=8`, uniform) across `gmm_spherical`, `kmeans`, and `gmm` (`diag`).
+
+        Quantifies `1 - ARI(pred(lam_min), pred(lam_max))` to verify that isotropic heads (`gmm_spherical`,
+        `kmeans`) genuinely shift partitions as `lambda_sp` moves from self-dominated (`0.05`) to
+        neighbor-dominated (`0.95`), whereas diagonal-covariance `gmm` can partially absorb coordinate scaling.
+        """
+        from sklearn.metrics import adjusted_rand_score
+
+        report: Dict[str, Any] = {"lambdas": list(lambdas), "heads": {}}
+        for head in ("gmm_spherical", "kmeans", "gmm"):
+            runs = [
+                self.run(
+                    counts=counts,
+                    coords=coords,
+                    n_domains=n_domains,
+                    variant="fixed_concat",
+                    cluster_head=head,
+                    fixed_lambda=lam,
+                    seed=seed,
+                ).pred_labels
+                for lam in lambdas
+            ]
+            ari_ends = float(adjusted_rand_score(runs[0], runs[-1]))
+            ari_to_self = [round(float(adjusted_rand_score(runs[0], r)), 4) for r in runs]
+            report["heads"][head] = {
+                "ari_similarity_to_low_lambda": ari_to_self,
+                "partition_shift_low_to_high": round(1.0 - ari_ends, 4),
+            }
+        return report
 
 
 class FactorMethodRecommender:
